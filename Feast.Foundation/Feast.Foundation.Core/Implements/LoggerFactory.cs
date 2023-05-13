@@ -1,4 +1,4 @@
-﻿namespace Feast.Foundation.Implements
+﻿namespace Feast.Foundation.Core.Implements
 {
     internal class LoggerFactory : LoggerConfig
     {
