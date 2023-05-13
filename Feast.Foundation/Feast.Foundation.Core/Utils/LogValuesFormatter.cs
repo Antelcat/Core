@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Feast.Foundation.Utils
+namespace Feast.Foundation.Core.Utils
 {
     /// <summary>
     /// Formatter to convert the named format items like {NamedformatItem} to <see cref="M:string.Format"/> format.
