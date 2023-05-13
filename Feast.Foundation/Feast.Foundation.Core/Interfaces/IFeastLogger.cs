@@ -1,6 +1,6 @@
-﻿using Feast.Foundation.Enums;
+﻿using Feast.Foundation.Core.Enums;
 
-namespace Feast.Foundation.Interfaces
+namespace Feast.Foundation.Core.Interfaces
 {
     public interface IFeastLogger
     {
