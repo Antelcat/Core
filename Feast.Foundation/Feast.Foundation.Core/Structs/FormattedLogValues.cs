@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
-using Feast.Foundation.Utils;
+using Feast.Foundation.Core.Utils;
 
-namespace Feast.Foundation.Structs
+namespace Feast.Foundation.Core.Structs
 {
     /// <summary>
     /// LogValues to enable formatting options supported by <see cref="M:string.Format"/>.
