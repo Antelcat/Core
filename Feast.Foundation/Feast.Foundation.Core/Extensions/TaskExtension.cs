@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Feast.Foundation.Extensions
+namespace Feast.Foundation.Core.Extensions
 {
     public static class TaskExtension
     {
