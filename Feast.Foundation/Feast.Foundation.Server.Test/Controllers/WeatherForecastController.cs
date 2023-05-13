@@ -1,10 +1,11 @@
+using Feast.Foundation.Server.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Feast.Foundation.Server.Test.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : FeastController
     {
         private static readonly string[] Summaries = new[]
         {
