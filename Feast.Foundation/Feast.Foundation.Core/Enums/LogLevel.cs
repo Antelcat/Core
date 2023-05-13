@@ -1,4 +1,4 @@
-﻿namespace Feast.Foundation.Enums
+﻿namespace Feast.Foundation.Core.Enums
 {
     /// <summary>
     /// Defines logging severity levels.
