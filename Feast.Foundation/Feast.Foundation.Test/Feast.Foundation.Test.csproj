@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Feast.Foundation.Server\Feast.Foundation.Server.csproj" />
-    <ProjectReference Include="..\Feast.Foundation\Feast.Foundation.Core.csproj" />
   </ItemGroup>
 
 </Project>
