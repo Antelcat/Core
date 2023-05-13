@@ -1,5 +1,4 @@
-﻿
-namespace Feast.Foundation.Extensions
+﻿namespace Feast.Foundation.Core.Extensions
 {
     public static class TimeExtension
     {
