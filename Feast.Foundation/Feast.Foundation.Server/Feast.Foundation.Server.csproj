@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\extern\RequestMapper\Feast.RequestMapper\Feast.RequestMapper.csproj" />
     <ProjectReference Include="..\Feast.Foundation.Core\Feast.Foundation.Core.csproj" />
   </ItemGroup>
 
