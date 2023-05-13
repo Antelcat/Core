@@ -1,0 +1,3 @@
+[submodule "extern/RequestMapper"]
+	path = extern/RequestMapper
+	url = https://github.com/feast107/RequestMapper
