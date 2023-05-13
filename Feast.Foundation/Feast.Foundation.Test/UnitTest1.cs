@@ -1,3 +1,6 @@
+using System.Dynamic;
+using System.Reflection;
+
 namespace Feast.Foundation.Test
 {
     public class Tests
@@ -5,6 +8,7 @@ namespace Feast.Foundation.Test
         [SetUp]
         public void Setup()
         {
+            var proxy = DispatchProxy.Create<ExpandoObject,DispatchProxy>();
         }
 
         [Test]
