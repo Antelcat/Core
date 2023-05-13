@@ -1,4 +1,4 @@
-﻿namespace Feast.Foundation.Algorithm
+﻿namespace Feast.Foundation.Core.Algorithm
 {
     public abstract class DecisionNodeBase<TSample, TState>
     {
