@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using Feast.Foundation.Extensions;
+﻿using Feast.Foundation.Core.Extensions;
 
-
-namespace Feast.Foundation.Models
+namespace Feast.Foundation.Core.Models
 {
     public class HttpResponse
     {
