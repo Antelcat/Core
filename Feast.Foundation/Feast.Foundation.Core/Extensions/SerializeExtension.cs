@@ -1,10 +1,10 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Feast.Foundation.Enums;
-using Feast.Foundation.Utils;
+using Feast.Foundation.Core.Enums;
+using Feast.Foundation.Core.Utils;
 
-namespace Feast.Foundation.Extensions
+namespace Feast.Foundation.Core.Extensions
 {
     public static class SerializeExtension
     {
