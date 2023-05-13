@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Feast.Foundation.Interfaces
+namespace Feast.Foundation.Core.Interfaces
 {
     public interface IStateMachine<out TState> : INotifyPropertyChanged
     {
