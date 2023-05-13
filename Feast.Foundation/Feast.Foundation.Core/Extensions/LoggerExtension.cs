@@ -1,10 +1,10 @@
-﻿using Feast.Foundation.Enums;
-using Feast.Foundation.Implements;
-using Feast.Foundation.Interfaces;
-using Feast.Foundation.Structs;
+﻿using Feast.Foundation.Core.Enums;
+using Feast.Foundation.Core.Implements;
+using Feast.Foundation.Core.Interfaces;
+using Feast.Foundation.Core.Structs;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Feast.Foundation.Extensions
+namespace Feast.Foundation.Core.Extensions
 {
     /// <summary>
     /// IFeastLogger extension methods for common scenarios.
