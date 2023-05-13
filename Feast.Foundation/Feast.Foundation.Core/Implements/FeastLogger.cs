@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using Feast.Foundation.Enums;
-using Feast.Foundation.Interfaces;
+using Feast.Foundation.Core.Enums;
+using Feast.Foundation.Core.Interfaces;
 
-namespace Feast.Foundation.Implements
+namespace Feast.Foundation.Core.Implements
 {
     internal abstract class FeastLogger : LoggerConfig, IFeastLogger
     {
