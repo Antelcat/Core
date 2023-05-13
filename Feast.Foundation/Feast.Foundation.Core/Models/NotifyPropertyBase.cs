@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Feast.Foundation.Models
+namespace Feast.Foundation.Core.Models
 {
     public abstract class NotifyPropertyBase : INotifyPropertyChanged
     {
