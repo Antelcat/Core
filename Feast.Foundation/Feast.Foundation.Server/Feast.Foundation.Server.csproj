@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Feast.Foundation\Feast.Foundation.Core.csproj" />
+    <ProjectReference Include="..\Feast.Foundation.Core\Feast.Foundation.Core.csproj" />
   </ItemGroup>
 
 </Project>
