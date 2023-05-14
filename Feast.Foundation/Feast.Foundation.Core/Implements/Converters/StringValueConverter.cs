@@ -36,8 +36,11 @@ namespace Feast.Foundation.Core.Implements.Converters
                                  && x.ReturnType == toType)
                          ?? throw new NotSupportedException(
                              $"{toType.Name} convert from {nameof(String)} was not supported");
-            var del = method.CreateDelegate<Func<object?, object>>();
-            Converter = s => method.Invoke(null, new[] { s })!;
+            var invoker = method.CreateInvoker();
+            //var ac = method.StaticDelegate();
+            var r = invoker.Invoke(null, 1);
+            //var r =  ac.DynamicInvoke(new[] { "" });
+            Converter = s => invoker.Invoke(null, new { s })!;
         }
 
         protected readonly Func<object?, object> Converter;
