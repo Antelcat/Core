@@ -1,6 +1,7 @@
 ﻿using Feast.Foundation.Core.Enums;
 using Feast.Foundation.Core.Implements;
-using Feast.Foundation.Core.Interfaces;
+using Feast.Foundation.Core.Implements.Loggers;
+using Feast.Foundation.Core.Interface.Logging;
 using Feast.Foundation.Core.Structs;
 using Microsoft.Extensions.DependencyInjection;
 
