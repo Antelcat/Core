@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Feast.Foundation.Core.Extensions;
 
-namespace Feast.Foundation.Core.Implements;
+namespace Feast.Foundation.Core.Implements.Loggers;
 
 public class LoggerConfig
 {
