@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Feast.Foundation.Server.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Feast.Foundation.Server.Controllers
 {
     public abstract class FeastController : Controller
     {
-        protected FeastController() { }
+        protected TIdentity Identity<TIdentity>() => (TIdentity)(identity ??= JwtExtension<TIdentity>.FromClaims(User.Claims))!;
+        private object? identity;
+    }
 
-        public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            Debugger.Break();
-            return base.OnActionExecutionAsync(context, next);
-        }
+    public abstract class FeastController<TIdentity> : Controller
+    {
+        protected TIdentity Identity => identity ??= JwtExtension<TIdentity>.FromClaims(User.Claims);
+        private TIdentity? identity;
     }
 }
