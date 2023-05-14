@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
-using static Feast.Foundation.Core.Extensions.MethodExtension;
 
 namespace Feast.Foundation.Core.Structs
 {
     public readonly struct IlInvoker
     {
-        public delegate object Handler(object? target, params object[]? parameters);
+        public delegate object Handler(object? target, params object?[]? parameters);
         public readonly MethodInfo Method;
         public readonly Handler Invoker;
         public IlInvoker(MethodInfo method)
@@ -55,7 +54,8 @@ namespace Feast.Foundation.Core.Structs
                 il.Emit(OpCodes.Ldarg_1);
                 EmitFastInt(il, i);
                 il.Emit(OpCodes.Ldloc, locals[i]);
-                if (locals[i].LocalType.IsValueType) il.Emit(OpCodes.Box, locals[i].LocalType);
+                if (locals[i].LocalType.IsValueType) 
+                    il.Emit(OpCodes.Box, locals[i].LocalType);
                 il.Emit(OpCodes.Stelem_Ref);
             }
             il.Emit(OpCodes.Ret);
@@ -105,7 +105,9 @@ namespace Feast.Foundation.Core.Structs
                     il.Emit(OpCodes.Ldc_I4_8);
                     return;
             }
-            il.Emit(value is > -129 and < 128 ? OpCodes.Ldc_I4_S : OpCodes.Ldc_I4, value);
+            il.Emit(value is > -129 and < 128 
+                ? OpCodes.Ldc_I4_S 
+                : OpCodes.Ldc_I4, value);
         }
 
         public static implicit operator IlInvoker(MethodInfo method) => new (method);
