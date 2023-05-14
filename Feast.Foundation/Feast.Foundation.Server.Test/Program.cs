@@ -1,4 +1,7 @@
 
+using Feast.Foundation.Server.Extensions;
+using Feast.Foundation.Server.Test.Models;
+
 namespace Feast.Foundation.Server.Test
 {
     public class Program
@@ -8,11 +11,11 @@ namespace Feast.Foundation.Server.Test
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            var map = builder.Services.AddControllers();
+            builder.Services.ConfigureJwt<User>((p) => { });
+            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddJwtSwaggerGen();
 
             var app = builder.Build();
 
@@ -25,8 +28,8 @@ namespace Feast.Foundation.Server.Test
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
