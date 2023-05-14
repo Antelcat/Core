@@ -1,6 +1,6 @@
 ﻿using Feast.Foundation.Core.Enums;
 
-namespace Feast.Foundation.Core.Interfaces
+namespace Feast.Foundation.Core.Interface.Logging
 {
     public interface IFeastLogger
     {
