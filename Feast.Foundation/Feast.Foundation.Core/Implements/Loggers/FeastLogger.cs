@@ -1,16 +1,17 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using Feast.Foundation.Core.Enums;
-using Feast.Foundation.Core.Interfaces;
+using Feast.Foundation.Core.Interface.Logging;
 
-namespace Feast.Foundation.Core.Implements
+namespace Feast.Foundation.Core.Implements.Loggers
 {
     internal abstract class FeastLogger : LoggerConfig, IFeastLogger
     {
         #region Fields
         private string LogDirectory
         {
-            get {
+            get
+            {
                 if (!System.IO.Directory.Exists(Directory))
                 {
                     System.IO.Directory.CreateDirectory(Directory);
@@ -33,10 +34,10 @@ namespace Feast.Foundation.Core.Implements
         #region Methods
         private string Format(string content) => $"{Prefix} {content} {Suffix}";
         #endregion
-        
+
         public void Log<TState>(
-            LogLevel level, 
-            TState state, 
+            LogLevel level,
+            TState state,
             Exception exception,
             Func<TState, Exception, string> formatter)
         {
@@ -60,7 +61,7 @@ namespace Feast.Foundation.Core.Implements
                 .AppendLine("\n");
             var log = sb.ToString();
             File.AppendAllText(LogFile, log);
-            if(OutputConsole){ Console.WriteLine(log); }
+            if (OutputConsole) { Console.WriteLine(log); }
         }
     }
 
