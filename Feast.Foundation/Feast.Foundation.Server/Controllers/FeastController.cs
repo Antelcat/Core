@@ -5,7 +5,7 @@ namespace Feast.Foundation.Server.Controllers
 {
     public abstract class FeastController : Controller
     {
-        protected TIdentity Identity<TIdentity>() => (TIdentity)(identity ??= JwtExtension<TIdentity>.FromClaims(User.Claims))!;
+        protected TIdentity Identity<TIdentity>() => (TIdentity)(identity ??= JwtExtension<TIdentity>.FromClaims(User.Claims)!);
         private object? identity;
     }
 
