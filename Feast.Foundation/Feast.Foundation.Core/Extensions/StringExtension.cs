@@ -34,10 +34,11 @@
         public static ushort ToUShort(this string? str) => str.ToUShort(out var result) ? result : ushort.MinValue;
         public static int ToInt(this string? str) => str.ToInt(out var result) ? result : int.MinValue;
         public static uint ToUInt(this string? str) => str.ToUInt(out var result) ? result : uint.MinValue;
-        public static long ToLong(this string? str) => str.ToLong(out var result) ? result : long.MaxValue;
+        public static long ToLong(this string? str) => str.ToLong(out var result) ? result : long.MinValue;
         public static ulong ToULong(this string? str) => str.ToULong(out var result) ? result : ulong.MinValue;
         public static float ToFloat(this string? str) => str.ToFloat(out var result) ? result : float.NaN;
         public static double ToDouble(this string? str) => str.ToDouble(out var result) ? result : double.NaN;
         public static DateTime ToDateTime(this string? str) => str.ToDateTime(out var result) ? result : DateTime.MinValue;
+
     }
 }
