@@ -17,6 +17,5 @@
             action(obj);
             return obj;
         }
-        
     }
 }
