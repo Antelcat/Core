@@ -29,9 +29,9 @@ namespace Feast.Foundation.Test
             DirectMethod = s => ((string)s).ToInt();
             ReflectMethod = s => method.Invoke(null, new[] { s })!;
             var invoker = method.CreateInvoker();
-            DelegateMethod = s => invoker.Invoke(null, new[] { s })!;
+            DelegateMethod = s => invoker.Invoker.Invoke(null, s)!;
         }
-
+        
         Func<object, object> DirectMethod;
         Func<object, object> ReflectMethod;
         Func<object, object> DelegateMethod;
