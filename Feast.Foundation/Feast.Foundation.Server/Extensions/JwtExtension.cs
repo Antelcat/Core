@@ -8,6 +8,7 @@ namespace Feast.Foundation.Server.Extensions
 {
     public static class JwtExtension<TIdentity>
     {
+       
         private static readonly Type Type = typeof(TIdentity);
 
         private static readonly IDictionary<PropertyInfo, IValueConverter> ReadableProps = typeof(TIdentity)
