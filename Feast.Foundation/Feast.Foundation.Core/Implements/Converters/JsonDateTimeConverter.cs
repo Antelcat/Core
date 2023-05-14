@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using Feast.Foundation.Core.Extensions;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using Feast.Foundation.Core.Extensions;
 
 namespace Feast.Foundation.Core.Implements.Converters
 {
