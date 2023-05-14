@@ -1,8 +1,8 @@
-﻿using System.Text.Encodings.Web;
+﻿using Feast.Foundation.Core.Enums;
+using Feast.Foundation.Core.Implements.Converters;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Feast.Foundation.Core.Enums;
-using Feast.Foundation.Core.Utils;
 
 namespace Feast.Foundation.Core.Extensions
 {
