@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Feast.Foundation.Core.Extensions;
 
-namespace Feast.Foundation.Core.Utils
+namespace Feast.Foundation.Core.Implements.Converters
 {
     public class JsonDateTimeConverter : JsonConverter<DateTime>
     {
