@@ -37,9 +37,6 @@ namespace Feast.Foundation.Core.Implements.Converters
                          ?? throw new NotSupportedException(
                              $"{toType.Name} convert from {nameof(String)} was not supported");
             var invoker = method.CreateInvoker();
-            //var ac = method.StaticDelegate();
-            var r = invoker.Invoke(null, 1);
-            //var r =  ac.DynamicInvoke(new[] { "" });
             Converter = s => invoker.Invoke(null, new { s })!;
         }
 
