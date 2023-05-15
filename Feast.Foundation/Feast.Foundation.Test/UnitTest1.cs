@@ -17,64 +17,28 @@ namespace Feast.Foundation.Test
         [SetUp]
         public void Setup()
         {
-            var method = typeof(StringExtension)
-                             .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                             .FirstOrDefault(x =>
-                                 x.GetParameters().Length == 1
-                                 && x.GetParameters()[0].ParameterType == typeof(string)
-                                 && x.Name.StartsWith("To")
-                                 && x.ReturnType == typeof(int))
-                         ?? throw new NotSupportedException(
-                             $"{nameof(Int32)} convert from {nameof(String)} was not supported");
-            DirectMethod = s => ((string)s).ToInt();
-            ReflectMethod = s => method.Invoke(null, new[] { s })!;
-            var invoker = method.CreateInvoker();
-            DelegateMethod = s => invoker.Invoker.Invoke(null, s)!;
-        }
-        
-        Func<object, object> DirectMethod;
-        Func<object, object> ReflectMethod;
-        Func<object, object> DelegateMethod;
-
-        [Test]
-        public void TestDirect()
-        {
-            object res = null!;
-            Watch.Start();
-            for (var i = 0; i < 10000; i++)
-            {
-                res = DirectMethod.Invoke("1");
-            }
-            Watch.Stop();
-            Console.WriteLine($"Result is {res}");
-            Console.WriteLine(Watch.ElapsedTicks);
+    
         }
 
+
+        private Task? Task;
         [Test]
-        public void TestReflect()
+        public async Task TestDirect()
         {
-            object res = null!;
-            Watch.Start();
-            for (var i = 0; i < 10000; i++)
-            {
-                res = ReflectMethod.Invoke("1");
-            }
-            Watch.Stop();
-            Console.WriteLine($"Result is {res}");
-            Console.WriteLine(Watch.ElapsedTicks);
+            Task = TestReflect();
+        }
+
+        private CancellationTokenSource? cancaler;
+        [Test]
+        public async Task TestReflect()
+        {
+            cancaler?.Cancel();
+            Console.WriteLine("Start");
         }
         [Test]
         public void TestDelegate()
         {
-            object res = null!;
-            Watch.Start();
-            for (var i = 0; i < 10000; i++)
-            {
-                res = DelegateMethod.Invoke("1");
-            }
-            Watch.Stop();
-            Console.WriteLine($"Result is {res}");
-            Console.WriteLine(Watch.ElapsedTicks);
+         
         }
        
     }
