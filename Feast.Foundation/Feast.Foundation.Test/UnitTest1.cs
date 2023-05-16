@@ -17,9 +17,32 @@ namespace Feast.Foundation.Test
         [SetUp]
         public void Setup()
         {
-            collection.ForEach(x=>x.ServiceType);
+            collection.AddSingleton<IC, C>();
+            collection.AddSingleton<IB, B>();
+            collection.AddSingleton<IA, A>();
+            provider = collection.BuildServiceProvider();
+            
         }
 
+        public interface IA { }
+        public class A : IA { }
+        public interface IB { }
+        public class B : IB {
+            public B(IA a)
+            {
+                
+            }
+        }
+
+        public interface IC { }
+
+        public class C : IC
+        {
+            public C(IB b)
+            {
+                
+            }
+        }
 
         public async Task LongRun(CancellationToken token)
         {
@@ -33,25 +56,10 @@ namespace Feast.Foundation.Test
         [Test]
         public async Task Run()
         {
-            var source = new CancellationTokenSource();
-            Task.Run(async () =>
+            collection.Where(x=>x.Lifetime == ServiceLifetime.Singleton).ForEach(x =>
             {
-                await 4000;
-                source.Cancel();
-            }).Detach();
-            try
-            {
-                await LongRun(source.Token);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                Assert.NotNull(e);
-            }
-            finally
-            {
-                Console.WriteLine("Canceled");
-            }
+                var s = provider.GetService(x.ServiceType);
+            });
         }
     }
 }
