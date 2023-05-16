@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Extensions\StringExtensionGen.tt">
-      <LastGenOutput>StringExtensionGen.cs</LastGenOutput>
+    <None Update="Extensions\StringExtension.g.tt">
+      <LastGenOutput>StringExtension.g.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Implements\Converters\StringValueConverter.tt">
@@ -27,10 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Extensions\StringExtensionGen.cs">
+    <Compile Update="Extensions\StringExtension.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>StringExtensionGen.tt</DependentUpon>
+      <DependentUpon>StringExtension.g.tt</DependentUpon>
     </Compile>
     <Compile Update="Implements\Converters\StringValueConverter.cs">
       <DesignTime>True</DesignTime>
