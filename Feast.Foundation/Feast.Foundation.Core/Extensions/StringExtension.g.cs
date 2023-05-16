@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 namespace Feast.Foundation.Core.Extensions;
-
+#nullable enable
 public static partial class StringExtension
 {
 	public static bool ToSbyte(this string? str,out sbyte result) => sbyte.TryParse(str,out result);
