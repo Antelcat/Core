@@ -1,12 +1,8 @@
-using Feast.Foundation.Core.Models;
 using Feast.Foundation.Server.Controllers;
 using Feast.Foundation.Server.Test.Models;
 using Feast.Foundation.Server.Utils;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Feast.Foundation.Server.Test.Controllers
 {

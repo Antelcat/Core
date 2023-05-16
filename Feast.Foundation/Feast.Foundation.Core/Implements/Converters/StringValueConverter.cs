@@ -1,52 +1,136 @@
 ﻿using Feast.Foundation.Core.Extensions;
 using Feast.Foundation.Core.Interface.Converting;
-using System.Reflection;
+using System.Globalization;
 
-namespace Feast.Foundation.Core.Implements.Converters
+namespace Feast.Foundation.Core.Implements.Converters;
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="sbyte"/>
+///</summary>
+public class StringToSbyteConverter : IValueConverter, IValueConverter<string,sbyte>
 {
-    internal abstract class StringConverterBase
-    {
-        private static readonly Dictionary<Type, StringValueConverter> Converters = new();
+	public object? To(object? input) => (input as string).ToSbyte();
+    public object? Back(object? input) => input?.ToString();
+	public sbyte To(string? input) => input.ToSbyte();
+    public string Back(sbyte input) => input.ToString(CultureInfo.InvariantCulture);
+}
 
-        public static IValueConverter ConvertTo(Type toType) =>
-            Converters.TryGetValue(toType, out var converter)
-                ? converter
-                : new StringValueConverter(toType);
-        protected static void Instantiate(StringValueConverter converter) => 
-            Converters.TryAdd(converter.TargetType, converter);
-    }
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="byte"/>
+///</summary>
+public class StringToByteConverter : IValueConverter, IValueConverter<string,byte>
+{
+	public object? To(object? input) => (input as string).ToByte();
+    public object? Back(object? input) => input?.ToString();
+	public byte To(string? input) => input.ToByte();
+    public string Back(byte input) => input.ToString(CultureInfo.InvariantCulture);
+}
 
-    internal class StringValueConverter : StringConverterBase, IValueConverter
-    {
-        private static readonly IEnumerable<MethodInfo> Extensions =
-            typeof(StringExtension)
-                .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.GetParameters().Length == 1
-                            && x.GetParameters()[0].ParameterType == typeof(string)
-                            && x.Name.StartsWith("To"));
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="bool"/>
+///</summary>
+public class StringToBoolConverter : IValueConverter, IValueConverter<string,bool>
+{
+	public object? To(object? input) => (input as string).ToBool();
+    public object? Back(object? input) => input?.ToString();
+	public bool To(string? input) => input.ToBool();
+    public string Back(bool input) => input.ToString(CultureInfo.InvariantCulture);
+}
 
-        public readonly Type TargetType;
-        
-        public StringValueConverter(Type toType)
-        {
-            TargetType = toType;
-            Instantiate(this);
-            var method = Extensions.FirstOrDefault(x => x.ReturnType == toType)
-                         ?? throw new NotSupportedException(
-                             $"{toType.Name} convert from {nameof(String)} was not supported");
-            var invoker = method.CreateInvoker();
-            Converter = s => invoker.Invoker.Invoke(null, s);
-        }
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="int"/>
+///</summary>
+public class StringToIntConverter : IValueConverter, IValueConverter<string,int>
+{
+	public object? To(object? input) => (input as string).ToInt();
+    public object? Back(object? input) => input?.ToString();
+	public int To(string? input) => input.ToInt();
+    public string Back(int input) => input.ToString(CultureInfo.InvariantCulture);
+}
 
-        protected readonly Func<object?, object> Converter;
-        public object? To(object? input) => Converter(input);
-        public object? Back(object? input) => input?.ToString();
-    }
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="uint"/>
+///</summary>
+public class StringToUintConverter : IValueConverter, IValueConverter<string,uint>
+{
+	public object? To(object? input) => (input as string).ToUint();
+    public object? Back(object? input) => input?.ToString();
+	public uint To(string? input) => input.ToUint();
+    public string Back(uint input) => input.ToString(CultureInfo.InvariantCulture);
+}
 
-    internal class StringValueConverter<TOut> : StringValueConverter, IValueConverter<string, TOut> where TOut : class
-    {
-        public StringValueConverter() : base(typeof(TOut)) { }
-        public TOut? To(string? input) => base.To(input) as TOut;
-        public string? Back(TOut? input) => base.Back(input) as string;
-    }
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="long"/>
+///</summary>
+public class StringToLongConverter : IValueConverter, IValueConverter<string,long>
+{
+	public object? To(object? input) => (input as string).ToLong();
+    public object? Back(object? input) => input?.ToString();
+	public long To(string? input) => input.ToLong();
+    public string Back(long input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="ulong"/>
+///</summary>
+public class StringToUlongConverter : IValueConverter, IValueConverter<string,ulong>
+{
+	public object? To(object? input) => (input as string).ToUlong();
+    public object? Back(object? input) => input?.ToString();
+	public ulong To(string? input) => input.ToUlong();
+    public string Back(ulong input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="double"/>
+///</summary>
+public class StringToDoubleConverter : IValueConverter, IValueConverter<string,double>
+{
+	public object? To(object? input) => (input as string).ToDouble();
+    public object? Back(object? input) => input?.ToString();
+	public double To(string? input) => input.ToDouble();
+    public string Back(double input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="float"/>
+///</summary>
+public class StringToFloatConverter : IValueConverter, IValueConverter<string,float>
+{
+	public object? To(object? input) => (input as string).ToFloat();
+    public object? Back(object? input) => input?.ToString();
+	public float To(string? input) => input.ToFloat();
+    public string Back(float input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="DateTime"/>
+///</summary>
+public class StringToDateTimeConverter : IValueConverter, IValueConverter<string,DateTime>
+{
+	public object? To(object? input) => (input as string).ToDateTime();
+    public object? Back(object? input) => input?.ToString();
+	public DateTime To(string? input) => input.ToDateTime();
+    public string Back(DateTime input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+
+public static class StringValueConverters
+{
+	private static readonly Dictionary<Type,IValueConverter> Instances = new ()
+	{
+		{ typeof(sbyte) , new StringToSbyteConverter() },
+		{ typeof(byte) , new StringToByteConverter() },
+		{ typeof(bool) , new StringToBoolConverter() },
+		{ typeof(int) , new StringToIntConverter() },
+		{ typeof(uint) , new StringToUintConverter() },
+		{ typeof(long) , new StringToLongConverter() },
+		{ typeof(ulong) , new StringToUlongConverter() },
+		{ typeof(double) , new StringToDoubleConverter() },
+		{ typeof(float) , new StringToFloatConverter() },
+		{ typeof(DateTime) , new StringToDateTimeConverter() },
+	};
+
+	public static IValueConverter FindByType(Type type) => Instances.TryGetValue(type,out var ret) 
+	? ret 
+	: throw new NotSupportedException($"Specified type {type} not supported");
 }

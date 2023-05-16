@@ -17,29 +17,41 @@ namespace Feast.Foundation.Test
         [SetUp]
         public void Setup()
         {
-    
+            collection.ForEach(x=>x.ServiceType);
         }
 
 
-        private Task? Task;
-        [Test]
-        public async Task TestDirect()
+        public async Task LongRun(CancellationToken token)
         {
-            Task = TestReflect();
+            while (!token.IsCancellationRequested)
+            {
+                Console.WriteLine($"Running{DateTime.Now:yyyy-MM-dd-HH-mm-ss}");
+                await 500;
+            }
         }
 
-        private CancellationTokenSource? cancaler;
         [Test]
-        public async Task TestReflect()
+        public async Task Run()
         {
-            cancaler?.Cancel();
-            Console.WriteLine("Start");
+            var source = new CancellationTokenSource();
+            Task.Run(async () =>
+            {
+                await 4000;
+                source.Cancel();
+            }).Detach();
+            try
+            {
+                await LongRun(source.Token);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                Assert.NotNull(e);
+            }
+            finally
+            {
+                Console.WriteLine("Canceled");
+            }
         }
-        [Test]
-        public void TestDelegate()
-        {
-         
-        }
-       
     }
 }

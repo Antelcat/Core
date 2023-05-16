@@ -1,0 +1,60 @@
+﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ output extension=".cs" #>
+<#
+	var path = this.Host.ResolvePath(string.Empty);
+	var index = 2;
+	while(index-- > 0){
+		path = Path.GetDirectoryName(path);
+	}
+	path = Path.Combine(path,"Extensions","StringExtension.cs");
+
+	var list = new List<string>(){ "sbyte", "byte", "bool", "int", "uint", "long", "ulong", "double" ,"float" ,"DateTime" };
+	var classes = new Dictionary<string,string>();
+#>
+using Feast.Foundation.Core.Extensions;
+using Feast.Foundation.Core.Interface.Converting;
+using System.Globalization;
+
+namespace <#=System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint").ToString()#>;
+<# 
+foreach(var type in list) { 
+	var name = $"{type[0].ToString().ToUpper()}{type.Substring(1)}";
+	var className = $"StringTo{name}Converter";
+	classes.Add(type,className);
+#>
+///<summary>
+/// Convert between <see cref="string"/> to <see cref="<#=type#>"/>
+///</summary>
+public class <#=className#> : IValueConverter, IValueConverter<string,<#=type#>>
+{
+	public object? To(object? input) => (input as string).To<#=name#>();
+    public object? Back(object? input) => input?.ToString();
+	public <#=type#> To(string? input) => input.To<#=name#>();
+    public string Back(<#=type#> input) => input.ToString(CultureInfo.InvariantCulture);
+}
+
+<# 
+}
+#>
+
+public static class StringValueConverters
+{
+	private static readonly Dictionary<Type,IValueConverter> Instances = new ()
+	{
+<#foreach(var pair in classes) {#>
+		{ typeof(<#=pair.Key#>) , new <#=pair.Value#>() },
+<#}#>
+	};
+
+	public static IValueConverter FindByType(Type type) => Instances.TryGetValue(type,out var ret) 
+	? ret 
+	: throw new NotSupportedException($"Specified type {type} not supported");
+}

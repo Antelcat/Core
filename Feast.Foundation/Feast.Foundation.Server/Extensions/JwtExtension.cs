@@ -13,12 +13,12 @@ namespace Feast.Foundation.Server.Extensions
 
         private static readonly IDictionary<PropertyInfo, IValueConverter> ReadableProps = typeof(TIdentity)
             .GetProperties()
-            .Where(x => x.CanRead)
-            .ToDictionary(p => p, p => typeof(string).Converter(p.PropertyType)!);
+            .Where(static x => x.CanRead)
+            .ToDictionary(static p => p, static p => typeof(string).Converter(p.PropertyType)!);
         private static readonly IDictionary<PropertyInfo, IValueConverter> WritableProps = typeof(TIdentity)
             .GetProperties()
-            .Where(x => x.CanWrite)
-            .ToDictionary(p => p, p => typeof(string).Converter(p.PropertyType)!);
+            .Where(static x => x.CanWrite)
+            .ToDictionary(static p => p,static p => typeof(string).Converter(p.PropertyType)!);
 
         private static TIdentity SetFromClaim(TIdentity instance, Claim claim)
         {
@@ -33,8 +33,7 @@ namespace Feast.Foundation.Server.Extensions
             {
                 return new JwtSecurityToken(token)
                     .Claims
-                    .Aggregate((TIdentity)Type.RawInstance(), 
-                        SetFromClaim);
+                    .Aggregate((TIdentity)Type.RawInstance(), SetFromClaim);
             }
             catch
             {
@@ -45,15 +44,12 @@ namespace Feast.Foundation.Server.Extensions
         public static IEnumerable<Claim> GetClaims(TIdentity source)
         {
             return ReadableProps
-                .Select(x =>
-                {
-                    var val = (string)x.Value.Back(x.Key.GetValue(source))!;
-                    return new Claim(x.Key.Name, val);
-                });
+                .Select(x => 
+                    new Claim(x.Key.Name, (string?)x.Value.Back(x.Key.GetValue(source)) ?? string.Empty));
         }
         public static TIdentity FromClaims(IEnumerable<Claim> claims)
         {
-            return claims.Aggregate((TIdentity)Type.RawInstance(), (i, c) =>
+            return claims.Aggregate((TIdentity)Type.RawInstance(),static (i, c) =>
             {
                 var pair = WritableProps.FirstOrDefault(x => x.Key.Name == c.Type);
                 if (pair.Key.IsNull()) return i;

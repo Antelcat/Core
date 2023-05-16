@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ output extension=".cs" #>
+<#
+	Dictionary<string,string?> dic = new (){
+		{ "sbyte", "MinValue" },
+		{ "byte", "MinValue" },
+		{ "int", "MinValue" }, 
+		{ "uint", "MinValue" },
+		{ "long", "MinValue" },
+		{ "ulong", "MinValue" },
+		{ "double", "NaN" }, 
+		{ "float", "NaN" }, 
+		{ "DateTime", "MinValue" }
+	}; 
+#>
+using System.Windows;
+
+namespace <#=System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint").ToString()#>;
+
+public static partial class StringExtension
+{
+<# 
+foreach(var pair in dic) {
+	var type = pair.Key;
+	var name = $"{type[0].ToString().ToUpper()}{type.Substring(1)}";
+	var resultArg = "result";
+#>
+	public static bool To<#=name#>(this string? str,out <#=type#> <#=resultArg#>) => <#=type#>.TryParse(str,out <#=resultArg#>);
+	public static <#=type#> To<#=name#>(this string? str) => <#=type#>.TryParse(str,out var <#=resultArg#>) ? <#=resultArg#> : <#=type#>.<#=pair.Value#>;
+<# 
+}
+#>
+
+}

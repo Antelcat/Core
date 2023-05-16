@@ -36,7 +36,7 @@ namespace Feast.Foundation.Core.Extensions
             type == toType
                 ? NoneConverter.Instance
                 : type == typeof(string)
-                    ? StringConverterBase.ConvertTo(toType)
+                    ? StringValueConverters.FindByType(toType)
                     : throw new NotSupportedException("Not support this type yet");
     }
 }
