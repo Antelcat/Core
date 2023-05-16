@@ -24,7 +24,7 @@
 using System.Windows;
 
 namespace <#=System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint").ToString()#>;
-
+#nullable enable
 public static partial class StringExtension
 {
 <# 
