@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Feast.Foundation.Core.Extensions
+﻿namespace Feast.Foundation.Core.Extensions
 {
     public static partial class StringExtension
     {

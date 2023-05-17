@@ -43,23 +43,28 @@ namespace Feast.Foundation.Test
                 
             }
         }
-
-        public async Task LongRun(CancellationToken token)
+        [Test]
+        public void RunSync()
         {
-            while (!token.IsCancellationRequested)
+            bool Find(out int i)
             {
-                Console.WriteLine($"Running{DateTime.Now:yyyy-MM-dd-HH-mm-ss}");
-                await 500;
+                try
+                {
+                    i = 1;
+                    return true;
+                }
+                finally
+                {
+                    i = 9;
+                    Console.WriteLine("Wait a minute");
+                }
             }
+            Console.WriteLine(Find(out var res) ? res : -1);
         }
-
         [Test]
         public async Task Run()
         {
-            collection.Where(x=>x.Lifetime == ServiceLifetime.Singleton).ForEach(x =>
-            {
-                var s = provider.GetService(x.ServiceType);
-            });
+            
         }
     }
 }
