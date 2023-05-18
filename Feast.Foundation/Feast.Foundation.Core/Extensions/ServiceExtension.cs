@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Feast.Foundation.Core.Attributes;
+using Feast.Foundation.Core.Implements.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Feast.Foundation.Core.Extensions
@@ -60,5 +62,15 @@ namespace Feast.Foundation.Core.Extensions
             => serviceTypes.Aggregate(collection, (c, s) => c
                 .AddSingleton(s, _ => services
                     .GetRequiredService(s)));
+
+        public static IServiceProvider BuildAutowiredServiceProvider(this IServiceCollection collection,
+            Func<IServiceCollection, IServiceProvider> builder) =>
+            collection.BuildAutowiredServiceProvider<AutowiredAttribute>(builder);
+
+        public static IServiceProvider BuildAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
+            Func<IServiceCollection, IServiceProvider> builder)
+            where TAttribute : Attribute =>
+            new AutowiredServiceProviderFactory<TAttribute>(builder)
+                .CreateServiceProvider(collection);
     }
 }
