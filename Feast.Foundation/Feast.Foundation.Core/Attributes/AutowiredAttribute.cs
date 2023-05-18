@@ -1,8 +1,6 @@
-﻿// ReSharper disable IdentifierTypo
-
-namespace Feast.Foundation.Core.Attributes
+﻿namespace Feast.Foundation.Core.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public sealed class AutowiredAttribute : Attribute
     { }
 }
