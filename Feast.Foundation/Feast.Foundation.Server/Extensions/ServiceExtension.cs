@@ -82,13 +82,24 @@ namespace Feast.Foundation.Server.Extensions
             });
         }
 
+        /// <summary>
+        /// 实现自动注入携带 <see cref="AutowiredAttribute"/> 注解的属性和字段
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IHostBuilder UseAutowiredServiceProviderFactory(this IHostBuilder builder) =>
-            builder.UseAutowiredServiceProviderFactory<AutowiredAttribute>();
+            builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory(
+                ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAttribute">属性</typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IHostBuilder UseAutowiredServiceProviderFactory<TAttribute>(this IHostBuilder builder)
             where TAttribute : Attribute =>
-            builder.UseServiceProviderFactory(
-                new AutowiredServiceProviderFactory<TAttribute>(
-                    ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
+            builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory<TAttribute>(
+                ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
     }
 }

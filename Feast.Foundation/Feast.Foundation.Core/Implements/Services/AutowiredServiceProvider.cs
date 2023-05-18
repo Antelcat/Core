@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
+using Feast.Foundation.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Feast.Foundation.Core.Implements.Services;
 
-internal class AutowiredServiceProvider<TAttribute> 
+public class AutowiredServiceProvider<TAttribute> 
     : IServiceProvider, ISupportRequiredService
     where TAttribute : Attribute
 {
@@ -60,4 +61,20 @@ public class AutowiredServiceProviderFactory<TAttribute>
         services ?? new ServiceCollection();
     public IServiceProvider CreateServiceProvider(IServiceCollection containerBuilder) =>
         new AutowiredServiceProvider<TAttribute>(builder(containerBuilder));
+}
+
+/// <summary>
+/// 专门用来解析 <see cref="AutowiredAttribute"/> 的自动注解生成器
+/// </summary>
+public sealed class AutowiredServiceProvider : AutowiredServiceProvider<AutowiredAttribute>
+{
+    public AutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
+}
+
+/// <summary>
+/// 专门用来解析 <see cref="AutowiredAttribute"/> 的服务工厂
+/// </summary>
+public sealed class AutowiredServiceProviderFactory : AutowiredServiceProviderFactory<AutowiredAttribute>
+{
+    public AutowiredServiceProviderFactory(Func<IServiceCollection, IServiceProvider> builder) : base(builder) { }
 }
