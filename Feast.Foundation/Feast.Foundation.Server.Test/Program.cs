@@ -18,7 +18,7 @@ namespace Feast.Foundation.Server.Test
             builder.Services.AddJwtSwaggerGen();
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -27,7 +27,6 @@ namespace Feast.Foundation.Server.Test
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
