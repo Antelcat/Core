@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using System.Runtime.Serialization;
 using Microsoft.Extensions.DependencyInjection;
-// ReSharper disable IdentifierTypo
 
 namespace Feast.Foundation.Core.Implements.Services;
 
@@ -10,7 +10,9 @@ internal class AutowiredServiceProvider<TAttribute>
 {
     private readonly IServiceProvider serviceProvider;
     public AutowiredServiceProvider(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
-    public object GetRequiredService(Type serviceType) => GetService(serviceType)!;
+    public object GetRequiredService(Type serviceType) => 
+        GetService(serviceType) ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
+
     public object? GetService(Type serviceType) => Autowried(serviceProvider.GetService(serviceType));
     private object? Autowried(object? target)
     {
