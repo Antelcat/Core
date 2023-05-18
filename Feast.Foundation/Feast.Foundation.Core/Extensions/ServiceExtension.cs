@@ -68,7 +68,8 @@ namespace Feast.Foundation.Core.Extensions
             => new AutowiredServiceProvider(builder(collection));
 
         public static IServiceProvider BuildAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
-            Func<IServiceCollection, IServiceProvider> builder) where TAttribute : Attribute
+            Func<IServiceCollection, IServiceProvider> builder) 
+            where TAttribute : Attribute
             => new AutowiredServiceProvider<TAttribute>(builder(collection));
     }
 }

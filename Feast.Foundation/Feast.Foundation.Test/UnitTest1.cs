@@ -24,7 +24,6 @@ namespace Feast.Foundation.Test
                     .AddSingleton<IB, B>()
                     .AddSingleton<IA, A>()
                     .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
-            
         }
 
         [Test]
