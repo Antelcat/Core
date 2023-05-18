@@ -10,8 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using Feast.Foundation.Server.Implements;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-// ReSharper disable IdentifierTypo
 
 namespace Feast.Foundation.Server.Extensions
 {
@@ -55,6 +57,7 @@ namespace Feast.Foundation.Server.Extensions
                             if (failed == null) return;
                             context.HandleResponse();
                             context.Response.Clear();
+                            context.Response.Headers.Clear();
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                             await context.Response.WriteAsync(failed(context));
@@ -68,27 +71,25 @@ namespace Feast.Foundation.Server.Extensions
     public static partial class ServiceExtension
     {
         public static IServiceCollection AddJwtSwaggerGen(this IServiceCollection collection)
-        {
-            return collection.AddSwaggerGen(o =>
+            => collection.AddSwaggerGen(o =>
             {
                 o.OperationFilter<AuthorizationFilter>();
                 o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "Jwt Token Format like [ Bearer {Token} ]",
-                    Name = nameof(Authorization), 
-                    In = ParameterLocation.Header, 
+                    Name = nameof(Authorization),
+                    In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
                 });
             });
-        }
 
         /// <summary>
         /// 实现自动注入携带 <see cref="AutowiredAttribute"/> 注解的属性和字段
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IHostBuilder UseAutowiredServiceProviderFactory(this IHostBuilder builder) =>
-            builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory(
+        public static IHostBuilder UseAutowiredServiceProviderFactory(this IHostBuilder builder) 
+            => builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory(
                 ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
 
         /// <summary>
@@ -98,8 +99,11 @@ namespace Feast.Foundation.Server.Extensions
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IHostBuilder UseAutowiredServiceProviderFactory<TAttribute>(this IHostBuilder builder)
-            where TAttribute : Attribute =>
-            builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory<TAttribute>(
+            where TAttribute : Attribute 
+            => builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory<TAttribute>(
                 ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
+
+        public static IServiceCollection UseAutowiredControllers(this IMvcBuilder collection) 
+            => collection.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, AutowiredControllerActivator>());
     }
 }
