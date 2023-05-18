@@ -8,17 +8,17 @@ namespace Feast.Foundation.Server.Extensions
 {
     public static class JwtExtension<TIdentity>
     {
-       
         private static readonly Type Type = typeof(TIdentity);
 
         private static readonly IDictionary<PropertyInfo, IValueConverter> ReadableProps = typeof(TIdentity)
             .GetProperties()
             .Where(static x => x.CanRead)
-            .ToDictionary(static p => p, static p => typeof(string).Converter(p.PropertyType)!);
+            .ToDictionary(static p => p, static p => typeof(string).Converter(p.PropertyType));
+
         private static readonly IDictionary<PropertyInfo, IValueConverter> WritableProps = typeof(TIdentity)
             .GetProperties()
             .Where(static x => x.CanWrite)
-            .ToDictionary(static p => p,static p => typeof(string).Converter(p.PropertyType)!);
+            .ToDictionary(static p => p,static p => typeof(string).Converter(p.PropertyType));
 
         private static TIdentity SetFromClaim(TIdentity instance, Claim claim)
         {
@@ -40,7 +40,6 @@ namespace Feast.Foundation.Server.Extensions
                 return default;
             }
         }
-
         public static IEnumerable<Claim> GetClaims(TIdentity source)
         {
             return ReadableProps
