@@ -21,4 +21,4 @@ public sealed class CompilerFeatureRequiredAttribute : Attribute
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public sealed class RequiredMemberAttribute : Attribute { }
 
-internal sealed class IsExternalInit{}
+public sealed class IsExternalInit{}
