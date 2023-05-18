@@ -1,12 +1,18 @@
-﻿using Feast.Foundation.Server.Filters;
+﻿using Feast.Foundation.Core.Attributes;
+using Feast.Foundation.Server.Filters;
+using Feast.Foundation.Server.Implements.Services;
 using Feast.Foundation.Server.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using Feast.Foundation.Core.Implements.Services;
+
+// ReSharper disable IdentifierTypo
 
 namespace Feast.Foundation.Server.Extensions
 {
@@ -76,5 +82,14 @@ namespace Feast.Foundation.Server.Extensions
                 });
             });
         }
+
+        public static IHostBuilder UseAutowiredServiceProviderFactory(this IHostBuilder builder) =>
+            builder.UseAutowiredServiceProviderFactory<AutowiredAttribute>();
+
+        public static IHostBuilder UseAutowiredServiceProviderFactory<TAttribute>(this IHostBuilder builder)
+            where TAttribute : Attribute =>
+            builder.UseServiceProviderFactory(
+                new AutowiredServiceProviderFactory<TAttribute>(
+                    ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
     }
 }
