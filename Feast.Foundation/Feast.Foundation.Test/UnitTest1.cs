@@ -4,12 +4,21 @@ using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 using Feast.Foundation.Core.Attributes;
 using Feast.Foundation.Core.Extensions;
+using Feast.Foundation.Core.Implements;
 using Feast.Foundation.Core.Implements.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework.Interfaces;
 
 namespace Feast.Foundation.Test
 {
+    public static class StaticClass
+    {
+        public static TService GenerateSynchronize<TService, TImplement>(this TImplement instance)
+        {
+            return DispatchProxy.Create<TService, Tests.SynchronizeProxy<TImplement>>();
+        }
+    }
     public class Tests
     {
         IServiceCollection collection = new ServiceCollection();
@@ -24,8 +33,36 @@ namespace Feast.Foundation.Test
                     .AddSingleton<IB, B>()
                     .AddSingleton<IA, A>()
                     .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
+            provider.GenerateSynchronize<IServiceProvider,IServiceProvider>();
         }
 
+        public class SynchronizeProxy<T> : DispatchProxy
+        {
+            protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
+            {
+                return targetMethod?.Invoke(null, args);
+            }
+        }
+
+
+        public class Tmp
+        {
+            [PathArg]
+            public string App { get; set; } = "MyApp";
+            [PathArg]
+            public string ProgramFiles { get; set; } = "D:ProgramFiles";
+            [PathArg]
+            public string DatabaseDir { get; set; } = "[ProgramFiles]/[App]/db";
+            [PathArg]
+            public string DatabaseFile { get; set; } = "[DatabaseDir]/file.db";
+        }
+
+        [Test]
+        public void TestPath()
+        {
+            var t = new Tmp();
+            var r = PathResolver.Resolve(t, new('[', ']'));
+        }
         [Test]
         public void TestService()
         {
