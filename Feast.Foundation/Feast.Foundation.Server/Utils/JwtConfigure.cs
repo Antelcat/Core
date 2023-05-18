@@ -16,9 +16,10 @@ public class JwtConfigure<TIdentity>
     }
   
     public string Secret { init => SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(value)); }
-    public SecurityKey? SecurityKey
+
+    private SecurityKey? SecurityKey
     {
-        private get => securityKey;
+        get => securityKey;
         init
         {
             securityKey = value;
@@ -51,12 +52,13 @@ public class JwtConfigure<TIdentity>
         init => parameters = value;
     }
 
+    private readonly JwtSecurityTokenHandler handler = new();
     private TokenValidationParameters? parameters;
     public string? CreateToken(TIdentity source)
     {
         try
         {
-            return new JwtSecurityTokenHandler().WriteToken(GetToken(JwtExtension<TIdentity>.GetClaims(source)));
+            return handler.WriteToken(GetToken(JwtExtension<TIdentity>.GetClaims(source)));
         }
         catch
         {
