@@ -1,15 +1,19 @@
-﻿using Feast.Foundation.Core.Extensions;
+﻿using System.Text.Json.Serialization;
+using Feast.Foundation.Core.Extensions;
 
 namespace Feast.Foundation.Core.Models
 {
     public class Response
     {
+        [JsonPropertyOrder(1)]
         public int Code { get; set; } = 1;
 
 #if msg
         [JsonPropertyName("msg")]
 #endif
+        [JsonPropertyOrder(3)]
         public string Message { get; set; } = string.Empty;
+        [JsonPropertyOrder(4)]
         public long Timestamp { get; set; } = TimeExtension.CurrentTimestamp;
 
         public static implicit operator Response(int code) => new() { Code = code };
@@ -19,6 +23,7 @@ namespace Feast.Foundation.Core.Models
 
     public class Response<T> : Response
     {
+        [JsonPropertyOrder(2)]
         public T Data { get; set; } = default!;
 
         public Response() { }
