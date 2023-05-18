@@ -1,8 +1,8 @@
 ﻿using Feast.Foundation.Core.Extensions;
+using Feast.Foundation.Core.Interface.Converting;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
-using Feast.Foundation.Core.Interface.Converting;
 
 namespace Feast.Foundation.Server.Extensions
 {
