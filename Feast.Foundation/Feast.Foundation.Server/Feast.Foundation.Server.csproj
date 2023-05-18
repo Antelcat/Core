@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Feast.Foundation.Core\Feast.Foundation.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Implements\" />
+  </ItemGroup>
+
 </Project>
