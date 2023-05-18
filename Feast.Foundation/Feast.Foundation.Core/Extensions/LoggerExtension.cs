@@ -216,7 +216,7 @@ namespace Feast.Foundation.Core.Extensions
 
         //--------------------------- --------DependencyInjection------------------------------------//
 
-        public static IServiceCollection AddZBLogger(this IServiceCollection collection, LoggerConfig? config = null) => collection
+        public static IServiceCollection AddFeastLogger(this IServiceCollection collection, LoggerConfig? config = null) => collection
             .AddSingleton( _ => new LoggerFactory(config))
             .AddSingleton(typeof(IFeastLogger<>), typeof(FeastLogger<>));
     }
