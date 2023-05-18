@@ -1,6 +1,6 @@
 ﻿using Feast.Foundation.Core.Attributes;
+using Feast.Foundation.Core.Implements.Services;
 using Feast.Foundation.Server.Filters;
-using Feast.Foundation.Server.Implements.Services;
 using Feast.Foundation.Server.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using Feast.Foundation.Core.Implements.Services;
 
 // ReSharper disable IdentifierTypo
 
