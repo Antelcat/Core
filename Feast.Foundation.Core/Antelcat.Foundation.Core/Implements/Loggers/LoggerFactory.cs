@@ -7,7 +7,7 @@
         {
             this.config = config ?? new LoggerConfig();
         }
-        internal override void Initialize<TCategory>(FeastLogger<TCategory> logger)
+        internal override void Initialize<TCategory>(AntelcatLogger<TCategory> logger)
         {
             //TODO Extra initialize
             config.Initialize(logger);
