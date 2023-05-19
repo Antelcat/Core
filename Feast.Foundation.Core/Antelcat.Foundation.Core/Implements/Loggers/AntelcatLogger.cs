@@ -5,7 +5,7 @@ using Antelcat.Foundation.Core.Interface.Logging;
 
 namespace Antelcat.Foundation.Core.Implements.Loggers
 {
-    internal abstract class FeastLogger : LoggerConfig, IFeastLogger
+    internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
     {
         #region Fields
         private string LogDirectory
@@ -44,7 +44,7 @@ namespace Antelcat.Foundation.Core.Implements.Loggers
             var sb = new StringBuilder();
             var ps = new StackTrace(1, true)
                 .GetFrames()!
-                .FirstOrDefault(x => x.GetMethod()?.Module.Assembly != typeof(IFeastLogger).Assembly);
+                .FirstOrDefault(x => x.GetMethod()?.Module.Assembly != typeof(IAntelcatLogger).Assembly);
             var method = ps?.GetMethod();
             sb
                 .AppendLine(Format($"等级 : [ {level} ], 时间: [ {DateTime.Now} ]"))
@@ -65,9 +65,9 @@ namespace Antelcat.Foundation.Core.Implements.Loggers
         }
     }
 
-    internal class FeastLogger<TCategoryName> : FeastLogger, IFeastLogger<TCategoryName>
+    internal class AntelcatLogger<TCategoryName> : AntelcatLogger, IAntelcatLogger<TCategoryName>
     {
-        public FeastLogger(LoggerFactory factory)
+        public AntelcatLogger(LoggerFactory factory)
         {
             factory.Initialize(this);
         }

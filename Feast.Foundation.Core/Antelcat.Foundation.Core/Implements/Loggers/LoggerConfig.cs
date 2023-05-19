@@ -54,7 +54,7 @@ public class LoggerConfig
         .Where(x => x is { CanRead: true, CanWrite: true })
         .Select(x => new Tuple<ILMethod, ILMethod>((ILSetter)x, (ILGetter)x));
 
-    internal virtual void Initialize<TCategory>(FeastLogger<TCategory> logger) =>
+    internal virtual void Initialize<TCategory>(AntelcatLogger<TCategory> logger) =>
         Callers
             .ForEach(p => 
                 p.Item1.Invoke(logger, p.Item2.Invoke(this)));
