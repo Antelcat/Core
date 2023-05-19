@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Feast.Foundation.Core.Implements.Converters;
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="sbyte"/>
+/// Convert between <see cref="string"/> and <see cref="sbyte"/>
 ///</summary>
 public class StringToSbyteConverter : IValueConverter, IValueConverter<string,sbyte>
 {
@@ -15,7 +15,7 @@ public class StringToSbyteConverter : IValueConverter, IValueConverter<string,sb
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="byte"/>
+/// Convert between <see cref="string"/> and <see cref="byte"/>
 ///</summary>
 public class StringToByteConverter : IValueConverter, IValueConverter<string,byte>
 {
@@ -26,7 +26,7 @@ public class StringToByteConverter : IValueConverter, IValueConverter<string,byt
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="bool"/>
+/// Convert between <see cref="string"/> and <see cref="bool"/>
 ///</summary>
 public class StringToBoolConverter : IValueConverter, IValueConverter<string,bool>
 {
@@ -37,7 +37,7 @@ public class StringToBoolConverter : IValueConverter, IValueConverter<string,boo
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="int"/>
+/// Convert between <see cref="string"/> and <see cref="int"/>
 ///</summary>
 public class StringToIntConverter : IValueConverter, IValueConverter<string,int>
 {
@@ -48,7 +48,7 @@ public class StringToIntConverter : IValueConverter, IValueConverter<string,int>
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="uint"/>
+/// Convert between <see cref="string"/> and <see cref="uint"/>
 ///</summary>
 public class StringToUintConverter : IValueConverter, IValueConverter<string,uint>
 {
@@ -59,7 +59,7 @@ public class StringToUintConverter : IValueConverter, IValueConverter<string,uin
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="long"/>
+/// Convert between <see cref="string"/> and <see cref="long"/>
 ///</summary>
 public class StringToLongConverter : IValueConverter, IValueConverter<string,long>
 {
@@ -70,7 +70,7 @@ public class StringToLongConverter : IValueConverter, IValueConverter<string,lon
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="ulong"/>
+/// Convert between <see cref="string"/> and <see cref="ulong"/>
 ///</summary>
 public class StringToUlongConverter : IValueConverter, IValueConverter<string,ulong>
 {
@@ -81,7 +81,7 @@ public class StringToUlongConverter : IValueConverter, IValueConverter<string,ul
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="double"/>
+/// Convert between <see cref="string"/> and <see cref="double"/>
 ///</summary>
 public class StringToDoubleConverter : IValueConverter, IValueConverter<string,double>
 {
@@ -92,7 +92,7 @@ public class StringToDoubleConverter : IValueConverter, IValueConverter<string,d
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="float"/>
+/// Convert between <see cref="string"/> and <see cref="float"/>
 ///</summary>
 public class StringToFloatConverter : IValueConverter, IValueConverter<string,float>
 {
@@ -103,7 +103,7 @@ public class StringToFloatConverter : IValueConverter, IValueConverter<string,fl
 }
 
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="DateTime"/>
+/// Convert between <see cref="string"/> and <see cref="DateTime"/>
 ///</summary>
 public class StringToDateTimeConverter : IValueConverter, IValueConverter<string,DateTime>
 {
