@@ -15,6 +15,10 @@
       <LastGenOutput>StringExtension.g.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Extensions\ILExtension.g.tt">
+      <LastGenOutput>ILExtension.g.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Implements\Converters\StringValueConverter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StringValueConverter.cs</LastGenOutput>
@@ -26,6 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Extensions\ILExtension.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ILExtension.g.tt</DependentUpon>
+    </Compile>
     <Compile Update="Extensions\StringExtension.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
