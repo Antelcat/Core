@@ -2,20 +2,9 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
-<#@ import namespace="System.IO" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Xml.Linq" #>
 <#@ output extension=".cs" #>
 <#
-	var path = this.Host.ResolvePath(string.Empty);
-	var index = 2;
-	while(index-- > 0){
-		path = Path.GetDirectoryName(path);
-	}
-	path = Path.Combine(path,"Extensions","StringExtension.cs");
-
 	var list = new List<string>(){ "sbyte", "byte", "bool", "int", "uint", "long", "ulong", "double" ,"float" ,"DateTime" };
 	var classes = new Dictionary<string,string>();
 #>
@@ -31,7 +20,7 @@ foreach(var type in list) {
 	classes.Add(type,className);
 #>
 ///<summary>
-/// Convert between <see cref="string"/> to <see cref="<#=type#>"/>
+/// Convert between <see cref="string"/> and <see cref="<#=type#>"/>
 ///</summary>
 public class <#=className#> : IValueConverter, IValueConverter<string,<#=type#>>
 {
