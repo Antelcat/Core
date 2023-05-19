@@ -61,14 +61,16 @@ namespace Feast.Foundation.Test
             public string DatabaseFile { get; set; } = "[DatabaseDir]/file.db";
         }
 
-        public string Function(string str) => $"??? {str}";
+        public class Boolable
+        {
+            public bool Bool { get; set; } = true;
+        }
         [Test]
         public void TestPath()
         {
-            var i = ReflectExtension.CreateInvoker(
-                typeof(Tests)
-                    .GetMethod("Function")!);
-            i.Invoke(null, "1");
+            var i = typeof(Boolable).GetProperties()[0].CreateGetter();
+            var t = (object)new Boolable();
+            var r = i.Invoke(t);
         }
         [Test]
         public void TestService()
