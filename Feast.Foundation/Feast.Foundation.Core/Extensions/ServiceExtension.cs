@@ -63,10 +63,23 @@ namespace Feast.Foundation.Core.Extensions
                 .AddSingleton(s, _ => services
                     .GetRequiredService(s)));
 
+        /// <summary>
+        /// 创建用于解析 <see cref="AutowiredAttribute"/> 的 <see cref="AutowiredServiceProvider"/>
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider(this IServiceCollection collection,
             Func<IServiceCollection, IServiceProvider> builder)
             => new AutowiredServiceProvider(builder(collection));
 
+        /// <summary>
+        /// 创建用于解析 <see cref="TAttribute"/> 的 <see cref="AutowiredServiceProvider{TAttribute}"/>
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="builder"></param>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
             Func<IServiceCollection, IServiceProvider> builder) 
             where TAttribute : Attribute
