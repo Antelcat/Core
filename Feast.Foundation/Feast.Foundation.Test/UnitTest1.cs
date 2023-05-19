@@ -6,6 +6,7 @@ using Feast.Foundation.Core.Attributes;
 using Feast.Foundation.Core.Extensions;
 using Feast.Foundation.Core.Implements;
 using Feast.Foundation.Core.Implements.Services;
+using Feast.Foundation.Core.Structs.IL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework.Interfaces;
@@ -33,8 +34,11 @@ namespace Feast.Foundation.Test
                     .AddSingleton<IB, B>()
                     .AddSingleton<IA, A>()
                     .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
+
+            
             provider.GenerateSynchronize<IServiceProvider,IServiceProvider>();
         }
+
 
         public class SynchronizeProxy<T> : DispatchProxy
         {
@@ -57,11 +61,14 @@ namespace Feast.Foundation.Test
             public string DatabaseFile { get; set; } = "[DatabaseDir]/file.db";
         }
 
+        public string Function(string str) => $"??? {str}";
         [Test]
         public void TestPath()
         {
-            var t = new Tmp();
-            var r = PathResolver.Resolve(t, new('[', ']'));
+            var i = ReflectExtension.CreateInvoker(
+                typeof(Tests)
+                    .GetMethod("Function")!);
+            i.Invoke(null, "1");
         }
         [Test]
         public void TestService()
