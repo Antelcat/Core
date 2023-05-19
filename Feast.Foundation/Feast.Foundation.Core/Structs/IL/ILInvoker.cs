@@ -1,17 +1,21 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
+using Feast.Foundation.Core.Interface.IL;
 
-namespace Feast.Foundation.Core.Structs
+namespace Feast.Foundation.Core.Structs.IL
 {
-    public readonly struct IlInvoker
+    public readonly struct ILInvoker 
     {
-        public delegate object Handler(object? target, params object?[]? parameters);
-        public readonly MethodInfo Method;
-        public readonly Handler Invoker;
-        public IlInvoker(MethodInfo method)
+        public delegate object? Handler(object? target, params object?[]? parameters);
+
+        private readonly Handler invoker;
+        public MethodInfo Method { get; }
+
+        public ILInvoker(MethodInfo method)
         {
             Method = method;
-            var dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new[] { typeof(object), typeof(object[]) });
+            var dynamicMethod =
+                new DynamicMethod(string.Empty, typeof(object), new[] { typeof(object), typeof(object[]) });
             var il = dynamicMethod.GetILGenerator();
             var ps = method.GetParameters();
             var paramTypes = new Type[ps.Length];
@@ -21,6 +25,7 @@ namespace Feast.Foundation.Core.Structs
                     ? ps[i].ParameterType.GetElementType() ?? typeof(void)
                     : ps[i].ParameterType;
             }
+
             var locals = new LocalBuilder[paramTypes.Length];
             for (var i = 0; i < paramTypes.Length; i++)
                 locals[i] = il.DeclareLocal(paramTypes[i], true);
@@ -34,6 +39,7 @@ namespace Feast.Foundation.Core.Structs
                     : OpCodes.Castclass, paramTypes[i]);
                 il.Emit(OpCodes.Stloc, locals[i]);
             }
+
             if (!method.IsStatic)
                 il.Emit(OpCodes.Ldarg_0);
             for (var i = 0; i < paramTypes.Length; i++)
@@ -54,13 +60,15 @@ namespace Feast.Foundation.Core.Structs
                 il.Emit(OpCodes.Ldarg_1);
                 EmitFastInt(il, i);
                 il.Emit(OpCodes.Ldloc, locals[i]);
-                if (locals[i].LocalType.IsValueType) 
+                if (locals[i].LocalType.IsValueType)
                     il.Emit(OpCodes.Box, locals[i].LocalType);
                 il.Emit(OpCodes.Stelem_Ref);
             }
+
             il.Emit(OpCodes.Ret);
-            Invoker = dynamicMethod.CreateDelegate<Handler>();
+            invoker = dynamicMethod.CreateDelegate<Handler>();
         }
+
         private static void EmitFastInt(ILGenerator il, int value)
         {
             switch (value)
@@ -105,11 +113,13 @@ namespace Feast.Foundation.Core.Structs
                     il.Emit(OpCodes.Ldc_I4_8);
                     return;
             }
-            il.Emit(value is > -129 and < 128 
-                ? OpCodes.Ldc_I4_S 
+
+            il.Emit(value is > -129 and < 128
+                ? OpCodes.Ldc_I4_S
                 : OpCodes.Ldc_I4, value);
         }
 
-        public static implicit operator IlInvoker(MethodInfo method) => new (method);
+        public static implicit operator ILInvoker(MethodInfo method) => new(method);
+        public object? Invoke(object? target, params object?[]? parameters) => invoker.Invoke(target, parameters);
     }
 }
