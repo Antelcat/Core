@@ -17,7 +17,6 @@ namespace Antelcat.Foundation.Core.Extensions
             WriteIndented = false,
 #endif
             PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
         private static readonly Dictionary<SerializeOptions, JsonSerializerOptions> Cache = new()
@@ -38,17 +37,22 @@ namespace Antelcat.Foundation.Core.Extensions
                 ret.Converters.Add(new JsonDateTimeConverter());
             }
 
+            if (options.HasFlag(SerializeOptions.LowerCamelCase))
+            {
+                ret.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            }
+            
             Cache[options] = ret;
             return ret;
         }
         #endregion
 
         public static string Serialize<T>(this T o, 
-            SerializeOptions options = SerializeOptions.All) =>
+            SerializeOptions options = SerializeOptions.Default) =>
             JsonSerializer.Serialize(o, GetSerializeOptions(options));
 
         public static string Serialize(this object[] args, 
-            SerializeOptions options = SerializeOptions.All) =>
+            SerializeOptions options = SerializeOptions.Default) =>
             args.Aggregate(new List<KeyValuePair<string, object>>(),
                 (l, p) =>
                 {
@@ -57,18 +61,18 @@ namespace Antelcat.Foundation.Core.Extensions
                 }).Serialize(options);
 
         public static string Serialize(this Dictionary<string, object> args,
-            SerializeOptions options = SerializeOptions.All) => 
+            SerializeOptions options = SerializeOptions.Default) => 
             ((object)args).Serialize(options);
 
         public static T? Deserialize<T>(this string json, 
-            SerializeOptions options = SerializeOptions.All) =>
+            SerializeOptions options = SerializeOptions.Default) =>
             JsonSerializer.Deserialize<T>(json, GetSerializeOptions(options));
 
         public static TOut? ReSerialize<TSource, TOut>(this TSource source) => 
             source.Serialize().Deserialize<TOut>();
 
         public static TOut? ReSerialize<TOut>(this object source, 
-            SerializeOptions options = SerializeOptions.All) => 
+            SerializeOptions options = SerializeOptions.Default) => 
             source.Serialize(options).Deserialize<TOut>(options);
 
     }
