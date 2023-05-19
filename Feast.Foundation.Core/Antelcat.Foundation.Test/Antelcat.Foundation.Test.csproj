@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Antelcat.Foundation.Server\Antelcat.Foundation.Server.csproj" />
+    <ProjectReference Include="..\Antelcat.Foundation.Core\Antelcat.Foundation.Core.csproj" />
   </ItemGroup>
 
 </Project>
