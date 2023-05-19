@@ -3,20 +3,23 @@ using System.Reflection.Emit;
 
 namespace Feast.Foundation.Core.Extensions;
 
+#region Delegates
+
 public delegate void Setter<TTarget, in TIn>(ref TTarget? target, TIn? value);
 
 public delegate TOut? Getter<in TTarget, out TOut>(TTarget? target);
 
-public delegate TReturn? Invoker<in TTarget, out TReturn>(TTarget? target,params object?[]? args);
+public delegate TReturn? Invoker<in TTarget, out TReturn>(TTarget? target, params object?[]? args);
 
 public delegate T? Ctor<out T>(params object?[]? parameters);
 
+#endregion
 public static partial class ReflectExtension
 {
     public static Ctor<object> CreateCtor(this Type type, params Type[] ctorParamTypes) =>
         CreateCtor<object>(type, ctorParamTypes);
     
-    public static Setter<object, object> CreateSetter(this FieldInfo field) =>
+    public static Setter<object,object> CreateSetter(this FieldInfo field) => 
         CreateSetter<object, object>(field);
 
     public static Setter<object, object> CreateSetter(this PropertyInfo prop) =>
@@ -221,15 +224,15 @@ public static partial class ReflectExtension
         {
             if (!isStatic)
                 il.EmitEx(OpCodes.Ldarg_0)
-                    .UnboxOrCastEx(member.DeclaringType!)
-                    .Then(i => emitAction(i, member))
-                    .BoxIfValueType(memberType);
+                    .UnboxOrCastEx(member.DeclaringType!);
+            il.Then(i => emitAction(i, member))
+                .BoxIfValueType(memberType);
         }
         else
         {
             if (!isStatic)
-                il.LdArgIfClass(0, typeof(TTarget))
-                    .Then(i => emitAction(i, member));
+                il.LdArgIfClass(0, typeof(TTarget));
+            emitAction(il, member);
         }
 
         il.EmitEx(OpCodes.Ret);
