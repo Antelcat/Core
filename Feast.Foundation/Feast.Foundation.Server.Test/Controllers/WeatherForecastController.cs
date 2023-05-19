@@ -1,3 +1,4 @@
+using Feast.Foundation.Core.Attributes;
 using Feast.Foundation.Server.Controllers;
 using Feast.Foundation.Server.Test.Models;
 using Feast.Foundation.Server.Utils;
@@ -16,11 +17,8 @@ namespace Feast.Foundation.Server.Test.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, JwtConfigure<User> configure)
+        public WeatherForecastController(JwtConfigure<User> configure)
         {
-            _logger = logger;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
