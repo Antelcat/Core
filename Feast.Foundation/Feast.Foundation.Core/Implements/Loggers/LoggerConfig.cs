@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Feast.Foundation.Core.Extensions;
+using Feast.Foundation.Core.Interface.IL;
 using Feast.Foundation.Core.Structs.IL;
 
 namespace Feast.Foundation.Core.Implements.Loggers;
@@ -48,14 +49,14 @@ public class LoggerConfig
 
     #region Reflects
 
-    private static readonly IEnumerable<Tuple<ILInvoker, ILInvoker>> Callers = typeof(LoggerConfig)
+    private static readonly IEnumerable<Tuple<ILMethod, ILMethod>> Callers = typeof(LoggerConfig)
         .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
         .Where(x => x is { CanRead: true, CanWrite: true })
-        .Select(x => new Tuple<ILInvoker, ILInvoker>(MethodExtension.CreateSetter(x), MethodExtension.CreateGetter(x)));
+        .Select(x => new Tuple<ILMethod, ILMethod>((ILSetter)x, (ILGetter)x));
 
     internal virtual void Initialize<TCategory>(FeastLogger<TCategory> logger) =>
         Callers
-            .ForEach(p =>
+            .ForEach(p => 
                 p.Item1.Invoke(logger, p.Item2.Invoke(this)));
 
     #endregion
