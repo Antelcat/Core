@@ -28,7 +28,7 @@ namespace Feast.Foundation.Server.Extensions
             var config = new JwtConfigure<TIdentity>(configure);
             services
                 .AddSingleton(config)
-                .AddAuthentication(options =>
+                .AddAuthentication(static options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,8 +40,8 @@ namespace Feast.Foundation.Server.Extensions
                     o.Events = new JwtBearerEvents
                     {
                         OnTokenValidated = validation == null
-                            ? _ => Task.CompletedTask
-                            : async context =>
+                            ? static _ => Task.CompletedTask
+                            : static async context =>
                             {
                                 var token = (context.SecurityToken as JwtSecurityToken)!.RawData;
                                 if (JwtExtension<TIdentity>.FromToken(token) == null)
@@ -71,7 +71,7 @@ namespace Feast.Foundation.Server.Extensions
     public static partial class ServiceExtension
     {
         public static IServiceCollection AddJwtSwaggerGen(this IServiceCollection collection)
-            => collection.AddSwaggerGen(o =>
+            => collection.AddSwaggerGen(static o =>
             {
                 o.OperationFilter<AuthorizationFilter>();
                 o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -84,6 +84,7 @@ namespace Feast.Foundation.Server.Extensions
             });
 
         /// <summary>
+        /// 使用 <see cref="AutowiredServiceProviderFactory"/> 作为服务生成工厂， 
         /// 实现自动注入携带 <see cref="AutowiredAttribute"/> 注解的属性和字段
         /// </summary>
         /// <param name="builder"></param>
@@ -93,7 +94,7 @@ namespace Feast.Foundation.Server.Extensions
                 ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
 
         /// <summary>
-        /// 
+        /// 使用 <see cref="AutowiredServiceProviderFactory{TAttribute}"/> 作为服务生成工厂
         /// </summary>
         /// <typeparam name="TAttribute">属性</typeparam>
         /// <param name="builder"></param>
@@ -103,7 +104,24 @@ namespace Feast.Foundation.Server.Extensions
             => builder.UseServiceProviderFactory(new AutowiredServiceProviderFactory<TAttribute>(
                 ServiceCollectionContainerBuilderExtensions.BuildServiceProvider));
 
+        /// <summary>
+        /// 将 <see cref="IControllerActivator"/> 的实现替换为 <see cref="AutowiredControllerActivator"/> ,
+        /// 且应当在 <see cref="MvcCoreMvcBuilderExtensions.AddControllersAsServices"/> 之后调用
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         public static IServiceCollection UseAutowiredControllers(this IMvcBuilder collection) 
             => collection.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, AutowiredControllerActivator>());
+        
+        /// <summary>
+        /// 将 <see cref="IControllerActivator"/> 的实现替换为 <see cref="AutowiredControllerActivator{TAttribute}"/> ,
+        /// 且应当在 <see cref="MvcCoreMvcBuilderExtensions.AddControllersAsServices"/> 之后调用
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <returns></returns>
+        public static IServiceCollection UseAutowiredControllers<TAttribute>(this IMvcBuilder collection)
+        where TAttribute : Attribute
+            => collection.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, AutowiredControllerActivator<TAttribute>>());
     }
 }
