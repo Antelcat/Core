@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Feast.Foundation.Core.Extensions;
+using Feast.Foundation.Core.Structs.IL;
 
 namespace Feast.Foundation.Core.Implements.Loggers;
 
@@ -12,27 +13,50 @@ public class LoggerConfig
     protected Func<DateTime, string> NamingFormat { get; set; } = time => $"{nameof(Feast)}[{time:yyyy-MM-dd}].log";
     protected string Prefix { get; set; } = "/**";
     protected string Suffix { get; set; } = "*/";
+
     #endregion
 
-    public LoggerConfig WithDirectory(string directory) { Directory = directory; return this; }
-    public LoggerConfig WithPrefix(string prefix) { Prefix = prefix; return this; }
-    public LoggerConfig WithSuffix(string suffix) { Suffix = suffix; return this; }
-    public LoggerConfig WithFileNameFormat(Func<DateTime, string> namingFormat) { NamingFormat = namingFormat; return this; }
-    public LoggerConfig OutputToConsole(bool output) { OutputConsole = output; return this; }
+    public LoggerConfig WithDirectory(string directory)
+    {
+        Directory = directory;
+        return this;
+    }
+
+    public LoggerConfig WithPrefix(string prefix)
+    {
+        Prefix = prefix;
+        return this;
+    }
+
+    public LoggerConfig WithSuffix(string suffix)
+    {
+        Suffix = suffix;
+        return this;
+    }
+
+    public LoggerConfig WithFileNameFormat(Func<DateTime, string> namingFormat)
+    {
+        NamingFormat = namingFormat;
+        return this;
+    }
+
+    public LoggerConfig OutputToConsole(bool output)
+    {
+        OutputConsole = output;
+        return this;
+    }
 
     #region Reflects
-    private readonly PropertyInfo[] properties = typeof(LoggerConfig)
-        .GetProperties(
-            BindingFlags.NonPublic
-            | BindingFlags.GetProperty
-            | BindingFlags.SetProperty
-            | BindingFlags.Instance);
 
-    internal virtual void Initialize<TCategory>(FeastLogger<TCategory> logger)
-    {
-        properties
-            .Where(x => x is { CanRead: true, CanWrite: true })
-            .ForEach(p => p.SetValue(logger, p.GetValue(this)));
-    }
+    private static readonly IEnumerable<Tuple<ILInvoker, ILInvoker>> Callers = typeof(LoggerConfig)
+        .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
+        .Where(x => x is { CanRead: true, CanWrite: true })
+        .Select(x => new Tuple<ILInvoker, ILInvoker>(MethodExtension.CreateSetter(x), MethodExtension.CreateGetter(x)));
+
+    internal virtual void Initialize<TCategory>(FeastLogger<TCategory> logger) =>
+        Callers
+            .ForEach(p =>
+                p.Item1.Invoke(logger, p.Item2.Invoke(this)));
+
     #endregion
 }
