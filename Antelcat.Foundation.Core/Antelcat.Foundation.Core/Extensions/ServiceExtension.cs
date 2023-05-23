@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using Antelcat.Foundation.Core.Attributes;
+﻿using Antelcat.Foundation.Core.Attributes;
 using Antelcat.Foundation.Core.Implements.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -71,7 +65,7 @@ namespace Antelcat.Foundation.Core.Extensions
         /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider(this IServiceCollection collection,
             Func<IServiceCollection, IServiceProvider> builder)
-            => new AutowiredServiceProvider<AutowiredAttribute>(builder(collection));
+            => new AutowiredServiceProvider<AutowiredAttribute>(builder(collection), collection);
 
         /// <summary>
         /// 创建用于解析 <see cref="TAttribute"/> 的 <see cref="AutowiredServiceProvider{TAttribute}"/>
@@ -82,27 +76,6 @@ namespace Antelcat.Foundation.Core.Extensions
         /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
             Func<IServiceCollection, IServiceProvider> builder) where TAttribute : Attribute
-            => new AutowiredServiceProvider<TAttribute>(builder(collection));
-        
-        /// <summary>
-        /// 创建缓存过映射的用于解析 <see cref="AutowiredAttribute"/> 的 <see cref="AutowiredServiceProvider{AutowiredAttribute}"/>
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IServiceProvider BuildCachedAutowiredServiceProvider(this IServiceCollection collection,
-            Func<IServiceCollection, IServiceProvider> builder)
-            => new CachedAutowiredServiceProvider<AutowiredAttribute>(builder(collection));
-
-        /// <summary>
-        /// 创建缓存过映射的用于解析 <see cref="TAttribute"/> 的 <see cref="AutowiredServiceProvider{TAttribute}"/>
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="builder"></param>
-        /// <typeparam name="TAttribute"></typeparam>
-        /// <returns></returns>
-        public static IServiceProvider BuildCachedAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
-            Func<IServiceCollection, IServiceProvider> builder) where TAttribute : Attribute
-            => new CachedAutowiredServiceProvider<TAttribute>(builder(collection));
+            => new AutowiredServiceProvider<TAttribute>(builder(collection), collection);
     }
 }
