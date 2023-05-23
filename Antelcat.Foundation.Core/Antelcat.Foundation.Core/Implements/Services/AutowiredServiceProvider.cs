@@ -1,28 +1,26 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
-using Antelcat.Foundation.Core.Attributes;
+using Antelcat.Foundation.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Antelcat.Foundation.Core.Implements.Services;
 
-public class AutowiredServiceProvider<TAttribute> 
-    : IServiceProvider, ISupportRequiredService
+public abstract class BaseAutowiredServiceProvider<TAttribute> : IServiceProvider, ISupportRequiredService
     where TAttribute : Attribute
 {
     private readonly IServiceProvider serviceProvider;
-    public AutowiredServiceProvider(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
-    public object GetRequiredService(Type serviceType) => 
-        GetService(serviceType) ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
 
-    public object? GetService(Type serviceType) => Autowried(serviceProvider.GetService(serviceType));
-    private object? Autowried(object? target)
+    protected BaseAutowiredServiceProvider(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
+    public object? GetService(Type serviceType) => Autowired(serviceProvider.GetService(serviceType));
+
+    public object GetRequiredService(Type serviceType) => GetService(serviceType) ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
+    
+    protected BindingFlags GetFlags(ref object? instance)
     {
-        if (target == null) return target;
         var flags = BindingFlags.Public | BindingFlags.NonPublic;
-        var type = target as Type ?? target.GetType();
-        if (target is Type)
+        if (instance is Type)
         {
-            target = null;
+            instance = null;
             flags |= BindingFlags.Static;
         }
         else
@@ -30,51 +28,76 @@ public class AutowiredServiceProvider<TAttribute>
             flags |= BindingFlags.Instance;
         }
 
-        foreach (var field in type.GetFields(flags))
+        return flags;
+    }
+    
+    protected IEnumerable<FieldInfo> GetAutowiredFields(Type type, BindingFlags flags) => type.GetFields(flags)
+        .Where(x => x.GetCustomAttribute<TAttribute>() != null);
+
+    protected IEnumerable<PropertyInfo> GetAutowiredProps(Type type, BindingFlags flags) => type.GetProperties(flags)
+        .Where(x => x.GetCustomAttribute<TAttribute>() != null);
+
+    protected abstract object? Autowired(object? target);
+}
+
+public class AutowiredServiceProvider<TAttribute> : BaseAutowiredServiceProvider<TAttribute>
+    where TAttribute : Attribute
+{
+    public AutowiredServiceProvider(IServiceProvider serviceProvider) :base(serviceProvider){}
+
+    protected override object? Autowired(object? target)
+    {
+        if (target == null) return target;
+        var type = target as Type ?? target.GetType();
+
+        var flags = GetFlags(ref target);
+
+        foreach (var field in GetAutowiredFields(type, flags))
         {
-            var attr = field.GetCustomAttribute<TAttribute>();
-            if (attr == null) continue;
             var dependency = GetService(field.FieldType);
             if (dependency != null) field.SetValue(target, dependency);
         }
 
-        foreach (var property in type.GetProperties(flags).Where(x=>x.CanWrite))
+        foreach (var property in GetAutowiredProps(type, flags))
         {
-            var attr = property.GetCustomAttribute<TAttribute>();
-            if (attr == null) continue;
             var dependency = GetService(property.PropertyType);
             if (dependency != null) property.SetValue(target, dependency);
         }
+
         return target;
     }
 }
 
-public class AutowiredServiceProviderFactory<TAttribute>
-    : IServiceProviderFactory<IServiceCollection>
+
+public class CachedAutowiredServiceProvider<TAttribute> : BaseAutowiredServiceProvider<TAttribute>
     where TAttribute : Attribute
 {
-    private readonly Func<IServiceCollection, IServiceProvider> builder;
+    public CachedAutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
-    public AutowiredServiceProviderFactory(Func<IServiceCollection, IServiceProvider> builder) =>
-        this.builder = builder;
-    public IServiceCollection CreateBuilder(IServiceCollection? services) =>
-        services ?? new ServiceCollection();
-    public IServiceProvider CreateServiceProvider(IServiceCollection containerBuilder) =>
-        new AutowiredServiceProvider<TAttribute>(builder(containerBuilder));
-}
+    private readonly Dictionary<Type, List<Tuple<Type, Setter<object, object>>>> mapperCache = new();
+    protected override object? Autowired(object? target)
+    {
+        if (target == null) return target;
+        var type = target as Type ?? target.GetType();
 
-/// <summary>
-/// 专门用来解析 <see cref="AutowiredAttribute"/> 的自动注解生成器
-/// </summary>
-public sealed class AutowiredServiceProvider : AutowiredServiceProvider<AutowiredAttribute>
-{
-    public AutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
-}
+        if (!mapperCache.TryGetValue(type, out var mapper))
+        {
+            var flags = GetFlags(ref target);
 
-/// <summary>
-/// 专门用来解析 <see cref="AutowiredAttribute"/> 的服务工厂
-/// </summary>
-public sealed class AutowiredServiceProviderFactory : AutowiredServiceProviderFactory<AutowiredAttribute>
-{
-    public AutowiredServiceProviderFactory(Func<IServiceCollection, IServiceProvider> builder) : base(builder) { }
+            mapper = new List<Tuple<Type, Setter<object, object>>>();
+            mapper.AddRange(GetAutowiredFields(type,flags)
+                .Select(x => new Tuple<Type, Setter<object, object>>(x.FieldType, x.CreateSetter())));
+            mapper.AddRange(GetAutowiredProps(type, flags)
+                .Select(x => new Tuple<Type, Setter<object, object>>(x.PropertyType, x.CreateSetter())));
+            mapperCache.Add(type, mapper);
+        }
+
+        mapper.ForEach(x =>
+        {
+            var dependency = GetService(x.Item1);
+            if (dependency != null) x.Item2.Invoke(ref target, dependency);
+        });
+
+        return target;
+    }
 }

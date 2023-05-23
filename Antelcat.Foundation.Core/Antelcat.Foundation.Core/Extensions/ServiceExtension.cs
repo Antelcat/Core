@@ -64,14 +64,14 @@ namespace Antelcat.Foundation.Core.Extensions
                     .GetRequiredService(s)));
 
         /// <summary>
-        /// 创建用于解析 <see cref="AutowiredAttribute"/> 的 <see cref="AutowiredServiceProvider"/>
+        /// 创建用于解析 <see cref="AutowiredAttribute"/> 的 <see cref="AutowiredServiceProvider{AutowiredAttribute}"/>
         /// </summary>
         /// <param name="collection"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider(this IServiceCollection collection,
             Func<IServiceCollection, IServiceProvider> builder)
-            => new AutowiredServiceProvider(builder(collection));
+            => new AutowiredServiceProvider<AutowiredAttribute>(builder(collection));
 
         /// <summary>
         /// 创建用于解析 <see cref="TAttribute"/> 的 <see cref="AutowiredServiceProvider{TAttribute}"/>
@@ -81,8 +81,28 @@ namespace Antelcat.Foundation.Core.Extensions
         /// <typeparam name="TAttribute"></typeparam>
         /// <returns></returns>
         public static IServiceProvider BuildAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
-            Func<IServiceCollection, IServiceProvider> builder) 
-            where TAttribute : Attribute
+            Func<IServiceCollection, IServiceProvider> builder) where TAttribute : Attribute
             => new AutowiredServiceProvider<TAttribute>(builder(collection));
+        
+        /// <summary>
+        /// 创建缓存过映射的用于解析 <see cref="AutowiredAttribute"/> 的 <see cref="AutowiredServiceProvider{AutowiredAttribute}"/>
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IServiceProvider BuildCachedAutowiredServiceProvider(this IServiceCollection collection,
+            Func<IServiceCollection, IServiceProvider> builder)
+            => new CachedAutowiredServiceProvider<AutowiredAttribute>(builder(collection));
+
+        /// <summary>
+        /// 创建缓存过映射的用于解析 <see cref="TAttribute"/> 的 <see cref="AutowiredServiceProvider{TAttribute}"/>
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="builder"></param>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <returns></returns>
+        public static IServiceProvider BuildCachedAutowiredServiceProvider<TAttribute>(this IServiceCollection collection,
+            Func<IServiceCollection, IServiceProvider> builder) where TAttribute : Attribute
+            => new CachedAutowiredServiceProvider<TAttribute>(builder(collection));
     }
 }
