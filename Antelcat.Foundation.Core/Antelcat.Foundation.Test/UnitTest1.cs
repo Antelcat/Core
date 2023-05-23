@@ -18,32 +18,8 @@ namespace Feast.Foundation.Test
                 .AddSingleton<IA, A>()
                 .AddSingleton<IB, B>()
                 .AddScoped<IC, C>()
-                .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
-        }
-
-
-        public class Tmp
-        {
-            [PathArg]
-            public string App { get; set; } = "MyApp";
-            [PathArg]
-            public string ProgramFiles { get; set; } = "D:ProgramFiles";
-            [PathArg]
-            public string DatabaseDir { get; set; } = "[ProgramFiles]/[App]/db";
-            [PathArg]
-            public string DatabaseFile { get; set; } = "[DatabaseDir]/file.db";
-        }
-
-        public class Boolable
-        {
-            public bool Bool { get; set; } = true;
-        }
-        [Test]
-        public void TestPath()
-        {
-            var i = typeof(Boolable).GetProperties()[0].CreateGetter();
-            var t = (object)new Boolable();
-            var r = i.Invoke(t);
+                .AddTransient<ID, D>()
+                .BuildAutowiredServiceProvider(ServiceCollectionContainerBuilderExtensions.BuildServiceProvider);
         }
 
         [Test]
@@ -66,20 +42,24 @@ namespace Feast.Foundation.Test
         [Test]
         public void TestService()
         {
-            var bb = provider.GetRequiredService<IB>();
-            var scope = provider.CreateScope();
-            var bbbb = scope.ServiceProvider.GetRequiredService<IB>();
-            scope = provider.CreateScope();
-            var b = scope.ServiceProvider.GetRequiredService<IB>();
-            var c = scope.ServiceProvider.GetRequiredService<IC>();
-            var b2 = scope.ServiceProvider.GetRequiredService<IB>();
-            var c2 = scope.ServiceProvider.GetRequiredService<IC>();
+            var c1 = provider.GetRequiredService<IC>();
+            var d1 = provider.GetRequiredService<ID>();
+            var d11 = provider.GetRequiredService<ID>();
+            
+            var scope1 = provider.CreateScope();
+            var c2 = scope1.ServiceProvider.GetRequiredService<IC>();
+            var d2 = scope1.ServiceProvider.GetRequiredService<ID>();
+            
+            var scope2 = provider.CreateScope();
+            var c3 = scope2.ServiceProvider.GetRequiredService<IC>();
+            var d3 = scope2.ServiceProvider.GetRequiredService<ID>();
         }
 
         public interface IA { }
-
         public class A : IA
         {
+            private static int Count = 0;
+            private readonly int Number = ++Count;
             [Autowired]
             private IB B { get; set; }
         }
@@ -95,10 +75,25 @@ namespace Feast.Foundation.Test
         public interface IC { }
         public class C : IC
         {
+            private static int Count = 0;
+            private readonly int Number = ++Count;
+            [Autowired]
+            private readonly IA A;
             [Autowired]
             private readonly IB B;
         }
-        
+        public interface ID { }
+        public class D : ID
+        {
+            private static int Count = 0;
+            private readonly int Number = ++Count;
+            [Autowired]
+            private readonly IA A;
+            [Autowired]
+            private readonly IB B;
+            [Autowired]
+            private readonly IC C;
+        }
         
         [Test]
         public void RunSync()
