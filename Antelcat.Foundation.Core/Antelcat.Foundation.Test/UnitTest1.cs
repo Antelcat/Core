@@ -7,13 +7,6 @@ using NUnit.Framework.Interfaces;
 
 namespace Feast.Foundation.Test
 {
-    public static class StaticClass
-    {
-        public static TService GenerateSynchronize<TService, TImplement>(this TImplement instance)
-        {
-            return DispatchProxy.Create<TService, Tests.SynchronizeProxy<TImplement>>();
-        }
-    }
     public class Tests
     {
         IServiceCollection collection = new ServiceCollection();
@@ -28,18 +21,6 @@ namespace Feast.Foundation.Test
                     .AddSingleton<IB, B>()
                     .AddSingleton<IA, A>()
                     .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
-
-            
-            provider.GenerateSynchronize<IServiceProvider,IServiceProvider>();
-        }
-
-
-        public class SynchronizeProxy<T> : DispatchProxy
-        {
-            protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
-            {
-                return targetMethod?.Invoke(null, args);
-            }
         }
 
 
@@ -70,6 +51,7 @@ namespace Feast.Foundation.Test
         public void TestService()
         {
             var b = provider.GetRequiredService<IB>();
+            var b2 = provider.GetRequiredService<IB>();
         }
 
         public interface IA { }
