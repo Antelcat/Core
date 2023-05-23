@@ -57,7 +57,6 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
             if (dependency != null) x.Item2.Invoke(ref target!, dependency);
         });
     }
-    
 }
 
 public class TransientAutowiredServiceProvider<TAttribute> 
@@ -81,12 +80,13 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
 {
     private readonly Dictionary<Type,ServiceLifetime> serviceLifetimes;
     private AutowiredServiceProvider(IServiceProvider serviceProvider,
-        Dictionary<Type, ServiceLifetime> serviceLifetimes) : base(serviceProvider)
-    {
+        Dictionary<Type, ServiceLifetime> serviceLifetimes) : base(serviceProvider) =>
         this.serviceLifetimes = serviceLifetimes;
-    }
 
-    private bool ValidLifetime(ServiceLifetime currentLifetime, Type targetType, out ServiceLifetime targetLifetime) =>
+    private bool ValidLifetime(
+        ServiceLifetime currentLifetime,
+        Type targetType,
+        out ServiceLifetime targetLifetime) =>
         serviceLifetimes.TryGetValue(targetType, out targetLifetime)
             ? currentLifetime switch
             {
@@ -100,8 +100,9 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
                 $"Lifetime of {targetType} is not presented in {nameof(ServiceCollection)}");
 
     public AutowiredServiceProvider(IServiceProvider serviceProvider, IServiceCollection collection)
-        : this(serviceProvider, collection.ToDictionary(x => x.ServiceType, x => x.Lifetime))
-    { }
+        : this(serviceProvider, collection.ToDictionary(
+            static x => x.ServiceType,
+            static x => x.Lifetime)) { }
 
     public override object? GetService(Type serviceType)
     {
@@ -142,17 +143,15 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
         }
 
         Autowired(target, targetType => ValidLifetime(lifetime, targetType, out var targetLifetime)
-            ? GetServiceDependency(ServiceProvider.GetService(targetType), targetType , targetLifetime)
+            ? GetServiceDependency(ServiceProvider.GetService(targetType), targetType, targetLifetime)
             : throw new NotSupportedException(
                 $"Type {serviceType} by lifetime {lifetime} can not have {targetType} of lifetime {targetLifetime}"));
         return target;
     }
-
+  
 }
 
-
-
-public class AutowiredServiceScope : IServiceScope 
+public class AutowiredServiceScope : IServiceScope
 {
     private readonly IServiceScope proxy;
 
@@ -163,6 +162,6 @@ public class AutowiredServiceScope : IServiceScope
     }
 
     public void Dispose() => proxy.Dispose();
-    
+
     public IServiceProvider ServiceProvider { get; }
 }
