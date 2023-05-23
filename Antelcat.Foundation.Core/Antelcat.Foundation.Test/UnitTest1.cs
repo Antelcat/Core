@@ -1,9 +1,7 @@
 using System.Diagnostics;
-using System.Reflection;
 using Antelcat.Foundation.Core.Attributes;
 using Antelcat.Foundation.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework.Interfaces;
 
 namespace Feast.Foundation.Test
 {
@@ -17,10 +15,10 @@ namespace Feast.Foundation.Test
         public void Setup()
         {
             provider = collection
-                    .AddSingleton<IC, C>()
-                    .AddSingleton<IB, B>()
-                    .AddSingleton<IA, A>()
-                    .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
+                .AddSingleton<IA, A>()
+                .AddSingleton<IB, B>()
+                .AddScoped<IC, C>()
+                .BuildAutowiredServiceProvider(c => c.BuildServiceProvider());
         }
 
 
@@ -47,36 +45,61 @@ namespace Feast.Foundation.Test
             var t = (object)new Boolable();
             var r = i.Invoke(t);
         }
+
+        [Test]
+        public void TestResolve()
+        {
+            provider.GetRequiredService<IC>();
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = provider.GetRequiredService<IC>();
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Autowired resolve cost {watch.ElapsedTicks}");
+        }
+
         [Test]
         public void TestService()
         {
-            var b = provider.GetRequiredService<IB>();
-            var b2 = provider.GetRequiredService<IB>();
+            var bb = provider.GetRequiredService<IB>();
+            var scope = provider.CreateScope();
+            var bbbb = scope.ServiceProvider.GetRequiredService<IB>();
+            scope = provider.CreateScope();
+            var b = scope.ServiceProvider.GetRequiredService<IB>();
+            var c = scope.ServiceProvider.GetRequiredService<IC>();
+            var b2 = scope.ServiceProvider.GetRequiredService<IB>();
+            var c2 = scope.ServiceProvider.GetRequiredService<IC>();
         }
 
         public interface IA { }
-        public class A : IA { }
-        public interface IB { }
-        public class B : IB {
-            public B() { }
 
+        public class A : IA
+        {
             [Autowired]
-            private readonly IC C;
+            private IB B { get; set; }
+        }
+        public interface IB { }
+        public class B : IB
+        {
+            private static int Count = 0;
+            private readonly int Number = ++Count;
+            public B() { }
             [Autowired]
             private IA A { get; set; }
         }
-
         public interface IC { }
-
         public class C : IC
         {
-            public C(IB b)
-            {
-                B = b;
-            }
-
+            [Autowired]
             private readonly IB B;
         }
+        
+        
         [Test]
         public void RunSync()
         {
@@ -95,10 +118,6 @@ namespace Feast.Foundation.Test
             }
             Console.WriteLine(Find(out var res) ? res : -1);
         }
-        [Test]
-        public async Task Run()
-        {
-            
-        }
+        
     }
 }
