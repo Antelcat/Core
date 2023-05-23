@@ -9,7 +9,7 @@
 <#@ import namespace="System.Xml.Linq" #>
 <#@ output extension=".cs" #>
 <#
-	Dictionary<string,string?> dic = new (){
+	Dictionary<string,string> dic = new (){
 		{ "sbyte", "MinValue" },
 		{ "byte", "MinValue" },
 		{ "int", "MinValue" }, 
