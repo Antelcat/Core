@@ -8,10 +8,10 @@ namespace Antelcat.Foundation.Core.Implements.Services;
 public abstract class BaseAutowiredServiceProvider<TAttribute> : IServiceProvider, ISupportRequiredService
     where TAttribute : Attribute
 {
-    private readonly IServiceProvider serviceProvider;
+    protected readonly IServiceProvider ServiceProvider;
 
-    protected BaseAutowiredServiceProvider(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
-    public object? GetService(Type serviceType) => Autowired(serviceProvider.GetService(serviceType));
+    protected BaseAutowiredServiceProvider(IServiceProvider serviceProvider) => this.ServiceProvider = serviceProvider;
+    public object? GetService(Type serviceType) => Autowired(serviceType);
 
     public object GetRequiredService(Type serviceType) => GetService(serviceType) ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
     
@@ -37,7 +37,7 @@ public abstract class BaseAutowiredServiceProvider<TAttribute> : IServiceProvide
     protected IEnumerable<PropertyInfo> GetAutowiredProps(Type type, BindingFlags flags) => type.GetProperties(flags)
         .Where(x => x.GetCustomAttribute<TAttribute>() != null);
 
-    protected abstract object? Autowired(object? target);
+    protected abstract object? Autowired(Type serviceType);
 }
 
 public class AutowiredServiceProvider<TAttribute> : BaseAutowiredServiceProvider<TAttribute>
@@ -45,11 +45,11 @@ public class AutowiredServiceProvider<TAttribute> : BaseAutowiredServiceProvider
 {
     public AutowiredServiceProvider(IServiceProvider serviceProvider) :base(serviceProvider){}
 
-    protected override object? Autowired(object? target)
+    protected override object? Autowired(Type serviceType)
     {
+        var target = ServiceProvider.GetService(serviceType);
         if (target == null) return target;
         var type = target as Type ?? target.GetType();
-
         var flags = GetFlags(ref target);
 
         foreach (var field in GetAutowiredFields(type, flags))
@@ -75,8 +75,9 @@ public class CachedAutowiredServiceProvider<TAttribute> : BaseAutowiredServicePr
     public CachedAutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
     private readonly Dictionary<Type, List<Tuple<Type, Setter<object, object>>>> mapperCache = new();
-    protected override object? Autowired(object? target)
+    protected override object? Autowired(Type serviceType)
     {
+        var target = ServiceProvider.GetService(serviceType);
         if (target == null) return target;
         var type = target as Type ?? target.GetType();
 
