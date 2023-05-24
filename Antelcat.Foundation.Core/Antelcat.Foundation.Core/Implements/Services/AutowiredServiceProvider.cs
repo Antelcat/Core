@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Antelcat.Foundation.Core.Extensions;
 using Antelcat.Foundation.Core.Structs;
@@ -52,7 +53,7 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
         }
 
         mapper.ForEach(x =>
-        {
+        { 
             var dependency = depProvider(x.Item1);
             if (dependency != null) x.Item2.Invoke(ref target!, dependency);
         });
@@ -83,22 +84,6 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
         Dictionary<Type, ServiceLifetime> serviceLifetimes) : base(serviceProvider) =>
         this.serviceLifetimes = serviceLifetimes;
 
-    private bool ValidLifetime(
-        ServiceLifetime currentLifetime,
-        Type targetType,
-        out ServiceLifetime targetLifetime) =>
-        serviceLifetimes.TryGetValue(targetType, out targetLifetime)
-            ? currentLifetime switch
-            {
-                ServiceLifetime.Singleton => targetLifetime is ServiceLifetime.Singleton,
-                ServiceLifetime.Scoped => targetLifetime is not ServiceLifetime.Transient,
-                ServiceLifetime.Transient => true,
-                _ => throw new ArgumentOutOfRangeException(
-                    $"{currentLifetime} is not presented in {nameof(ServiceLifetime)}")
-            }
-            : throw new NullReferenceException(
-                $"Lifetime of {targetType} is not presented in {nameof(ServiceCollection)}");
-
     public AutowiredServiceProvider(IServiceProvider serviceProvider, IServiceCollection collection)
         : this(serviceProvider, collection.ToDictionary(
             static x => x.ServiceType,
@@ -123,6 +108,7 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
             ? GetServiceInternal(target, serviceType, lifetime)
             : throw new SerializationException("Service lifetime uncertain");
 
+                
     private object? GetServiceDependency(object? target, Type serviceType, ServiceLifetime lifetime) =>
         target == null
             ? null
@@ -142,10 +128,10 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
                 break;
         }
 
-        Autowired(target, targetType => ValidLifetime(lifetime, targetType, out var targetLifetime)
-            ? GetServiceDependency(ServiceProvider.GetService(targetType), targetType, targetLifetime)
-            : throw new NotSupportedException(
-                $"Type {serviceType} by lifetime {lifetime} can not have {targetType} of lifetime {targetLifetime}"));
+        Autowired(target,
+            targetType => serviceLifetimes.TryGetValue(targetType, out var targetLifetime)
+                ? GetServiceDependency(ServiceProvider.GetService(targetType), targetType, targetLifetime)
+                : throw new NotSupportedException($"Target life time cannot be specified"));
         return target;
     }
   
