@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Antelcat.Foundation.Core.Attributes;
 using Antelcat.Foundation.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,31 +8,97 @@ namespace Feast.Foundation.Test
 {
     public class Tests
     {
-        IServiceCollection collection = new ServiceCollection();
+        readonly IServiceCollection collection = new ServiceCollection();
         private IServiceProvider provider;
+        private IServiceProvider baseProvider;
         private Stopwatch Watch { get; } = new ();
 
         [SetUp]
         public void Setup()
         {
+            baseProvider = new ServiceCollection()
+                .AddSingleton<IA, A>()
+                .AddScoped<IB, B>()
+                .AddScoped<IC, C>()
+                .AddTransient<ID, D>()
+                .BuildServiceProvider();
             provider = collection
                 .AddSingleton<IA, A>()
-                .AddSingleton<IB, B>()
+                .AddScoped<IB, B>()
                 .AddScoped<IC, C>()
                 .AddTransient<ID, D>()
                 .BuildAutowiredServiceProvider(ServiceCollectionContainerBuilderExtensions.BuildServiceProvider);
+            Dictionary = new()
+            {
+                { typeof(IA), 1 },
+                { typeof(IB), 2 },
+                { typeof(IC), 3 }
+            };
         }
 
+        private Dictionary<Type, int> Dictionary = new Dictionary<Type, int>();
+        
         [Test]
-        public void TestResolve()
+        public void TestGet()
         {
-            provider.GetRequiredService<IC>();
+            var type = typeof(IC);
             var times = 1000;
             var watch = new Stopwatch();
             watch.Start();
             while (times > 0)
             {
-                var c = provider.GetRequiredService<IC>();
+                var c = Dictionary[type];
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Get resolve cost {watch.ElapsedTicks}");
+        }
+
+        [Test]
+        public void TestTryGet()
+        {
+            var type = typeof(IC);
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = Dictionary.TryGetValue(type, out var s);
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Try Get resolve cost {watch.ElapsedTicks}");
+        }
+        
+        [Test]
+        public void TestNativeResolve()
+        {
+            baseProvider.GetRequiredService<ID>();
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = baseProvider.GetRequiredService<ID>();
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Native resolve cost {watch.ElapsedTicks}");
+        }
+        
+        [Test]
+        public void TestResolve()
+        {
+            provider.GetRequiredService<ID>();
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = provider.GetRequiredService<ID>();
                 times--;
             }
 
@@ -42,6 +109,7 @@ namespace Feast.Foundation.Test
         [Test]
         public void TestService()
         {
+            var a1 = provider.GetRequiredService<IA>();
             var c1 = provider.GetRequiredService<IC>();
             var d1 = provider.GetRequiredService<ID>();
             var d11 = provider.GetRequiredService<ID>();
@@ -58,6 +126,10 @@ namespace Feast.Foundation.Test
         public interface IA { }
         public class A : IA
         {
+            public A(IB b)
+            {
+                
+            }
             private static int Count = 0;
             private readonly int Number = ++Count;
             [Autowired]
@@ -68,7 +140,6 @@ namespace Feast.Foundation.Test
         {
             private static int Count = 0;
             private readonly int Number = ++Count;
-            public B() { }
             [Autowired]
             private IA A { get; set; }
         }
