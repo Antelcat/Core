@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Antelcat.Foundation.Core.Extensions;
 using Antelcat.Foundation.Core.Structs.IL;
 
 namespace Feast.Foundation.Test;
@@ -29,10 +30,9 @@ public class TestIl
         var times = Times;
         var watch = new Stopwatch();
         watch.Start();
-        while (times > 0)
+        while (times-- > 0)
         {
             Getter.Getter.Invoke(tmp);
-            times--;
         }
         watch.Stop();
         Console.WriteLine($"IlInvoke cost {watch.ElapsedTicks}");
@@ -44,10 +44,9 @@ public class TestIl
         var times = Times;
         var watch = new Stopwatch();
         watch.Start();
-        while (times > 0)
+        while (times-- > 0)
         {
             PropertyInfo.GetValue(tmp);
-            times--;
         }
         watch.Stop();
         Console.WriteLine($"Getter cost {watch.ElapsedTicks}");
@@ -59,12 +58,54 @@ public class TestIl
         var times = Times;
         var watch = new Stopwatch();
         watch.Start();
-        while (times > 0)
+        while (times-- > 0)
         {
             PropertyInfo.SetValue(tmp,"name");
-            times--;
         }
         watch.Stop();
         Console.WriteLine($"Getter cost {watch.ElapsedTicks}");
+    }
+
+    private byte[] bytes = { 1, 2, 3, 4, 5 };
+    [Test]
+    public unsafe void TestPointer()
+    {
+        byte* pointer = null;
+        var times = Times;
+        var watch = new Stopwatch();
+        watch.Start();
+        while (times-- > 0)
+        {
+            pointer = bytes.ToPointer();
+        }
+        watch.Stop();
+        for (var i = 0; i < bytes.Length; i++)
+        {
+            Console.Write(*pointer);
+            pointer++;
+        }
+        Console.WriteLine();
+        Console.WriteLine($"Fixed cost {watch.ElapsedTicks}");
+    }
+
+    [Test]
+    public unsafe void TestUnsafe()
+    {
+        byte* pointer = null;
+        var times = Times;
+        var watch = new Stopwatch();
+        watch.Start();
+        while (times-- > 0)
+        {
+            pointer = (byte*)bytes.ToIntPtr();
+        }
+        watch.Stop();
+        for (var i = 0; i < bytes.Length; i++)
+        {
+            Console.Write(*pointer);
+            pointer++;
+        }
+        Console.WriteLine();
+        Console.WriteLine($"IntPtr cost {watch.ElapsedTicks}");
     }
 }
