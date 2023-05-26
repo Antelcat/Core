@@ -312,7 +312,7 @@ public static partial class ReflectExtension
         }
 
         var prams = method.GetParameters();
-        for (int i = 0, imax = prams.Length; i < imax; i++)
+        for (var i = 0 ; i < prams.Length; i++)
         {
             il.EmitEx(OpCodes.Ldarg_1)
                 .EmitFastInt(i)
