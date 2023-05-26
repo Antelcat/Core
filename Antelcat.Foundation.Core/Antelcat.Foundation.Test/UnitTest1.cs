@@ -122,7 +122,6 @@ namespace Feast.Foundation.Test
             var c3 = scope2.ServiceProvider.GetRequiredService<IC>();
             var d3 = scope2.ServiceProvider.GetRequiredService<ID>();
         }
-
      
         [Test]
         public void RunSync()
@@ -142,6 +141,13 @@ namespace Feast.Foundation.Test
             }
             Console.WriteLine(Find(out var res) ? res : -1);
         }
-        
+
+        [Test]
+        public void TestMarshal()
+        {
+            var bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7 };
+            var ptr = bytes.ToIntPtr();
+            ptr.Dispose();
+        }
     }
 }
