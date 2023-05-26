@@ -33,14 +33,12 @@ public class C : IC
     private readonly IB B;
 }
 public interface ID { }
+
 public class D : ID
 {
     private static int count = 0;
     private readonly int number = ++count;
-    [Autowired]
-    private readonly IA A;
-    [Autowired]
-    private readonly IB B;
-    [Autowired]
-    private readonly IC C;
+    [Autowired] private readonly IA A;
+    [Autowired] private readonly IB B;
+    [Autowired] private readonly IC C;
 }
