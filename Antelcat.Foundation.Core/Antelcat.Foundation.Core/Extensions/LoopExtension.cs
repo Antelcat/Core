@@ -1,13 +1,12 @@
-﻿namespace Antelcat.Foundation.Core.Extensions
+﻿namespace Antelcat.Foundation.Core.Extensions;
+
+public static class LoopExtension
 {
-    public static class LoopExtension
+    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        foreach (var item in source)
         {
-            foreach (var item in source)
-            {
-                action(item);
-            }
+            action(item);
         }
     }
 }

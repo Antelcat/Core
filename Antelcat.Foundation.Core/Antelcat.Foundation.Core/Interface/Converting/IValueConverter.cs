@@ -1,10 +1,9 @@
-﻿namespace Antelcat.Foundation.Core.Interface.Converting
-{
-    public interface IValueConverter<TIn, TOut>
-    {
-        TOut? To(TIn? input);
-        TIn? Back(TOut? input);
-    }
+﻿namespace Antelcat.Foundation.Core.Interface.Converting;
 
-    public interface IValueConverter : IValueConverter<object, object> { }
+public interface IValueConverter<TIn, TOut>
+{
+    TOut? To(TIn? input);
+    TIn? Back(TOut? input);
 }
+
+public interface IValueConverter : IValueConverter<object, object> { }

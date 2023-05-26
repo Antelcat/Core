@@ -1,9 +1,8 @@
 ﻿using System.Text;
 
-namespace Antelcat.Foundation.Core
+namespace Antelcat.Foundation.Core;
+
+public static class Global
 {
-    public static class Global
-    {
-        public static Encoding Encoding { get; set; } = Encoding.UTF8;
-    }
+    public static Encoding Encoding { get; set; } = Encoding.UTF8;
 }
