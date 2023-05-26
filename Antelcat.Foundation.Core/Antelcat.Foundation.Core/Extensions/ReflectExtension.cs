@@ -323,7 +323,9 @@ public static partial class ReflectExtension
             if (dataType.IsByRef) dataType = dataType.GetElementType()!;
 
             var tmp = il.DeclareLocal(dataType);
-            il.EmitEx(OpCodes.Unbox_Any, dataType)
+            (param.IsOut 
+                    ? il 
+                    : il.EmitEx(OpCodes.Unbox_Any, dataType))
                 .EmitEx(OpCodes.Stloc, tmp)
                 .LdLocIfNotByRef(tmp, param.ParameterType);
         }

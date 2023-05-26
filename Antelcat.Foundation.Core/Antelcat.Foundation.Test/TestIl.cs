@@ -1,29 +1,54 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Antelcat.Foundation.Core.Extensions;
+using Antelcat.Foundation.Core.Interface.IL;
 using Antelcat.Foundation.Core.Structs.IL;
 
 namespace Feast.Foundation.Test;
 
 public class TestIl
 {
-    public class Tmp
+    public class Example
     {
-        public string Name { get; set; } = "name";
+        public string Property { get; set; } = "name";
+
+        public static int NormalMethod(int count)
+        {
+            return count;
+        }
+        public string Method(out int count)
+        {
+            count = 1;
+            return Property;
+        }
+
+        public static string StaticMethod(string input, out int count)
+        {
+            count = 2;
+            return input;
+        }
     }
     
     [SetUp]
     public void SetUp()
     {
-        PropertyInfo = typeof(Tmp).GetProperty("Name")!;
+        PropertyInfo = typeof(Example).GetProperty(nameof(Example.Property))!;
         Getter = (ILGetter)PropertyInfo;
     }
 
     private PropertyInfo PropertyInfo;
     private ILGetter Getter;
-    private readonly Tmp tmp = new();
+    private Invoker<object,object> Method = typeof(Example).GetMethod(nameof(Example.Method))!.CreateInvoker();
+    private readonly Example example = new();
     int Times = 10000;
-    
+
+    [Test]
+    public void TestOutIlInvoke()
+    {
+        var args = new object?[] { null };
+        var ret = Method.Invoke(example, args);
+    }
+
     [Test]
     public void TestIlInvoke()
     {
@@ -32,7 +57,7 @@ public class TestIl
         watch.Start();
         while (times-- > 0)
         {
-            Getter.Getter.Invoke(tmp);
+            Getter.Getter.Invoke(example);
         }
         watch.Stop();
         Console.WriteLine($"IlInvoke cost {watch.ElapsedTicks}");
@@ -46,7 +71,7 @@ public class TestIl
         watch.Start();
         while (times-- > 0)
         {
-            PropertyInfo.GetValue(tmp);
+            PropertyInfo.GetValue(example);
         }
         watch.Stop();
         Console.WriteLine($"Getter cost {watch.ElapsedTicks}");
@@ -60,10 +85,10 @@ public class TestIl
         watch.Start();
         while (times-- > 0)
         {
-            PropertyInfo.SetValue(tmp,"name");
+            PropertyInfo.SetValue(example,"name");
         }
         watch.Stop();
-        Console.WriteLine($"Getter cost {watch.ElapsedTicks}");
+        Console.WriteLine($"Setter cost {watch.ElapsedTicks}");
     }
 
     private byte[] bytes = { 1, 2, 3, 4, 5 };
