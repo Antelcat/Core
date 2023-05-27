@@ -197,12 +197,16 @@ public static partial class ReflectExtension
                                         : "No constructor found that matches the following parameter types: " +
                                           string.Join(",", paramTypes.Select(x => x.Name).ToArray())));
 
-            for (var i = 0; i < paramTypes.Length; i++)
+            var parameters = ctor.GetParameters();
+            for (var i = 0; i < parameters.Length; i++)
             {
                 il.EmitEx(OpCodes.Ldarg_0)
                     .EmitEx(OpCodes.Ldc_I4, i)
-                    .EmitEx(OpCodes.Ldelem_Ref)
-                    .EmitEx(OpCodes.Unbox_Any, paramTypes[i]);
+                    .EmitEx(OpCodes.Ldelem_Ref);
+                if (!parameters[i].IsOut)
+                {
+                    il.EmitEx(OpCodes.Unbox_Any, paramTypes[i]);
+                }
             }
 
             il.EmitEx(OpCodes.Newobj, ctor);

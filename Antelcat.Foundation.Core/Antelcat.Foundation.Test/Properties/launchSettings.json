@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Antelcat.Foundation.Test": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
