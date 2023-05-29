@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using Antelcat.Foundation.Core.Attributes;
 using Antelcat.Foundation.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,13 +8,14 @@ namespace Feast.Foundation.Test
     {
         readonly IServiceCollection collection = new ServiceCollection();
         private IServiceProvider autowiredProvider;
-        private IServiceProvider baseProvider;
+        private IServiceProvider nativeProvider;
         private Stopwatch Watch { get; } = new ();
 
+        private const int Times = 1000;
         [SetUp]
         public void Setup()
         {
-            baseProvider = collection
+            nativeProvider = collection
                 .AddSingleton<IA, A>()
                 .AddSingleton<IA, A>()
                 .AddSingleton<IA, A>()
@@ -36,27 +35,59 @@ namespace Feast.Foundation.Test
         }
        
         [Test]
-        public void TestNativeResolve()
+        public void TestResolveNativeSingleton()
         {
-            baseProvider.GetRequiredService<IB>();
-            var times = 1000;
+            nativeProvider.GetRequiredService<IA>();
+            var times = Times;
             var watch = new Stopwatch();
             watch.Start();
             while (times > 0)
             {
-                var c = baseProvider.GetRequiredService<IB>();
+                var c = nativeProvider.GetRequiredService<IA>();
                 times--;
             }
 
             watch.Stop();
-            Console.WriteLine($"Native resolve cost {watch.ElapsedTicks}");
+            Console.WriteLine($"Native singleton resolve cost {watch.ElapsedTicks}");
         }
-        
         [Test]
-        public void TestResolve()
+        public void TestResolveAutowiredSingleton()
+        {
+            autowiredProvider.GetRequiredService<IA>();
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = autowiredProvider.GetRequiredService<IA>();
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Autowired singleton resolve cost {watch.ElapsedTicks}");
+        }
+
+        [Test]
+        public void TestResolveNativeScoped()
+        {
+            nativeProvider.GetRequiredService<IB>();
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = nativeProvider.GetRequiredService<IB>();
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Native scoped resolve cost {watch.ElapsedTicks}");
+        }
+        [Test]
+        public void TestResolveAutowiredScoped()
         {
             autowiredProvider.GetRequiredService<IB>();
-            var times = 1000;
+            var times = Times;
             var watch = new Stopwatch();
             watch.Start();
             while (times > 0)
@@ -66,9 +97,78 @@ namespace Feast.Foundation.Test
             }
 
             watch.Stop();
-            Console.WriteLine($"Autowired resolve cost {watch.ElapsedTicks}");
+            Console.WriteLine($"Autowired scoped resolve cost {watch.ElapsedTicks}");
         }
+        
+        [Test]
+        public void TestResolveNativeTransient()
+        {
+            nativeProvider.GetRequiredService<ID>();
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = nativeProvider.GetRequiredService<ID>();
+                times--;
+            }
 
+            watch.Stop();
+            Console.WriteLine($"Native transient resolve cost {watch.ElapsedTicks}");
+        }
+        [Test]
+        public void TestResolveAutowiredTransient()
+        {
+            autowiredProvider.GetRequiredService<ID>();
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                var c = autowiredProvider.GetRequiredService<ID>();
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Autowired transient resolve cost {watch.ElapsedTicks}");
+        }
+        
+        [Test]
+        public void TestResolveNativeCollection()
+        {
+            var aS =  nativeProvider.GetService<IEnumerable<IA>>()!;
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                aS =  nativeProvider.GetService<IEnumerable<IA>>()!;
+                times--;
+            }
+
+            watch.Stop();
+            Console.WriteLine($"Native collection cost {watch.ElapsedTicks}");
+            Assert.That(aS.Count(), Is.GreaterThan(0));
+            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
+        }
+        [Test]
+        public void TestResolveCollection()
+        {
+            var aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
+            var times = Times;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
+                times--;
+            }
+            watch.Stop();
+            Console.WriteLine($"Autowired collection cost {watch.ElapsedTicks}");
+            Assert.That(aS.Count(), Is.GreaterThan(0));
+            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
+        }
+        
         [Test]
         public void TestService()
         {
@@ -86,44 +186,6 @@ namespace Feast.Foundation.Test
             var d3 = scope2.ServiceProvider.GetRequiredService<ID>();
         }
         
-        [Test]
-        public void TestResolveNativeCollection()
-        {
-            var aS =  baseProvider.GetService<IEnumerable<IA>>()!;
-            var times = 1000;
-            var watch = new Stopwatch();
-            watch.Start();
-            while (times > 0)
-            {
-                aS =  baseProvider.GetService<IEnumerable<IA>>()!;
-                times--;
-            }
-
-            watch.Stop();
-            Console.WriteLine($"Native collection cost {watch.ElapsedTicks}");
-            Assert.That(aS.Count(), Is.GreaterThan(0));
-            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
-        }
-       
-        [Test]
-        public void TestResolveCollection()
-        {
-            var aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
-            var times = 1000;
-            var watch = new Stopwatch();
-            watch.Start();
-            while (times > 0)
-            {
-                aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
-                times--;
-            }
-            watch.Stop();
-            Console.WriteLine($"Autowired collection cost {watch.ElapsedTicks}");
-            Assert.That(aS.Count(), Is.GreaterThan(0));
-            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
-        }
-
-
         [Test]
         public void TestType()
         {
