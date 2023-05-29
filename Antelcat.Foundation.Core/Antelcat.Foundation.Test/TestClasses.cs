@@ -7,12 +7,12 @@ public class A : IA
 {
     public A(IB b)
     {
-                
+        B = b;
     }
     private static int count = 0;
     private readonly int number = ++count;
     [Autowired]
-    private IB B { get; set; }
+    public IB B { get; set; }
 }
 public interface IB { }
 public class B : IB
@@ -41,4 +41,8 @@ public class D : ID
     [Autowired] private readonly IA A;
     [Autowired] private readonly IB B;
     [Autowired] private readonly IC C;
+}
+
+public class GenericType<T>
+{
 }
