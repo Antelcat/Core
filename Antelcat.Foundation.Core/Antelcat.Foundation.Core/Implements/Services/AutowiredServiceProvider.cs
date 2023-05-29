@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Collections;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Antelcat.Foundation.Core.Extensions;
 using Antelcat.Foundation.Core.Structs;
@@ -7,87 +7,153 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Antelcat.Foundation.Core.Implements.Services;
 
-public abstract class ProxiedServiceProvider<TAttribute> 
+using SetterCache = Tuple<Type, Setter<object, object>>;
+
+public abstract class ProxiedServiceProvider
     : IServiceProvider, ISupportRequiredService
-    where TAttribute : Attribute
 {
     protected readonly IServiceProvider ServiceProvider;
-    
+
     protected ProxiedServiceProvider(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
-    
-    public abstract object? GetService(Type serviceType);
 
     public object GetRequiredService(Type serviceType) =>
-        GetService(serviceType) 
+        GetService(serviceType)
         ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
+
+    protected void Autowired(object target, IEnumerable<SetterCache> mapper) =>
+        mapper.ForEach(x =>
+        {
+            var dependency = ProvideDependency(x.Item1);
+            if (dependency != null) x.Item2.Invoke(ref target!, dependency);
+        });
+
+    public abstract object? GetService(Type serviceType);
+
+    protected abstract object? ProvideDependency(Type dependencyType);
+}
+
+public abstract class CachedAutowiredServiceProvider<TAttribute>
+    : ProxiedServiceProvider
+    where TAttribute : Attribute
+{
+    #region Caches
 
     private const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-    protected IEnumerable<Tuple<Type, Setter<object, object>>> GetSetter(Type implementType)
+    /// <summary>
+    /// 判断实现类型是否需要自动注入,如果需要则将Mapper添加到缓存中
+    /// </summary>
+    /// <param name="implementType"></param>
+    /// <returns></returns>
+    protected bool NeedAutowired(Type implementType)
     {
-        return implementType
-            .GetProperties(Flags)
-            .Where(static x => x.CanRead && x.GetCustomAttribute<TAttribute>() != null)
-            .Select(static x => new Tuple<Type, Setter<object, object>>(x.PropertyType, x.CreateSetter()))
-            .Concat(implementType
-                .GetFields(Flags)
-                .Where(static x => x.GetCustomAttribute<TAttribute>() != null)
-                .Select(static x => new Tuple<Type, Setter<object, object>>(x.FieldType, x.CreateSetter())
-                ));
+        if (SharedStats.CachedMappers.TryGetValue(implementType, out var stat)) return stat.NeedAutowired;
+        stat = CreateStat(implementType);
+        SharedStats.CachedMappers.Add(implementType, stat);
+        return stat.NeedAutowired;
     }
-}
 
-public abstract class CachedAutowiredServiceProvider<TAttribute> 
-    : ProxiedServiceProvider<TAttribute>
-    where TAttribute : Attribute
-{
-    protected CachedAutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
+    private ServiceStat CreateStat(Type implementType)
+    {
+        var props = GetProps(implementType).ToList();
+        var fields = GetFields(implementType).ToList();
+        var need = props.Any() || fields.Any();
+        var stat = new ServiceStat
+        {
+            NeedAutowired = need
+        };
+        if (!need) return stat;
+        stat.Mappers = props
+            .Select(static x => new SetterCache(x.PropertyType, x.CreateSetter()))
+            .Concat(fields.Select(static x => new SetterCache(x.FieldType, x.CreateSetter())))
+            .ToList();
+        return stat;
+    }
+    private static IEnumerable<PropertyInfo> GetProps(IReflect implementType) => implementType
+        .GetProperties(Flags)
+        .Where(static x => x.CanWrite && x.GetCustomAttribute<TAttribute>() != null);
+
+    private static IEnumerable<FieldInfo> GetFields(IReflect implementType) => implementType
+        .GetFields(Flags)
+        .Where(static x => x.GetCustomAttribute<TAttribute>() != null);
+
+    /// <summary>
+    /// 生成Setter
+    /// </summary>
+    /// <param name="implementType"></param>
+    /// <returns></returns>
+    private static IEnumerable<SetterCache> GetSetter(IReflect implementType) =>
+        GetProps(implementType)
+            .Select(static x => new SetterCache(x.PropertyType, x.CreateSetter()))
+            .Concat(GetFields(implementType)
+                .Select(static x => new SetterCache(x.FieldType, x.CreateSetter())
+                ));
+
+    /// <summary>
+    /// 共享的缓存数据
+    /// </summary>
     protected ServiceStats SharedStats { get; init; } = new();
-    protected void Autowired(object target, Func<Type, object?> depProvider)
+
+    #endregion
+
+    protected CachedAutowiredServiceProvider(IServiceProvider serviceProvider) 
+        : base(serviceProvider) { }
+
+    protected void Autowired(object target)
     {
         var type = target.GetType();
         if (!SharedStats.CachedMappers.TryGetValue(type, out var mapper))
         {
-            mapper = GetSetter(type).ToList();
+            mapper = CreateStat(type);
             SharedStats.CachedMappers.Add(type, mapper);
         }
-
-        mapper.ForEach(x =>
-        { 
-            var dependency = depProvider(x.Item1);
-            if (dependency != null) x.Item2.Invoke(ref target!, dependency);
-        });
+        if (!mapper.NeedAutowired) return;
+        Autowired(target, mapper.Mappers!);
     }
 }
 
-public class TransientAutowiredServiceProvider<TAttribute> 
+/// <summary>
+/// 针对 <see cref="ServiceLifetime.Transient"/> 生命周期的依赖构造的Provider, 不需要考虑连续依赖的问题
+/// </summary>
+/// <typeparam name="TAttribute"></typeparam>
+public class TransientAutowiredServiceProvider<TAttribute>
     : CachedAutowiredServiceProvider<TAttribute>
     where TAttribute : Attribute
 {
-    public TransientAutowiredServiceProvider(IServiceProvider serviceProvider) : base(serviceProvider) { }
+    public TransientAutowiredServiceProvider(IServiceProvider serviceProvider) 
+        : base(serviceProvider) { }
 
     public override object? GetService(Type serviceType)
     {
         var impl = ServiceProvider.GetService(serviceType);
-        if (impl == null) return impl;
-        Autowired(impl, s => ServiceProvider.GetService(s));
+        if (impl == null || !NeedAutowired(impl.GetType())) return impl;
+        Autowired(impl);
         return impl;
     }
+
+    protected override object? ProvideDependency(Type dependencyType) =>
+        ServiceProvider.GetService(dependencyType);
 }
 
-
-public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvider<TAttribute>
+public class AutowiredServiceProvider<TAttribute> 
+    : CachedAutowiredServiceProvider<TAttribute>
     where TAttribute : Attribute
 {
-    private readonly Dictionary<Type,ServiceLifetime> serviceLifetimes;
+    private readonly Dictionary<Type, ServiceLifetime> serviceLifetimes;
+
     private AutowiredServiceProvider(IServiceProvider serviceProvider,
         Dictionary<Type, ServiceLifetime> serviceLifetimes) : base(serviceProvider) =>
         this.serviceLifetimes = serviceLifetimes;
 
     public AutowiredServiceProvider(IServiceProvider serviceProvider, IServiceCollection collection)
-        : this(serviceProvider, collection.ToDictionary(
-            static x => x.ServiceType,
-            static x => x.Lifetime)) { }
+        : this(serviceProvider, collection
+            .Aggregate(new Dictionary<Type, ServiceLifetime>(), (d, s) =>
+            {
+                d.TryAdd(s.ServiceType, s.Lifetime);
+                return d;
+            }))
+    {
+    }
 
     public override object? GetService(Type serviceType)
     {
@@ -99,24 +165,48 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
             IServiceScopeFactory factory => new AutowiredServiceScopeFactory(factory,
                 s => new AutowiredServiceProvider<TAttribute>(s, serviceLifetimes)
                     { SharedStats = SharedStats.CreateScope() }),
+            IEnumerable<object> collections => GetServicesInternal(collections,serviceType),
             _ => GetServiceInternal(target, serviceType)
         };
     }
 
+    private object GetServicesInternal(IEnumerable<object> targets, Type serviceType)
+    {
+        var types = serviceType.GenericTypeArguments;
+        if (types.Length == 0) throw new ArgumentException($"Service type {serviceType} has no generic type");
+        var type = types[0];
+        if(!serviceLifetimes.TryGetValue(type, out var lifetime))
+        {
+            throw new SerializationException($"Service {serviceType} lifetime uncertain");
+        }
+        switch (lifetime)
+        {
+            case ServiceLifetime.Singleton:
+                SharedStats.ResolvedSingletons.Add(serviceType);
+                break;
+            case ServiceLifetime.Scoped:
+                SharedStats.ResolvedScopes.Add(serviceType);
+                break;
+        }
+
+        targets.ForEach(Autowired);
+        return targets;
+    }
+
     private object? GetServiceInternal(object target, Type serviceType) =>
         serviceLifetimes.TryGetValue(serviceType, out var lifetime)
-            ? GetServiceInternal(target, serviceType, lifetime)
-            : throw new SerializationException("Service lifetime uncertain");
+            ? AutowiredService(target, serviceType, lifetime)
+            : throw new SerializationException($"Service {serviceType} lifetime uncertain");
 
-                
+
     private object? GetServiceDependency(object? target, Type serviceType, ServiceLifetime lifetime) =>
         target == null
             ? null
             : SharedStats.IsResolved(serviceType)
                 ? target
-                : GetServiceInternal(target, serviceType, lifetime);
+                : AutowiredService(target, serviceType, lifetime);
 
-    private object? GetServiceInternal(object target, Type serviceType, ServiceLifetime lifetime)
+    private object AutowiredService(object target, Type serviceType, ServiceLifetime lifetime)
     {
         switch (lifetime)
         {
@@ -128,13 +218,21 @@ public class AutowiredServiceProvider<TAttribute> : CachedAutowiredServiceProvid
                 break;
         }
 
-        Autowired(target,
-            targetType => serviceLifetimes.TryGetValue(targetType, out var targetLifetime)
-                ? GetServiceDependency(ServiceProvider.GetService(targetType), targetType, targetLifetime)
-                : throw new NotSupportedException($"Target life time cannot be specified"));
+        Autowired(target);
         return target;
     }
-  
+
+    protected override object? ProvideDependency(Type dependencyType)
+    {
+        var dep = ServiceProvider.GetService(dependencyType);
+        return dep switch
+        {
+            IEnumerable<object> collection => GetServicesInternal(collection, dependencyType),
+            _ => serviceLifetimes.TryGetValue(dependencyType, out var targetLifetime)
+                ? GetServiceDependency(dep, dependencyType, targetLifetime)
+                : throw new NotSupportedException($"Target life time cannot be specified")
+        };
+    }
 }
 
 public class AutowiredServiceScope : IServiceScope
