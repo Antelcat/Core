@@ -9,79 +9,42 @@ namespace Feast.Foundation.Test
     public class Tests
     {
         readonly IServiceCollection collection = new ServiceCollection();
-        private IServiceProvider provider;
+        private IServiceProvider autowiredProvider;
         private IServiceProvider baseProvider;
         private Stopwatch Watch { get; } = new ();
 
         [SetUp]
         public void Setup()
         {
-            baseProvider = new ServiceCollection()
+            baseProvider = collection
+                .AddSingleton<IA, A>()
+                .AddSingleton<IA, A>()
                 .AddSingleton<IA, A>()
                 .AddScoped<IB, B>()
                 .AddScoped<IC, C>()
                 .AddTransient<ID, D>()
                 .BuildServiceProvider();
-            provider = collection
+            autowiredProvider = new ServiceCollection()
+                .AddSingleton<IA, A>()
+                .AddSingleton<IA, A>()
                 .AddSingleton<IA, A>()
                 .AddScoped<IB, B>()
                 .AddScoped<IC, C>()
                 .AddTransient<ID, D>()
                 .BuildAutowiredServiceProvider(ServiceCollectionContainerBuilderExtensions.BuildServiceProvider);
-            Dictionary = new()
-            {
-                { typeof(IA), 1 },
-                { typeof(IB), 2 },
-                { typeof(IC), 3 }
-            };
+            
         }
-
-        private Dictionary<Type, int> Dictionary = new Dictionary<Type, int>();
-        
-        [Test]
-        public void TestGet()
-        {
-            var type = typeof(IC);
-            var times = 1000;
-            var watch = new Stopwatch();
-            watch.Start();
-            while (times > 0)
-            {
-                var c = Dictionary[type];
-                times--;
-            }
-
-            watch.Stop();
-            Console.WriteLine($"Get resolve cost {watch.ElapsedTicks}");
-        }
-
-        [Test]
-        public void TestTryGet()
-        {
-            var type = typeof(IC);
-            var times = 1000;
-            var watch = new Stopwatch();
-            watch.Start();
-            while (times > 0)
-            {
-                var c = Dictionary.TryGetValue(type, out var s);
-                times--;
-            }
-
-            watch.Stop();
-            Console.WriteLine($"Try Get resolve cost {watch.ElapsedTicks}");
-        }
-        
+       
         [Test]
         public void TestNativeResolve()
         {
-            baseProvider.GetRequiredService<ID>();
+            baseProvider.GetRequiredService<IB>();
             var times = 1000;
             var watch = new Stopwatch();
             watch.Start();
             while (times > 0)
             {
-                var c = baseProvider.GetRequiredService<ID>();
+                var c = baseProvider.GetRequiredService<IB>();
                 times--;
             }
 
@@ -92,13 +55,13 @@ namespace Feast.Foundation.Test
         [Test]
         public void TestResolve()
         {
-            provider.GetRequiredService<ID>();
+            autowiredProvider.GetRequiredService<IB>();
             var times = 1000;
             var watch = new Stopwatch();
             watch.Start();
             while (times > 0)
             {
-                var c = provider.GetRequiredService<ID>();
+                var c = autowiredProvider.GetRequiredService<IB>();
                 times--;
             }
 
@@ -109,45 +72,63 @@ namespace Feast.Foundation.Test
         [Test]
         public void TestService()
         {
-            var a1 = provider.GetRequiredService<IA>();
-            var c1 = provider.GetRequiredService<IC>();
-            var d1 = provider.GetRequiredService<ID>();
-            var d11 = provider.GetRequiredService<ID>();
+            var a1 = autowiredProvider.GetRequiredService<IA>();
+            var c1 = autowiredProvider.GetRequiredService<IC>();
+            var d1 = autowiredProvider.GetRequiredService<ID>();
+            var d11 = autowiredProvider.GetRequiredService<ID>();
             
-            var scope1 = provider.CreateScope();
+            var scope1 = autowiredProvider.CreateScope();
             var c2 = scope1.ServiceProvider.GetRequiredService<IC>();
             var d2 = scope1.ServiceProvider.GetRequiredService<ID>();
             
-            var scope2 = provider.CreateScope();
+            var scope2 = autowiredProvider.CreateScope();
             var c3 = scope2.ServiceProvider.GetRequiredService<IC>();
             var d3 = scope2.ServiceProvider.GetRequiredService<ID>();
         }
-     
+        
         [Test]
-        public void RunSync()
+        public void TestResolveNativeCollection()
         {
-            bool Find(out int i)
+            var aS =  baseProvider.GetService<IEnumerable<IA>>()!;
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
             {
-                try
-                {
-                    i = 1;
-                    return true;
-                }
-                finally
-                {
-                    i = 9;
-                    Console.WriteLine("Wait a minute");
-                }
+                aS =  baseProvider.GetService<IEnumerable<IA>>()!;
+                times--;
             }
-            Console.WriteLine(Find(out var res) ? res : -1);
+
+            watch.Stop();
+            Console.WriteLine($"Native collection cost {watch.ElapsedTicks}");
+            Assert.That(aS.Count(), Is.GreaterThan(0));
+            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
+        }
+       
+        [Test]
+        public void TestResolveCollection()
+        {
+            var aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
+            var times = 1000;
+            var watch = new Stopwatch();
+            watch.Start();
+            while (times > 0)
+            {
+                aS =  autowiredProvider.GetService<IEnumerable<IA>>()!;
+                times--;
+            }
+            watch.Stop();
+            Console.WriteLine($"Autowired collection cost {watch.ElapsedTicks}");
+            Assert.That(aS.Count(), Is.GreaterThan(0));
+            Assert.That(((A)aS.ElementAt(0)).B, Is.Not.Null);
         }
 
+
         [Test]
-        public void TestMarshal()
+        public void TestType()
         {
-            var bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7 };
-            var ptr = bytes.ToIntPtr();
-            ptr.Dispose();
+            var aS = autowiredProvider.GetService<IEnumerable<IA>>()!;
+            var b = aS is IEnumerable<object>;
         }
     }
 }
