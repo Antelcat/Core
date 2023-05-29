@@ -158,7 +158,7 @@ public class AutowiredServiceProvider<TAttribute>
     public override object? GetService(Type serviceType)
     {
         var target = ServiceProvider.GetService(serviceType);
-        if (SharedStats.IsResolved(serviceType)) return target;
+        if (SharedStats.NoNeedResolve(serviceType)) return target;
         return target switch
         {
             null => null,
@@ -202,7 +202,7 @@ public class AutowiredServiceProvider<TAttribute>
     private object? GetServiceDependency(object? target, Type serviceType, ServiceLifetime lifetime) =>
         target == null
             ? null
-            : SharedStats.IsResolved(serviceType)
+            : SharedStats.NoNeedResolve(serviceType)
                 ? target
                 : AutowiredService(target, serviceType, lifetime);
 
