@@ -21,11 +21,14 @@ public class ServiceStats
     public HashSet<Type> ResolvedScopes { get; } = new();
 
     /// <summary>
-    /// 判断是否解析过
+    /// 是否需要被解析
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool IsResolved(Type type) => ResolvedSingletons.Contains(type) || ResolvedScopes.Contains(type);
+    public bool NoNeedResolve(Type type) => 
+        ResolvedSingletons.Contains(type) 
+        || ResolvedScopes.Contains(type)
+        || CachedMappers.TryGetValue(type,out var r) && !r.NeedAutowired;
     
     /// <summary>
     /// 创建一个Scope
