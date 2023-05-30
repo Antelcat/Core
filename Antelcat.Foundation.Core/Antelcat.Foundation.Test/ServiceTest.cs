@@ -29,7 +29,7 @@ public class ServiceTest
         autowiredProvider =
             registry(new ServiceCollection()).BuildAutowiredServiceProvider(static x => x.BuildServiceProvider());
 
-        CurrentTest = Scopes;
+        CurrentTest = Singletons;
     }
 
     private Tuple<Action, Action> CurrentTest;
@@ -60,6 +60,7 @@ public class ServiceTest
     [Test]
     public void TestServiceResolve()
     {
+        typeof(Type).GetMethod().CreateInvoker()
         TestAutowired();
         TestNative();
     }
