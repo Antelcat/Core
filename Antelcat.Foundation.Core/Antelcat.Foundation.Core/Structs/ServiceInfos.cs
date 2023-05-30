@@ -39,14 +39,17 @@ public class ServiceInfos
     /// <summary>
     /// 是否需要被解析
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="serviceType"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public bool NoNeedAutowired(Type type, object? target) =>
-        ResolvedSingletons.Contains(type)
-        || ResolvedScopes.Contains(type)
-        || target == null
-        || !GetStat(type).NeedAutowired;
+    public bool NoNeedAutowired(Type serviceType, object? target)
+    {
+        if (ResolvedSingletons.Contains(serviceType)
+            || ResolvedScopes.Contains(serviceType)
+            || target is null) return true;
+        if (target is IServiceScopeFactory) return false;
+        return !GetStat(target.GetType()).NeedAutowired;
+    }
 
     public ImplementInfo GetStat(Type implementType)
     {

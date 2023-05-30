@@ -29,7 +29,7 @@ public class ServiceTest
         autowiredProvider =
             registry(new ServiceCollection()).BuildAutowiredServiceProvider(static x => x.BuildServiceProvider());
 
-        CurrentTest = Singletons;
+        CurrentTest = Scopes;
     }
 
     private Tuple<Action, Action> CurrentTest;
@@ -56,11 +56,12 @@ public class ServiceTest
         watch.Stop();
         Console.WriteLine($"Autowired resolve cost {watch.ElapsedTicks}");
     }
+    
     [Test]
     public void TestServiceResolve()
     {
-        TestNative();
         TestAutowired();
+        TestNative();
     }
 
     private Tuple<Action, Action> Singletons => new (

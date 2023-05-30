@@ -133,16 +133,15 @@ public class AutowiredServiceProvider<TAttribute>
 
     public override object? GetService(Type serviceType)
     {
-        var target = ServiceProvider.GetService(serviceType);
-        if (SharedInfos.NoNeedAutowired(serviceType,target)) return target;
-        return target switch
+        var impl = ServiceProvider.GetService(serviceType);
+        if (SharedInfos.NoNeedAutowired(serviceType, impl)) return impl;
+        return impl switch
         {
-            null => null,
             IServiceScopeFactory factory => new AutowiredServiceScopeFactory(factory,
                 s => new AutowiredServiceProvider<TAttribute>(s)
                     { SharedInfos = SharedInfos.CreateScope() }),
             IEnumerable<object> collections => GetServicesInternal(collections, serviceType),
-            _ => GetServiceInternal(target, serviceType)
+            _ => GetServiceInternal(impl!, serviceType)
         };
     }
 
@@ -176,11 +175,9 @@ public class AutowiredServiceProvider<TAttribute>
 
 
     private object? GetServiceDependency(object? target, Type serviceType, ServiceLifetime lifetime) =>
-        target == null
-            ? null
-            : SharedInfos.NoNeedAutowired(serviceType,target)
-                ? target
-                : AutowiredService(target, serviceType, lifetime);
+        SharedInfos.NoNeedAutowired(serviceType, target)
+            ? target
+            : AutowiredService(target!, serviceType, lifetime);
 
     private object AutowiredService(object target, Type serviceType, ServiceLifetime lifetime)
     {
