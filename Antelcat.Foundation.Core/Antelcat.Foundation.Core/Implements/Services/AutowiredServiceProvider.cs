@@ -32,14 +32,14 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
     where TAttribute : Attribute
 {
 
-    protected  IServiceProvider ServiceProvider => SharedStats.ServiceProvider;
+    protected  IServiceProvider ServiceProvider => SharedInfos.ServiceProvider;
 
     #region Caches
 
     /// <summary>
     /// 共享的缓存数据
     /// </summary>
-    protected ServiceStats SharedStats { get; init; }
+    protected ServiceInfos SharedInfos { get; init; }
 
     private const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -48,20 +48,14 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
     /// </summary>
     /// <param name="implementType"></param>
     /// <returns></returns>
-    protected bool NeedAutowired(Type implementType)
-    {
-        if (SharedStats.CachedMappers.TryGetValue(implementType, out var stat)) return stat.NeedAutowired;
-        stat = CreateStat(implementType);
-        SharedStats.CachedMappers.Add(implementType, stat);
-        return stat.NeedAutowired;
-    }
+    protected bool NeedAutowired(Type implementType) => SharedInfos.GetStat(implementType).NeedAutowired;
 
-    private static ServiceStat CreateStat(IReflect implementType)
+    private static ImplementInfo CreateStat(IReflect implementType)
     {
         var props = GetProps(implementType).ToList();
         var fields = GetFields(implementType).ToList();
         var need = props.Any() || fields.Any();
-        var stat = new ServiceStat
+        var stat = new ImplementInfo
         {
             NeedAutowired = need
         };
@@ -83,16 +77,12 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
     #endregion
 
     protected CachedAutowiredServiceProvider(IServiceProvider serviceProvider) =>
-        SharedStats = new ServiceStats(serviceProvider);
+        SharedInfos = new ServiceInfos(serviceProvider, CreateStat);
 
     protected void Autowired(object target)
     {
         var type = target.GetType();
-        if (!SharedStats.CachedMappers.TryGetValue(type, out var mapper))
-        {
-            mapper = CreateStat(type);
-            SharedStats.CachedMappers.Add(type, mapper);
-        }
+        var mapper = SharedInfos.GetStat(type);
         if (!mapper.NeedAutowired) return;
         Autowired(target, mapper.Mappers!);
     }
@@ -129,7 +119,7 @@ public class AutowiredServiceProvider<TAttribute>
 
     private AutowiredServiceProvider(IServiceProvider serviceProvider,
         Dictionary<Type, ServiceLifetime> serviceLifetimes) : base(serviceProvider) =>
-        SharedStats.ServiceLifetimes = serviceLifetimes;
+        SharedInfos.ServiceLifetimes = serviceLifetimes;
 
     public AutowiredServiceProvider(IServiceProvider serviceProvider, IServiceCollection collection)
         : this(serviceProvider, collection
@@ -144,13 +134,13 @@ public class AutowiredServiceProvider<TAttribute>
     public override object? GetService(Type serviceType)
     {
         var target = ServiceProvider.GetService(serviceType);
-        if (SharedStats.NoNeedAutowired(serviceType)) return target;
+        if (SharedInfos.NoNeedAutowired(serviceType,target)) return target;
         return target switch
         {
             null => null,
             IServiceScopeFactory factory => new AutowiredServiceScopeFactory(factory,
                 s => new AutowiredServiceProvider<TAttribute>(s)
-                    { SharedStats = SharedStats.CreateScope() }),
+                    { SharedInfos = SharedInfos.CreateScope() }),
             IEnumerable<object> collections => GetServicesInternal(collections, serviceType),
             _ => GetServiceInternal(target, serviceType)
         };
@@ -168,10 +158,10 @@ public class AutowiredServiceProvider<TAttribute>
         switch (lifetime)
         {
             case ServiceLifetime.Singleton:
-                SharedStats.ResolvedSingletons.Add(serviceType);
+                SharedInfos.ResolvedSingletons.Add(serviceType);
                 break;
             case ServiceLifetime.Scoped:
-                SharedStats.ResolvedScopes.Add(serviceType);
+                SharedInfos.ResolvedScopes.Add(serviceType);
                 break;
         }
 
@@ -188,7 +178,7 @@ public class AutowiredServiceProvider<TAttribute>
     private object? GetServiceDependency(object? target, Type serviceType, ServiceLifetime lifetime) =>
         target == null
             ? null
-            : SharedStats.NoNeedAutowired(serviceType)
+            : SharedInfos.NoNeedAutowired(serviceType,target)
                 ? target
                 : AutowiredService(target, serviceType, lifetime);
 
@@ -197,10 +187,10 @@ public class AutowiredServiceProvider<TAttribute>
         switch (lifetime)
         {
             case ServiceLifetime.Singleton:
-                SharedStats.ResolvedSingletons.Add(serviceType);
+                SharedInfos.ResolvedSingletons.Add(serviceType);
                 break;
             case ServiceLifetime.Scoped:
-                SharedStats.ResolvedScopes.Add(serviceType);
+                SharedInfos.ResolvedScopes.Add(serviceType);
                 break;
         }
 
@@ -221,13 +211,11 @@ public class AutowiredServiceProvider<TAttribute>
         };
     }
 
-    private bool TryGetServiceLifetime(Type serviceType,  out ServiceLifetime serviceLifetime)
-    {
-        return SharedStats.ServiceLifetimes!.TryGetValue(serviceType, out serviceLifetime)
-               || serviceType.IsGenericType
-               && SharedStats.ServiceLifetimes!.TryGetValue(serviceType.GetGenericTypeDefinition(),
-                   out serviceLifetime);
-    }
+    private bool TryGetServiceLifetime(Type serviceType,  out ServiceLifetime serviceLifetime) =>
+        SharedInfos.ServiceLifetimes!.TryGetValue(serviceType, out serviceLifetime)
+        || serviceType.IsGenericType
+        && SharedInfos.ServiceLifetimes!.TryGetValue(serviceType.GetGenericTypeDefinition(),
+            out serviceLifetime);
 }
 
 public class AutowiredServiceScope : IServiceScope

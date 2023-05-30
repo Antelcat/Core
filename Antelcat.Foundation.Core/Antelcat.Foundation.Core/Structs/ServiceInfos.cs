@@ -3,10 +3,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Antelcat.Foundation.Core.Structs;
 
-public class ServiceStats
+public class ServiceInfos
 {
-    public ServiceStats(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
+    public ServiceInfos(IServiceProvider serviceProvider,
+        Func<Type, ImplementInfo> statCreator)
+    {
+        ServiceProvider = serviceProvider;
+        StatCreator = statCreator;
+    }
+
     public IServiceProvider ServiceProvider { get; }
+
+    private Func<Type, ImplementInfo> StatCreator { get; }
 
     /// <summary>
     /// 缓存的服务生命周期
@@ -16,7 +24,7 @@ public class ServiceStats
     /// <summary>
     /// 缓存的实现类的属性字段映射器
     /// </summary>
-    public Dictionary<Type, ServiceStat> CachedMappers { get; private init; }= new();
+    private Dictionary<Type, ImplementInfo> CachedMappers { get; init; }= new();
     
     /// <summary>
     /// 解析过的单例
@@ -32,19 +40,29 @@ public class ServiceStats
     /// 是否需要被解析
     /// </summary>
     /// <param name="type"></param>
+    /// <param name="target"></param>
     /// <returns></returns>
-    public bool NoNeedAutowired(Type type) => 
-        ResolvedSingletons.Contains(type) 
+    public bool NoNeedAutowired(Type type, object? target) =>
+        ResolvedSingletons.Contains(type)
         || ResolvedScopes.Contains(type)
-        || CachedMappers.TryGetValue(type,out var r) && !r.NeedAutowired;
+        || target == null
+        || !GetStat(type).NeedAutowired;
+
+    public ImplementInfo GetStat(Type implementType)
+    {
+        if (CachedMappers.TryGetValue(implementType, out var r)) return r;
+        r = StatCreator(implementType);
+        CachedMappers.Add(implementType, r);
+        return r;
+    }
     
     /// <summary>
     /// 创建一个Scope
     /// </summary>
     /// <returns></returns>
-    public ServiceStats CreateScope()
+    public ServiceInfos CreateScope()
     {
-        return new ServiceStats(ServiceProvider)
+        return new ServiceInfos(ServiceProvider, StatCreator)
         {
             CachedMappers = CachedMappers,
             ResolvedSingletons = ResolvedSingletons,
@@ -53,7 +71,7 @@ public class ServiceStats
     }
 }
 
-public struct ServiceStat
+public struct ImplementInfo
 {
     public bool NeedAutowired { get; init; }
     public List<Tuple<Type, Setter<object, object>>>? Mappers;
