@@ -1,9 +1,17 @@
 ﻿using Antelcat.Foundation.Core.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Antelcat.Foundation.Core.Structs;
 
 public class ServiceStats
 {
+    public ServiceStats(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
+    public IServiceProvider ServiceProvider { get; }
+
+    /// <summary>
+    /// 缓存的服务生命周期
+    /// </summary>
+    public Dictionary<Type, ServiceLifetime>? ServiceLifetimes { get; set; }
     
     /// <summary>
     /// 缓存的实现类的属性字段映射器
@@ -13,7 +21,7 @@ public class ServiceStats
     /// <summary>
     /// 解析过的单例
     /// </summary>
-    public HashSet<Type> ResolvedSingletons { get; init; } = new();
+    public HashSet<Type> ResolvedSingletons { get; private init; } = new();
     
     /// <summary>
     /// 解析过的会话
@@ -25,7 +33,7 @@ public class ServiceStats
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public bool NoNeedResolve(Type type) => 
+    public bool NoNeedAutowired(Type type) => 
         ResolvedSingletons.Contains(type) 
         || ResolvedScopes.Contains(type)
         || CachedMappers.TryGetValue(type,out var r) && !r.NeedAutowired;
@@ -36,10 +44,11 @@ public class ServiceStats
     /// <returns></returns>
     public ServiceStats CreateScope()
     {
-        return new ServiceStats
+        return new ServiceStats(ServiceProvider)
         {
             CachedMappers = CachedMappers,
             ResolvedSingletons = ResolvedSingletons,
+            ServiceLifetimes = ServiceLifetimes
         };
     }
 }
