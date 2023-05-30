@@ -11,14 +11,6 @@ using SetterCache = Tuple<Type, Setter<object, object>>;
 public abstract class ProxiedServiceProvider
     : IServiceProvider, ISupportRequiredService
 {
-    protected IServiceProvider ServiceProvider => SharedStats.ServiceProvider;
-    /// <summary>
-    /// 共享的缓存数据
-    /// </summary>
-    protected ServiceStats SharedStats { get; init; }
-
-    protected ProxiedServiceProvider(IServiceProvider serviceProvider) => SharedStats = new(serviceProvider);
-
     public object GetRequiredService(Type serviceType) =>
         GetService(serviceType)
         ?? throw new SerializationException($"Unable to resolve service : [ {serviceType} ]");
@@ -39,7 +31,15 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
     : ProxiedServiceProvider
     where TAttribute : Attribute
 {
+
+    protected  IServiceProvider ServiceProvider => SharedStats.ServiceProvider;
+
     #region Caches
+
+    /// <summary>
+    /// 共享的缓存数据
+    /// </summary>
+    protected ServiceStats SharedStats { get; init; }
 
     private const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -82,8 +82,8 @@ public abstract class CachedAutowiredServiceProvider<TAttribute>
 
     #endregion
 
-    protected CachedAutowiredServiceProvider(IServiceProvider serviceProvider) 
-        : base(serviceProvider) { }
+    protected CachedAutowiredServiceProvider(IServiceProvider serviceProvider) =>
+        SharedStats = new ServiceStats(serviceProvider);
 
     protected void Autowired(object target)
     {
@@ -217,7 +217,7 @@ public class AutowiredServiceProvider<TAttribute>
             IEnumerable<object> collection => GetServicesInternal(collection, dependencyType),
             _ => TryGetServiceLifetime(dependencyType,  out var targetLifetime)
                 ? GetServiceDependency(dep, dependencyType, targetLifetime)
-                : throw new NotSupportedException($"Target life time cannot be specified")
+                : throw new SerializationException($"Dependency {dependencyType} lifetime uncertain")
         };
     }
 

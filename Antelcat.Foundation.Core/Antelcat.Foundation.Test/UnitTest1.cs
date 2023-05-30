@@ -26,6 +26,7 @@ public class Tests
             .BuildServiceProvider();
         autowiredProvider = new ServiceCollection()
             .AddSingleton(typeof(IGeneric<>),typeof(GenericType<>))
+            .AddSingleton(typeof(IMultiGeneric<,,>),typeof(MultiGenericType<,,>))
             .AddSingleton<IA, A>()
             .AddSingleton<IA, A>()
             .AddSingleton<IB, B>()
@@ -203,7 +204,7 @@ public class Tests
         watch.Start();
         while (times > 0)
         {
-            generic = nativeProvider.GetService<MultiGenericType<int,double,object>>();
+            generic = nativeProvider.GetService<IMultiGeneric<int,double,object>>();
             times--;
         }
 
@@ -214,13 +215,13 @@ public class Tests
     [Test]
     public void TestAutowiredGeneric()
     {
-        var generic = autowiredProvider.GetService<IGeneric<int>>();
+        var generic = autowiredProvider.GetService<IMultiGeneric<int,double,object>>();
         var times = Times;
         var watch = new Stopwatch();
         watch.Start();
         while (times > 0)
         {
-            generic = autowiredProvider.GetService<IGeneric<int>>();
+            generic = autowiredProvider.GetService<IMultiGeneric<int,double,object>>();
             times--;
         }
 
