@@ -60,7 +60,6 @@ public class ServiceTest
     [Test]
     public void TestServiceResolve()
     {
-        typeof(Type).GetMethod().CreateInvoker()
         TestAutowired();
         TestNative();
     }
