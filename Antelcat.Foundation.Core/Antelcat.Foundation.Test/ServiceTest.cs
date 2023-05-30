@@ -7,7 +7,6 @@ namespace Feast.Foundation.Test;
 
 public class ServiceTest
 {
-    readonly IServiceCollection collection = new ServiceCollection();
     private IServiceProvider autowiredProvider;
     private IServiceProvider nativeProvider;
     private Stopwatch Watch { get; } = new();
@@ -17,7 +16,7 @@ public class ServiceTest
     [SetUp]
     public void Setup()
     {
-        collection
+        var registry = (IServiceCollection c) => c
             .AddSingleton(typeof(IGeneric<>), typeof(GenericType<>))
             .AddSingleton(typeof(IMultiGeneric<,,>), typeof(MultiGenericType<,,>))
             .AddSingleton<IA, A>()
@@ -26,49 +25,68 @@ public class ServiceTest
             .AddScoped<IC, C>()
             .AddTransient<ID, D>();
         nativeProvider =
-            collection.BuildServiceProvider();
+            registry(new ServiceCollection()).BuildServiceProvider();
         autowiredProvider =
-            collection.BuildAutowiredServiceProvider(ServiceCollectionContainerBuilderExtensions.BuildServiceProvider);
+            registry(new ServiceCollection()).BuildAutowiredServiceProvider(static x => x.BuildServiceProvider());
 
-        NativeTest = NativeSingleton;
-        AutowiredTest = AutowiredSingleton;
-        NativeTest();
-        AutowiredTest();
+        CurrentTest = Singletons;
     }
 
-    private Action NativeTest;
-    private Action AutowiredTest;
-    
+    private Tuple<Action, Action> CurrentTest;
+    [Test]
+    public void TestNative()
+    {
+        CurrentTest.Item1();
+        var times = Times;
+        var watch = new Stopwatch();
+        watch.Start();
+        while (times-- > 0)  CurrentTest.Item1();
+        watch.Stop();
+        Console.WriteLine($"Native resolve cost {watch.ElapsedTicks}");
+    }
+
+    [Test]
+    public void TestAutowired()
+    {
+        CurrentTest.Item2();
+        var times = Times;
+        var watch = new Stopwatch();
+        watch.Start();
+        while (times-- > 0)  CurrentTest.Item2();
+        watch.Stop();
+        Console.WriteLine($"Autowired resolve cost {watch.ElapsedTicks}");
+    }
     [Test]
     public void TestServiceResolve()
     {
-        var times1 = Times;
-        var watch1 = new Stopwatch();
-        watch1.Start();
-        while (times1-- > 0) NativeTest();
-        watch1.Stop();
-        Console.WriteLine($"Native resolve cost {watch1.ElapsedTicks}");
-
-        var times2 = Times;
-        var watch2 = new Stopwatch();
-        watch2.Start();
-        while (times2-- > 0) AutowiredTest();
-        watch2.Stop();
-        Console.WriteLine($"Autowired resolve cost {watch2.ElapsedTicks}");
+        TestNative();
+        TestAutowired();
     }
 
-    
-    
-    public Action NativeSingleton => () => nativeProvider.GetService<IA>();
-    public Action AutowiredSingleton => () => autowiredProvider.GetService<IA>();
-    public Action NativeScoped => () => nativeProvider.GetService<IB>();
-    public Action AutowiredScoped => () => autowiredProvider.GetService<IB>();
-    public Action NativeTransient => () => nativeProvider.GetService<ID>();
-    public Action AutowiredTransient => () => autowiredProvider.GetService<ID>();
-    public Action NativeGeneric => () => nativeProvider.GetService<IMultiGeneric<int, double, object>>();
-    public Action AutowiredGeneric => () => autowiredProvider.GetService<IMultiGeneric<int, double, object>>();
-    public Action NativeCollection => () => nativeProvider.GetService<IEnumerable<IA>>();
-    public Action AutowiredCollection => () => autowiredProvider.GetService<IEnumerable<IA>>();
+    private Tuple<Action, Action> Singletons => new (
+        () => nativeProvider.GetService<IA>(),
+        () => autowiredProvider.GetService<IA>()
+    );
+
+    private Tuple<Action, Action> Scopes => new (
+        () => nativeProvider.GetService<IB>(),
+        () => autowiredProvider.GetService<IB>()
+    );
+
+    private Tuple<Action, Action> Transients => new (
+        () => nativeProvider.GetService<ID>(),
+        () => autowiredProvider.GetService<ID>()
+    );
+
+    private Tuple<Action, Action> Generics => new (
+        () => nativeProvider.GetService<IMultiGeneric<int, double, object>>(),
+        () => autowiredProvider.GetService<IMultiGeneric<int, double, object>>()
+    );
+
+    private Tuple<Action, Action> Collections => new (
+        () => nativeProvider.GetService<IEnumerable<IA>>(),
+        () => autowiredProvider.GetService<IEnumerable<IA>>()
+    );
 
     [Test]
     public void TestService()
