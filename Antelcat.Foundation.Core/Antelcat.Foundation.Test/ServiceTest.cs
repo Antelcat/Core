@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
 using Antelcat.Foundation.Core.Extensions;
+using Autofac;
+using Autofac.Core.Lifetime;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Feast.Foundation.Test;
@@ -9,6 +12,7 @@ public class ServiceTest
 {
     private IServiceProvider autowiredProvider;
     private IServiceProvider nativeProvider;
+    private IContainer autofacProvider;
     private Stopwatch Watch { get; } = new();
 
     private const int Times = 1000;
@@ -21,18 +25,36 @@ public class ServiceTest
             .AddSingleton(typeof(IMultiGeneric<,,>), typeof(MultiGenericType<,,>))
             .AddSingleton<IA, A>()
             .AddSingleton<IA, A>()
-            .AddScoped<IB, B>()
+            .AddSingleton<IB, B>()
             .AddScoped<IC, C>()
             .AddTransient<ID, D>();
         nativeProvider =
             registry(new ServiceCollection()).BuildServiceProvider();
         autowiredProvider =
             registry(new ServiceCollection()).BuildAutowiredServiceProvider(static x => x.BuildServiceProvider());
-
+        autofacProvider = new AutofacServiceProviderFactory()
+            .CreateBuilder(registry(new ServiceCollection()))
+            .Build();
+        
+        
         CurrentTest = Singletons;
     }
 
     private Tuple<Action, Action> CurrentTest;
+
+    [Test]
+    public void TestAutofac()
+    {
+        var test = () => autofacProvider.Resolve<IA>();
+        test();
+        var times = Times;
+        var watch = new Stopwatch();
+        watch.Start();
+        while (times-- > 0)  test();
+        watch.Stop();
+        Console.WriteLine($"Autofac resolve cost {watch.ElapsedTicks}");
+    }
+    
     [Test]
     public void TestNative()
     {
@@ -62,6 +84,7 @@ public class ServiceTest
     {
         TestAutowired();
         TestNative();
+        TestAutofac();
     }
 
     private Tuple<Action, Action> Singletons => new (
@@ -70,8 +93,8 @@ public class ServiceTest
     );
 
     private Tuple<Action, Action> Scopes => new (
-        () => nativeProvider.GetService<IB>(),
-        () => autowiredProvider.GetService<IB>()
+        () => nativeProvider.GetService<IC>(),
+        () => autowiredProvider.GetService<IC>()
     );
 
     private Tuple<Action, Action> Transients => new (
