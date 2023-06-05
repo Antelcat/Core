@@ -1,4 +1,4 @@
-﻿using Antelcat.Core.Attributes;
+﻿using Antelcat.Attributes;
 
 namespace Antelcat.Core.Test;
 

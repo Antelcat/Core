@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Antelcat.Core.Extensions;
+using Antelcat.Extensions;
 
 namespace Antelcat.Core.Models;
 
@@ -14,7 +15,7 @@ public class Response
     [JsonPropertyOrder(3)]
     public string Message { get; set; } = string.Empty;
     [JsonPropertyOrder(4)]
-    public long Timestamp { get; set; } = TimeExtension.CurrentTimestamp;
+    public long Timestamp { get; set; } = TimeExtension.CurrentTimestamp();
 
     public static implicit operator Response(int code) => new() { Code = code };
     public static implicit operator Response(string message) => new() { Code = 0, Message = message };

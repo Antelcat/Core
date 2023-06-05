@@ -9,6 +9,7 @@ using System.Windows.Media.Media3D;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Antelcat.Core.Extensions;
+using Antelcat.Extensions;
 
 namespace Feast.Foundation.Wpf
 {

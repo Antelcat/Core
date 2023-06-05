@@ -12,40 +12,45 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Extensions\StringExtension.g.tt">
-      <LastGenOutput>StringExtension.g.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Extensions\ILExtension.g.tt">
-      <LastGenOutput>ILExtension.g.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Implements\Converters\StringValueConverter.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StringValueConverter.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\ILGeneratorEx\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
+
   <ItemGroup>
-    <Compile Update="Extensions\ILExtension.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ILExtension.g.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Extensions\StringExtension.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StringExtension.g.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Implements\Converters\StringValueConverter.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StringValueConverter.tt</DependentUpon>
-    </Compile>
+    <Content Update="D:\Shared\WorkSpace\Git\Foundation-Core\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\StringExtension.g.tt">
+      <LastGenOutput>StringExtension.g.cs</LastGenOutput>
+    </Content>
+    <Content Update="D:\Shared\WorkSpace\Git\Foundation-Core\extern\Antelcat.Shared\src\Shared\IL\Extensions\ILExtension.g.tt">
+      <LastGenOutput>ILExtension.g.cs</LastGenOutput>
+    </Content>
+    <Content Update="D:\Shared\WorkSpace\Git\ILGeneratorEx\extern\Antelcat.Shared\src\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
+      <LastGenOutput>StringValueConverter.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
 
 </Project>

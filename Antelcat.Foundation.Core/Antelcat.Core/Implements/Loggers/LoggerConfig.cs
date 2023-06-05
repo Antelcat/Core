@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Antelcat.Core.Interface.IL;
 using Antelcat.Core.Structs.IL;
-using Antelcat.Core.Extensions;
+using Antelcat.Extensions;
 
 namespace Antelcat.Core.Implements.Loggers;
 

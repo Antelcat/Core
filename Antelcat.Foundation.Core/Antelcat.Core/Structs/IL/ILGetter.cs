@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Antelcat.Core.Extensions;
 using Antelcat.Core.Interface.IL;
+using Antelcat.Extensions;
 
 namespace Antelcat.Core.Structs.IL;
 

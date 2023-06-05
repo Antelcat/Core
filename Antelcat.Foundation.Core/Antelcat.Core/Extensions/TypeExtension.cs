@@ -1,6 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using Antelcat.Core.Implements.Converters;
-using Antelcat.Core.Interface.Converting;
 
 namespace Antelcat.Core.Extensions;
 
@@ -32,10 +30,4 @@ public static class TypeExtension
     /// <returns></returns>
     public static T? NewInstance<T>() => Activator.CreateInstance<T>();
 
-    public static IValueConverter Converter(this Type type, Type toType) =>
-        type == toType
-            ? NoneConverter.Instance
-            : type == typeof(string)
-                ? StringValueConverters.FindByType(toType)
-                : throw new NotSupportedException("Not support this type yet");
 }

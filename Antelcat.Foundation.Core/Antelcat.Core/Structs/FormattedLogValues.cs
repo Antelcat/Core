@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using Antelcat.Core.Utils;
 
 namespace Antelcat.Core.Structs;
-
+#nullable enable
 /// <summary>
 /// LogValues to enable formatting options supported by <see cref="M:string.Format"/>.
 /// This also enables using {NamedformatItem} in the format string.

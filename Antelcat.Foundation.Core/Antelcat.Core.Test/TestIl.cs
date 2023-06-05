@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using Antelcat.Core.Extensions;
 using Antelcat.Core.Structs.IL;
+using Antelcat.Extensions;
+using Antelcat.Core.Extensions;
 
 namespace Antelcat.Core.Test;
 
@@ -100,7 +101,7 @@ public class TestIl
         watch.Start();
         while (times-- > 0)
         {
-            pointer = bytes.ToPointer();
+            pointer = MarshalExtension.ToPointer(bytes);
         }
         watch.Stop();
         for (var i = 0; i < bytes.Length; i++)
@@ -132,4 +133,5 @@ public class TestIl
         Console.WriteLine();
         Console.WriteLine($"IntPtr cost {watch.ElapsedTicks}");
     }
+
 }
