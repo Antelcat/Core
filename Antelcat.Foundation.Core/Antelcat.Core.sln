@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core", "Antelcat.Core\Antelcat.Core.csproj", "{A1D34A1E-0B4B-4157-965C-C0481F4F158B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Foundation.Test", "Antelcat.Foundation.Test\Antelcat.Foundation.Test.csproj", "{A06804BF-B209-45CA-AD95-2ACEF107154E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.Test", "Antelcat.Core.Test\Antelcat.Core.Test.csproj", "{A06804BF-B209-45CA-AD95-2ACEF107154E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Foundation.Wpf", "Antelcat.Foundation.Wpf\Antelcat.Foundation.Wpf.csproj", "{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}"
 EndProject
