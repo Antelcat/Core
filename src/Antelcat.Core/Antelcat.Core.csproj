@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <InternalsVisibleTo Include="Antelcat.Server" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +53,9 @@
       <LastGenOutput>ILExtension.g.cs</LastGenOutput>
     </Content>
     <Content Update="D:\Shared\WorkSpace\Git\ILGeneratorEx\extern\Antelcat.Shared\src\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
+      <LastGenOutput>StringValueConverter.cs</LastGenOutput>
+    </Content>
+    <Content Update="D:\Shared\WorkSpace\Git\Server\extern\Core\extern\Antelcat.Shared\src\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
       <LastGenOutput>StringValueConverter.cs</LastGenOutput>
     </Content>
   </ItemGroup>
