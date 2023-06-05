@@ -39,8 +39,6 @@
 
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\ILGeneratorEx\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
-
   <ItemGroup>
     <Content Update="D:\Shared\WorkSpace\Git\Foundation-Core\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\StringExtension.g.tt">
       <LastGenOutput>StringExtension.g.cs</LastGenOutput>
