@@ -10,5 +10,5 @@ public class NoneConverter : IValueConverter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public object? To(object? input) => input;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public object? Back(object? input) => input;
+    public object? From(object? input) => input;
 }

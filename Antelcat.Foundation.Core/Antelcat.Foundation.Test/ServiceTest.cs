@@ -50,7 +50,7 @@ public class ServiceTest
         var times = Times;
         var watch = new Stopwatch();
         watch.Start();
-        while (times-- > 0)  test();
+        while (times-- > 0) test();
         watch.Stop();
         Console.WriteLine($"Autofac resolve cost {watch.ElapsedTicks}");
     }

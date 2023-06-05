@@ -14,7 +14,7 @@ public static class SerializeExtension
 #if DEBUG
         WriteIndented = true,
 #else
-            WriteIndented = false,
+        WriteIndented = false,
 #endif
         PropertyNameCaseInsensitive = true,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,

@@ -1,15 +1,18 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Antelcat.Foundation.Core.Extensions;
 
 public static class MarshalExtension
 {
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static unsafe byte* ToPointer(this byte[] bytes)
     {
         fixed (byte* p = bytes) return p;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IntPtr ToIntPtr(this byte[] bytes)
     {
         unsafe
@@ -18,6 +21,7 @@ public static class MarshalExtension
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IntPtr CopyToIntPtr(this byte[] bytes)
     {
         var ret = Marshal.AllocHGlobal(IntPtr.Zero);
@@ -25,6 +29,7 @@ public static class MarshalExtension
         return ret;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Stream ToStream(this IntPtr intPtr, int length)
     {
         unsafe
@@ -33,6 +38,7 @@ public static class MarshalExtension
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static byte[] CopyToBytes(this IntPtr intPtr, int length, bool free = true)
     {
         var ret = new byte[length];
@@ -41,5 +47,6 @@ public static class MarshalExtension
         return ret;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Dispose(this IntPtr intPtr) => Marshal.FreeHGlobal(intPtr);
 }

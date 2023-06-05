@@ -3,7 +3,7 @@
 public interface IValueConverter<TIn, TOut>
 {
     TOut? To(TIn? input);
-    TIn? Back(TOut? input);
+    TIn? From(TOut? input);
 }
 
 public interface IValueConverter : IValueConverter<object, object> { }

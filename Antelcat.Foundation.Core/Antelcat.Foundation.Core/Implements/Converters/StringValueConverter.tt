@@ -5,11 +5,24 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <#
-	var list = new List<string>(){ "sbyte", "byte", "bool", "int", "uint", "long", "ulong", "double" ,"float" ,"DateTime" };
+	var list = new List<string>()
+	{
+		"sbyte",
+		"byte",
+		"bool",
+		"int",
+		"uint",
+		"long",
+		"ulong",
+		"double",
+		"float",
+		"DateTime"
+	};
 	var classes = new Dictionary<string,string>();
 #>
 using Antelcat.Foundation.Core.Extensions;
 using Antelcat.Foundation.Core.Interface.Converting;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace <#=System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint").ToString()#>;
@@ -22,12 +35,30 @@ foreach(var type in list) {
 ///<summary>
 /// Convert between <see cref="string"/> and <see cref="<#=type#>"/>
 ///</summary>
-public class <#=className#> : IValueConverter, IValueConverter<string,<#=type#>>
+public class <#=className#> : TypeConverter, IValueConverter, IValueConverter<string,<#=type#>>
 {
-	public object? To(object? input) => (input as string).To<#=name#>();
-    public object? Back(object? input) => input?.ToString();
+	public object To(object? input) => (input as string).To<#=name#>();
+    public object? From(object? input) => input?.ToString();
 	public <#=type#> To(string? input) => input.To<#=name#>();
-    public string Back(<#=type#> input) => input.ToString(CultureInfo.InvariantCulture);
+    public string From(<#=type#> input) => input.ToString(CultureInfo.InvariantCulture);
+	public override object ConvertTo(
+		ITypeDescriptorContext? _, 
+		CultureInfo? __, 
+		object? value, 
+		Type ___) => To(value);
+
+   	public override object? ConvertFrom(
+		ITypeDescriptorContext? _, 
+		CultureInfo? __, 
+		object value) => From(value);
+
+   	public override bool CanConvertTo(
+		ITypeDescriptorContext? _, 
+		Type? destinationType) => destinationType == typeof(<#=type#>);
+
+   	public override bool CanConvertFrom(
+		ITypeDescriptorContext? _, 
+		Type sourceType) => sourceType == typeof(<#=type#>);
 }
 
 <# 
