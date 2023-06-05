@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using Antelcat.Core.Extensions;
-using Antelcat.Core.Interface.IL;
 using Antelcat.Core.Structs.IL;
 
-namespace Feast.Foundation.Test;
+namespace Antelcat.Core.Test;
 
 public class TestIl
 {

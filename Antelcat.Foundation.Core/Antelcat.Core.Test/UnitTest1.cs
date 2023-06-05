@@ -1,8 +1,6 @@
-
 using System.ComponentModel;
-using System.Globalization;
 
-namespace Feast.Foundation.Test;
+namespace Antelcat.Core.Test;
 
 
 

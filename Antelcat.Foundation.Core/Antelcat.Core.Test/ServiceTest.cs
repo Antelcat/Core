@@ -5,7 +5,7 @@ using Autofac.Core.Lifetime;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Feast.Foundation.Test;
+namespace Antelcat.Core.Test;
 
 
 public class ServiceTest

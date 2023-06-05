@@ -1,6 +1,6 @@
 ﻿using Antelcat.Core.Attributes;
 
-namespace Feast.Foundation.Test;
+namespace Antelcat.Core.Test;
 
 public abstract class Factory<T> where T : Factory<T>
 {
