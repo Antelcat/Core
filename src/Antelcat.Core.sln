@@ -101,6 +101,7 @@ Global
 		..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{aad7ae77-142c-4e1a-9cee-d4825e489b6a}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{c1eee7e2-07f3-4970-9489-783254de0f8d}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{c840bac0-e7ee-4145-b804-f1882171a356}*SharedItemsImports = 13
