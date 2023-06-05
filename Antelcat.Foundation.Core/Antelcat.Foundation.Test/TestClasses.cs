@@ -1,4 +1,4 @@
-﻿using Antelcat.Foundation.Core.Attributes;
+﻿using Antelcat.Core.Attributes;
 
 namespace Feast.Foundation.Test;
 

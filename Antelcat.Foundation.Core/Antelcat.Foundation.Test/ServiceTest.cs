@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Antelcat.Foundation.Core.Extensions;
+using Antelcat.Core.Extensions;
 using Autofac;
 using Autofac.Core.Lifetime;
 using Autofac.Extensions.DependencyInjection;

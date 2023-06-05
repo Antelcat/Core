@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using Antelcat.Foundation.Core.Extensions;
-using Antelcat.Foundation.Core.Interface.IL;
-using Antelcat.Foundation.Core.Structs.IL;
+using Antelcat.Core.Extensions;
+using Antelcat.Core.Interface.IL;
+using Antelcat.Core.Structs.IL;
 
 namespace Feast.Foundation.Test;
 
