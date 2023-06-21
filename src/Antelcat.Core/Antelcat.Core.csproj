@@ -60,4 +60,6 @@
     </Content>
   </ItemGroup>
 
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
+
 </Project>
