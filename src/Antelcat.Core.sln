@@ -41,6 +41,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TypeExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.shproj", "{F024A904-CD1B-43CA-987C-D7B4973CBBA1}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Compare", "..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.shproj", "{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,7 @@ Global
 		{06023305-DCF7-4DC6-93DE-B686F35C000E} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{E2062748-2F24-4A63-946A-3B774EABF71C} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{F024A904-CD1B-43CA-987C-D7B4973CBBA1} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
+		{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12A6634E-E6F4-44E2-8323-253FE5BC5F6B}
