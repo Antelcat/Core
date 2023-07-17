@@ -85,7 +85,7 @@ namespace Antelcat.Core.Extensions
         /// <param name="addressFamily"></param>
         /// <returns></returns>
         public static IPAddress? GetLocalIPv4IPAddress(this AddressFamily addressFamily) => 
-            GetLocalIPAddresses(addressFamily).FirstOrDefault(m => !IPAddress.IsLoopback(m));
+            GetLocalIPAddresses(addressFamily).LastOrDefault(m => !IPAddress.IsLoopback(m));
 
 
         [GeneratedRegex("^\\d{1,3}[\\.]\\d{1,3}[\\.]\\d{1,3}[\\.]\\d{1,3}$", RegexOptions.Compiled)]
