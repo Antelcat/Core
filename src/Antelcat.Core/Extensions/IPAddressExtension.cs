@@ -88,7 +88,7 @@ namespace Antelcat.Core.Extensions
             GetLocalIPAddresses(addressFamily).LastOrDefault(m => !IPAddress.IsLoopback(m));
 
 
-        [GeneratedRegex("^\\d{1,3}[\\.]\\d{1,3}[\\.]\\d{1,3}[\\.]\\d{1,3}$", RegexOptions.Compiled)]
+        [GeneratedRegex(@"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$", RegexOptions.Compiled)]
         private static partial Regex MyRegex();
     }
 }
