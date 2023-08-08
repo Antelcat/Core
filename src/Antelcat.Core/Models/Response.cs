@@ -33,6 +33,8 @@ public class Response<T> : Response
     public Response(T data) { Data = data; }
 
     public static implicit operator Response<T>(T data) => new(data);
+    public static implicit operator Response<T>((T, string) data) => new(data.Item1) { Code = 0, Message = data.Item2 };
+    public static implicit operator Response<T>((int, T, string) data) => new(data.Item2) { Code = data.Item1, Message = data.Item3 };
     public static implicit operator Response<T>(int code) => new() { Code = code };
     public static implicit operator Response<T>(string message) => new() { Code = 0, Message = message };
     public static implicit operator Response<T>(Exception exception) => new() { Code = 0, Message = exception.Message };
