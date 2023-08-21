@@ -14,7 +14,7 @@ public static class LoggerExtension
     private static readonly Func<FormattedLogValues, Exception, string> MessageFormatter = MessageFormatterHandler;
 
     //------------------------------------------DEBUG------------------------------------------//
-       
+
     /// <summary>
     /// Formats and writes a debug log message.
     /// </summary>
@@ -22,7 +22,7 @@ public static class LoggerExtension
     /// <param name="message">Format string of the log message in message template format. Example: <code>"User {User} logged in from {Address}"</code></param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
     /// <example>logger.LogDebug(0, "Processing request from {Address}", address)</example>
-    public static void LogDebug(this IAntelcatLogger logger,  string message, params object[] args)
+    public static void LogDebug(this IAntelcatLogger logger, string message, params object[] args)
     {
         logger.Log(LogLevel.Debug, message, args);
     }
@@ -77,7 +77,8 @@ public static class LoggerExtension
     /// <param name="message">Format string of the log message in message template format. Example: <code>"User {User} logged in from {Address}"</code></param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
     /// <example>logger.LogInformation(exception, "Error while processing request from {Address}", address)</example>
-    public static void LogInformation(this IAntelcatLogger logger, Exception exception, string message, params object[] args)
+    public static void LogInformation(this IAntelcatLogger logger, Exception exception, string message,
+        params object[] args)
     {
         logger.Log(LogLevel.Information, exception, message, args);
     }
@@ -104,7 +105,8 @@ public static class LoggerExtension
     /// <param name="message">Format string of the log message in message template format. Example: <code>"User {User} logged in from {Address}"</code></param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
     /// <example>logger.LogWarning(exception, "Error while processing request from {Address}", address)</example>
-    public static void LogWarning(this IAntelcatLogger logger, Exception exception, string message, params object[] args)
+    public static void LogWarning(this IAntelcatLogger logger, Exception exception, string message,
+        params object[] args)
     {
         logger.Log(LogLevel.Warning, exception, message, args);
     }
@@ -158,7 +160,8 @@ public static class LoggerExtension
     /// <param name="message">Format string of the log message in message template format. Example: <code>"User {User} logged in from {Address}"</code></param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
     /// <example>logger.LogCritical(exception, "Error while processing request from {Address}", address)</example>
-    public static void LogCritical(this IAntelcatLogger logger, Exception exception, string message, params object[] args)
+    public static void LogCritical(this IAntelcatLogger logger, Exception exception, string message,
+        params object[] args)
     {
         logger.Log(LogLevel.Critical, exception, message, args);
     }
@@ -182,7 +185,7 @@ public static class LoggerExtension
     /// <param name="logLevel">Entry will be written on this level.</param>
     /// <param name="message">Format string of the log message.</param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
-    public static void Log(this IAntelcatLogger logger, LogLevel logLevel,  string message, params object[] args)
+    public static void Log(this IAntelcatLogger logger, LogLevel logLevel, string message, params object[] args)
     {
         logger.Log(logLevel, null!, message, args);
     }
@@ -195,14 +198,15 @@ public static class LoggerExtension
     /// <param name="exception">The exception to log.</param>
     /// <param name="message">Format string of the log message.</param>
     /// <param name="args">An object array that contains zero or more objects to format.</param>
-    public static void Log(this IAntelcatLogger logger, LogLevel logLevel,Exception exception, string message, params object[] args)
+    public static void Log(this IAntelcatLogger logger, LogLevel logLevel, Exception exception, string message,
+        params object[] args)
     {
         if (logger == null)
         {
             throw new ArgumentNullException(nameof(logger));
         }
 
-        logger.Log(logLevel,  new FormattedLogValues(message, args), exception, MessageFormatter);
+        logger.Log(logLevel, new FormattedLogValues(message, args), exception, MessageFormatter);
     }
 
 
@@ -214,10 +218,11 @@ public static class LoggerExtension
     }
 
 
-    //--------------------------- --------DependencyInjection------------------------------------//
+    //------------------------------------DependencyInjection------------------------------------//
 
-    public static IServiceCollection AddAntelcatLogger(this IServiceCollection collection, LoggerConfig? config = null) => 
-        collection.AddSingleton( _ => new LoggerFactory(config))
+    public static IServiceCollection
+        AddAntelcatLogger(this IServiceCollection collection, LoggerConfig? config = null) =>
+        collection.AddSingleton(_ => new LoggerFactory(config))
             .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
 
     public static IServiceCollection AddAntelcatLogger(this IServiceCollection collection,
