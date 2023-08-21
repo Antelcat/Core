@@ -20,7 +20,7 @@ public class Response
     public static implicit operator Response(int code) => new() { Code = code };
     public static implicit operator Response(string message) => new() { Code = 0, Message = message };
     public static implicit operator Response(Exception exception) => new() { Code = 0, Message = exception.Message };
-
+    public static implicit operator Response((int,string) tuple) => new() { Code = tuple.Item1, Message = tuple.Item2 };
     public override string ToString() => this.Serialize();
 }
 
