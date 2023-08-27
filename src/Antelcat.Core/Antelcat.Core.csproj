@@ -64,4 +64,10 @@
 
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
 
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
+
+
+  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems" Label="Shared" />
+
 </Project>
