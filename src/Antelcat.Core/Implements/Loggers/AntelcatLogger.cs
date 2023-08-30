@@ -28,6 +28,7 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
             return log;
         }
     }
+
     protected abstract string Category { get; }
     #endregion
 
