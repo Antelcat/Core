@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
 using System.Text;
-using Antelcat.Core.Enums;
 using Antelcat.Core.Interface.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Antelcat.Core.Implements.Loggers;
 
@@ -28,7 +29,6 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
             return log;
         }
     }
-
     protected abstract string Category { get; }
     #endregion
 
@@ -36,11 +36,7 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
     private string Format(string content) => $"{Prefix} {content} {Suffix}";
     #endregion
 
-    public void Log<TState>(
-        LogLevel level,
-        TState state,
-        Exception exception,
-        Func<TState, Exception, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var sb = new StringBuilder();
         var ps = new StackTrace(1, true)
@@ -48,13 +44,14 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
             .FirstOrDefault(x => x.GetMethod()?.Module.Assembly != typeof(IAntelcatLogger).Assembly);
         var method = ps?.GetMethod();
         sb
-            .AppendLine(Format($"等级 : [ {level} ], 时间: [ {DateTime.Now} ]"))
-            .AppendLine(Format($"模块 : [ {method?.Module.Assembly.GetName()} ]"))
+            .AppendLine(Format($"等级 : [ {logLevel} ], 时间: [ {DateTime.Now} ]"))
+            .AppendLine(Format($"事件 : [ {eventId} ]"))
+            .AppendLine(Format($"模块 : [ {method?.Module.Assembly.FullName} ]"))
             .AppendLine(Format($"类型 : [ {Category} ]"));
         if (ps != null)
         {
             sb
-                .AppendLine(Format($@"文件 : [ ""{ps.GetFileName()}"" ], 行: {ps.GetFileLineNumber()}"))
+                .AppendLine(Format($"文件 : [ \"{ps.GetFileName()}\" ], 行: {ps.GetFileLineNumber()}"))
                 .AppendLine(Format($"方法 : [ {method} ]"));
         }
         sb
@@ -63,6 +60,16 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
         var log = sb.ToString();
         File.AppendAllText(LogFile, log);
         if (OutputConsole) { Console.WriteLine(log); }
+    }
+
+    public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel;
+
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+    {
+        return new DisposeTrigger(() =>
+        {
+            Log(LogLevel.Trace, new EventId(-1, "Anonymous"), state, null, (s, _) => $"{s}");
+        });
     }
 }
 
@@ -74,4 +81,12 @@ internal class AntelcatLogger<TCategoryName> : AntelcatLogger, IAntelcatLogger<T
     }
 
     protected override string Category { get; } = typeof(TCategoryName).Name;
+}
+
+internal class DisposeTrigger(Action? action) : IDisposable
+{
+    public void Dispose()
+    {
+        action?.Invoke();
+    }
 }

@@ -2,6 +2,7 @@
 using Antelcat.Core.Interface.IL;
 using Antelcat.Core.Structs.IL;
 using Antelcat.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace Antelcat.Core.Implements.Loggers;
 
@@ -9,11 +10,12 @@ public class LoggerConfig
 {
     #region Configs
 
-    protected bool OutputConsole { get; set; } = true;
-    protected string Directory { get; set; } = Path.Combine(Environment.CurrentDirectory, "Logs");
-    protected Func<DateTime, string> NamingFormat { get; set; } = time => $"{nameof(Antelcat)}[{time:yyyy-MM-dd}].log";
-    protected string Prefix { get; set; } = "/**";
-    protected string Suffix { get; set; } = "*/";
+    protected bool                   OutputConsole { get; set; } = true;
+    protected string                 Directory     { get; set; } = Path.Combine(AppContext.BaseDirectory, "Logs");
+    protected Func<DateTime, string> NamingFormat  { get; set; } = time => $"{nameof(Antelcat)}[{time:yyyy-MM-dd}].log";
+    protected string                 Prefix        { get; set; } = "/**";
+    protected string                 Suffix        { get; set; } = "*/";
+    protected LogLevel               LogLevel      { get; set; } = LogLevel.Trace;
 
     #endregion
 
@@ -47,17 +49,19 @@ public class LoggerConfig
         return this;
     }
 
-    #region Reflects
-
-    private static readonly IEnumerable<Tuple<ILMethod, ILMethod>> Callers = typeof(LoggerConfig)
-        .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
-        .Where(x => x is { CanRead: true, CanWrite: true })
-        .Select(x => new Tuple<ILMethod, ILMethod>((ILSetter)x, (ILGetter)x));
-
-    internal virtual void Initialize<TCategory>(AntelcatLogger<TCategory> logger) =>
-        Callers
-            .ForEach(p => 
-                p.Item1.Invoke(logger, p.Item2.Invoke(this)));
-
-    #endregion
+    public LoggerConfig WithLogLevel(LogLevel logLevel)
+    {
+        LogLevel = logLevel;
+        return this;
+    }
+    
+    internal virtual void Initialize<TCategory>(AntelcatLogger<TCategory> logger)
+    {
+        logger.WithFileNameFormat(NamingFormat);
+        logger.OutputToConsole(OutputConsole);
+        logger.WithDirectory(Directory);
+        logger.WithLogLevel(LogLevel);
+        logger.WithPrefix(Prefix);
+        logger.WithSuffix(Suffix);
+    }
 }

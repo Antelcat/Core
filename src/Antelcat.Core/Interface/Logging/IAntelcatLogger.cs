@@ -1,9 +1,6 @@
-﻿using Antelcat.Core.Enums;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Antelcat.Core.Interface.Logging;
 
-public interface IAntelcatLogger
-{
-    void Log<TState>(LogLevel level, TState state, Exception exception, Func<TState, Exception, string> formatter);
-}
-public interface IAntelcatLogger<out TCategoryName> : IAntelcatLogger { }
+public interface IAntelcatLogger : ILogger { }
+public interface IAntelcatLogger<out TCategoryName> : ILogger<TCategoryName> { }
