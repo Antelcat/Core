@@ -1,13 +1,18 @@
-﻿using System.ComponentModel.Design.Serialization;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using Antelcat.Core.Interface.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Antelcat.Core.Implements.Loggers;
 
-internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
+internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
 {
+    public AntelcatLogger(IAntelcatLoggerFactory factory, string category)
+    {
+        Category = category;
+        (factory as AntelcatLoggerFactory)!.Initialize(this);
+    }
+
     #region Fields
     private string LogDirectory
     {
@@ -29,7 +34,7 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
             return log;
         }
     }
-    protected abstract string Category { get; }
+    private string Category { get; set; }
     #endregion
 
     #region Methods
@@ -39,9 +44,9 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var sb = new StringBuilder();
-        var ps = new StackTrace(1, true)
-            .GetFrames()!
-            .FirstOrDefault(x => x.GetMethod()?.Module.Assembly != typeof(IAntelcatLogger).Assembly);
+        var frames = new StackTrace(1, true)
+            .GetFrames()!;
+        var ps     = frames.FirstOrDefault(x => x.GetMethod()?.Name.StartsWith("Log") is false);
         var method = ps?.GetMethod();
         sb
             .AppendLine(Format($"等级 : [ {logLevel} ], 时间: [ {DateTime.Now} ]"))
@@ -75,12 +80,7 @@ internal abstract class AntelcatLogger : LoggerConfig, IAntelcatLogger
 
 internal class AntelcatLogger<TCategoryName> : AntelcatLogger, IAntelcatLogger<TCategoryName>
 {
-    public AntelcatLogger(LoggerFactory factory)
-    {
-        factory.Initialize(this);
-    }
-
-    protected override string Category { get; } = typeof(TCategoryName).Name;
+    public AntelcatLogger(IAntelcatLoggerFactory factory) : base(factory, typeof(TCategoryName).Name) { }
 }
 
 internal class DisposeTrigger(Action? action) : IDisposable

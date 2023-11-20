@@ -55,7 +55,7 @@ public class LoggerConfig
         return this;
     }
     
-    internal virtual void Initialize<TCategory>(AntelcatLogger<TCategory> logger)
+    internal virtual void Initialize(AntelcatLogger logger)
     {
         logger.WithFileNameFormat(NamingFormat);
         logger.OutputToConsole(OutputConsole);

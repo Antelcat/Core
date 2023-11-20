@@ -10,14 +10,15 @@ namespace Antelcat.Core.Extensions;
 public static class LoggerExtension
 {
     //------------------------------------DependencyInjection------------------------------------//
-
-    public static IServiceCollection
-        AddAntelcatLogger(this IServiceCollection collection, LoggerConfig? config = null) =>
-        collection.AddSingleton(_ => new LoggerFactory(config))
-            .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
+    public static IServiceCollection AddAntelcatLogger(this IServiceCollection collection,
+        LoggerConfig? config = null) => collection
+        .AddSingleton<IAntelcatLoggerFactory>(_ => new AntelcatLoggerFactory(config))
+        .AddScoped<IAntelcatLogger, AntelcatLogger>()
+        .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
 
     public static IServiceCollection AddAntelcatLogger(this IServiceCollection collection,
-        Func<IServiceProvider, LoggerConfig> configFactory) =>
-        collection.AddSingleton(p => new LoggerFactory(configFactory(p)))
-            .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
+        Func<IServiceProvider, LoggerConfig> configFactory) => collection
+        .AddSingleton<IAntelcatLoggerFactory>(p => new AntelcatLoggerFactory(configFactory(p)))
+        .AddScoped<IAntelcatLogger, AntelcatLogger>()
+        .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
 }
