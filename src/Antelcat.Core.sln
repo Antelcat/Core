@@ -47,6 +47,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Authenticat
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Native", "..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.shproj", "{F3B7DE2E-FA53-439D-876B-FF004398160C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Exceptions", "..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.shproj", "{36BE01B3-CAB8-4820-B770-37F0D225E485}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,7 @@ Global
 		{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{8B3F6AFB-8EAC-4287-88B1-27AE63A8AA5D} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{F3B7DE2E-FA53-439D-876B-FF004398160C} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
+		{36BE01B3-CAB8-4820-B770-37F0D225E485} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12A6634E-E6F4-44E2-8323-253FE5BC5F6B}
