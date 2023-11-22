@@ -219,7 +219,6 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
                     new StringBuilder(content)
                         .Replace("\r\n", "\\n")
                         .Replace("\n", "\\n")
-                        .Replace("\t", "    ")
                         .Replace("\"", "\\\"")
                 }\" ,")
                 .AppendLine("},")
