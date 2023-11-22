@@ -213,7 +213,7 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
                     .AppendLine($"    \"{nameof(file)}\"     : \"{file}\" , \"row\": {stack.GetFileLineNumber()} ,")
                     .AppendLine($"    \"{nameof(method)}\"   : \"{method}\" ,");
             }
-
+            
             sb
                 .AppendLine($"    \"{nameof(content)}\"  : \"{
                     new StringBuilder(content)
