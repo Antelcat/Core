@@ -1,3 +1,6 @@
 [submodule "extern/Antelcat.Shared"]
 	path = extern/Antelcat.Shared
 	url = https://github.com/Antelcat/Antelcat.Shared.git
+[submodule "extern/CodeAnalysis"]
+	path = extern/CodeAnalysis
+	url = https://github.com/feast107/CodeAnalysis

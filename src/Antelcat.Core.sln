@@ -49,6 +49,18 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Native", ".
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Exceptions", "..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.shproj", "{36BE01B3-CAB8-4820-B770-37F0D225E485}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.SourceGenerators", "Antelcat.Core.SourceGenerators\Antelcat.Core.SourceGenerators\Antelcat.Core.SourceGenerators.csproj", "{2B3FAE60-B10B-4936-96EF-1698671F738F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.SourceGenerators.Sample", "Antelcat.Core.SourceGenerators\Antelcat.Core.SourceGenerators.Sample\Antelcat.Core.SourceGenerators.Sample.csproj", "{56160082-52AC-4D1E-A212-36B43457C404}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.SourceGenerators.Tests", "Antelcat.Core.SourceGenerators\Antelcat.Core.SourceGenerators.Tests\Antelcat.Core.SourceGenerators.Tests.csproj", "{84224469-6646-43E3-B10D-8696F4250F89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extern", "Extern", "{F01338E4-FD1B-4959-A727-AECC895A0AA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feast.CodeAnalysis.SourceGenerators", "..\extern\CodeAnalysis\src\Feast.CodeAnalysis.SourceGenerators\Feast.CodeAnalysis.SourceGenerators.csproj", "{4D637611-F918-4214-AE1A-CFF9261939AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feast.CodeAnalysis", "..\extern\CodeAnalysis\src\Feast.CodeAnalysis\Feast.CodeAnalysis.csproj", "{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +79,26 @@ Global
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3FAE60-B10B-4936-96EF-1698671F738F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3FAE60-B10B-4936-96EF-1698671F738F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3FAE60-B10B-4936-96EF-1698671F738F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3FAE60-B10B-4936-96EF-1698671F738F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56160082-52AC-4D1E-A212-36B43457C404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56160082-52AC-4D1E-A212-36B43457C404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56160082-52AC-4D1E-A212-36B43457C404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56160082-52AC-4D1E-A212-36B43457C404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84224469-6646-43E3-B10D-8696F4250F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84224469-6646-43E3-B10D-8696F4250F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84224469-6646-43E3-B10D-8696F4250F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84224469-6646-43E3-B10D-8696F4250F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D637611-F918-4214-AE1A-CFF9261939AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D637611-F918-4214-AE1A-CFF9261939AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D637611-F918-4214-AE1A-CFF9261939AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D637611-F918-4214-AE1A-CFF9261939AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +123,8 @@ Global
 		{8B3F6AFB-8EAC-4287-88B1-27AE63A8AA5D} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{F3B7DE2E-FA53-439D-876B-FF004398160C} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{36BE01B3-CAB8-4820-B770-37F0D225E485} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
+		{4D637611-F918-4214-AE1A-CFF9261939AA} = {F01338E4-FD1B-4959-A727-AECC895A0AA7}
+		{7E2EC29E-C123-4B2F-8E18-D97A7764D6A2} = {F01338E4-FD1B-4959-A727-AECC895A0AA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12A6634E-E6F4-44E2-8323-253FE5BC5F6B}
@@ -100,11 +134,19 @@ Global
 		..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{150cebec-809b-4c90-9f43-b74efce9d5e3}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems*{29501f1b-f841-491a-8cad-f650ea645f4c}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems*{296e8c4b-59ce-4ee0-b835-7f9cd1abc732}*SharedItemsImports = 13
+		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{2b3fae60-b10b-4936-96ef-1698671f738f}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{36be01b3-cab8-4820-b770-37f0d225e485}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems*{3ab3fd3d-c47d-4b09-87d7-299abce37bd2}*SharedItemsImports = 13
+		..\extern\CodeAnalysis\src\Feast.CodeAnalysis.Shared\Feast.CodeAnalysis.Shared.projitems*{4d637611-f918-4214-ae1a-cff9261939aa}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems*{6dbe19a0-60b4-45cc-b11a-e0aa6288f2cb}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{6e73d366-1cbc-4476-8449-9bd9dd200b1d}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{6ea35093-ba2d-44eb-846c-12b78818c83e}*SharedItemsImports = 13
+		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{8b3f6afb-8eac-4287-88b1-27ae63a8aa5d}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{9ee3f4ba-04a9-44b9-a75e-61d368e810e1}*SharedItemsImports = 13
+		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
@@ -113,7 +155,9 @@ Global
 		..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
 		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
@@ -122,5 +166,7 @@ Global
 		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{c840bac0-e7ee-4145-b804-f1882171a356}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{c9044b07-4539-400e-a5a9-d102a905b8bc}*SharedItemsImports = 13
 		..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{e2062748-2f24-4a63-946a-3b774eabf71c}*SharedItemsImports = 13
+		..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{f024a904-cd1b-43ca-987c-d7b4973cbba1}*SharedItemsImports = 13
+		..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems*{f3b7de2e-fa53-439d-876b-ff004398160c}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

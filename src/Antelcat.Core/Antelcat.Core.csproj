@@ -62,6 +62,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference OutputItemType="Analyzer" Include="..\..\extern\CodeAnalysis\src\Feast.CodeAnalysis.SourceGenerators\Feast.CodeAnalysis.SourceGenerators.csproj" />
+  </ItemGroup>
+
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
 
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
