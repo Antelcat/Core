@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Antelcat.ClaimSerialization" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <InternalsVisibleTo Include="Antelcat.Server" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
@@ -60,10 +61,6 @@
     <Content Update="D:\Shared\WorkSpace\Git\Server\extern\Core\extern\Antelcat.Shared\src\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
       <LastGenOutput>StringValueConverter.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference OutputItemType="Analyzer" Include="..\..\extern\CodeAnalysis\src\Feast.CodeAnalysis.SourceGenerators\Feast.CodeAnalysis.SourceGenerators.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
