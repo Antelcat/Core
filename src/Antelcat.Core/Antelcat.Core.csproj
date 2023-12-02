@@ -71,9 +71,6 @@
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
 
 
-  <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems" Label="Shared" />
-
-
   <Import Project="..\..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared" />
 
 </Project>

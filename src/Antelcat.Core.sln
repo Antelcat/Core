@@ -43,8 +43,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Compare", "..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.shproj", "{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Authentication", "..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.shproj", "{8B3F6AFB-8EAC-4287-88B1-27AE63A8AA5D}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Native", "..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.shproj", "{F3B7DE2E-FA53-439D-876B-FF004398160C}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Exceptions", "..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.shproj", "{36BE01B3-CAB8-4820-B770-37F0D225E485}"
@@ -90,7 +88,6 @@ Global
 		{E2062748-2F24-4A63-946A-3B774EABF71C} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{F024A904-CD1B-43CA-987C-D7B4973CBBA1} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
-		{8B3F6AFB-8EAC-4287-88B1-27AE63A8AA5D} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{F3B7DE2E-FA53-439D-876B-FF004398160C} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{36BE01B3-CAB8-4820-B770-37F0D225E485} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 	EndGlobalSection
