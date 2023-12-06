@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Antelcat.ClaimSerialization" Version="1.0.0" />
+    <PackageReference Include="Antelcat.ClaimSerialization" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <InternalsVisibleTo Include="Antelcat.Server" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
