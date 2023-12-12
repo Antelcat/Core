@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using System.Threading.Channels;
 using Antelcat.Core.Interface.Logging;
+using Antelcat.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +14,8 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     {
         Category = category;
         (factory as AntelcatLoggerFactory)!.Initialize(this);
-        OnLog += log => File.AppendAllTextAsync(LogFile, log);
+        OutputToFileTask().Detach();
+        OnLog += OutputToFile;
     }
 
     public AntelcatLogger(IAntelcatLoggerFactory factory) : this(factory,
@@ -128,6 +131,24 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     {
         Console.WriteLine(log);
         return Task.CompletedTask;
+    }
+    
+    private readonly Channel<string> logChannel = Channel.CreateUnbounded<string>();
+
+    private async Task OutputToFile(string log)
+    {
+        await logChannel.Writer.WriteAsync(log);
+    }
+    
+    private async Task OutputToFileTask()
+    {
+        while (await logChannel.Reader.WaitToReadAsync())
+        {
+            while (logChannel.Reader.TryRead(out var log))
+            {
+                await File.AppendAllTextAsync(LogFile, log);
+            }
+        }
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
