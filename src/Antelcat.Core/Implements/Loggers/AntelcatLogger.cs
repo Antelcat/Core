@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading.Channels;
 using Antelcat.Core.Interface.Logging;
-using Antelcat.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -10,19 +9,37 @@ namespace Antelcat.Core.Implements.Loggers;
 
 internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
 {
+    /// <summary>
+    /// static，因为多个logger可能输出到一个文件
+    /// </summary>
+    private static readonly Channel<(string LogFilePath, string LogContent)> LogChannel = 
+        Channel.CreateUnbounded<(string LogFilePath, string LogContent)>();
+    
+    private static async Task OutputToFileTask()
+    {
+        while (await LogChannel.Reader.WaitToReadAsync())
+        {
+            while (LogChannel.Reader.TryRead(out var tuple))
+            {
+                await File.AppendAllTextAsync(tuple.LogFilePath, tuple.LogContent);
+            }
+        }
+    }
+    
+    static AntelcatLogger()
+    {
+        Task.Factory.StartNew(OutputToFileTask, TaskCreationOptions.LongRunning);
+    }
+    
     public AntelcatLogger(IAntelcatLoggerFactory factory, string category)
     {
         Category = category;
         (factory as AntelcatLoggerFactory)!.Initialize(this);
-        OutputToFileTask().Detach();
         OnLog += OutputToFile;
     }
 
     public AntelcatLogger(IAntelcatLoggerFactory factory) : this(factory,
-        GetCaller() ?? string.Empty)
-    {
-
-    }
+        GetCaller() ?? string.Empty) { }
 
     private static string? GetCaller()
     {
@@ -56,31 +73,27 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     }
 
     private bool outputConsole;
-
-    private string LogDirectory
+    
+    protected override string LogFolderPath
     {
         get
         {
-            if (!System.IO.Directory.Exists(Directory))
-            {
-                System.IO.Directory.CreateDirectory(Directory);
-            }
-
-            return Directory;
+            Directory.CreateDirectory(base.LogFolderPath);
+            return base.LogFolderPath;
         }
     }
 
-    private string LogFile
+    private string LogFilePath
     {
         get
         {
-            var log = Path.Combine(LogDirectory, NamingFormat(DateTime.Now));
-            if (!File.Exists(log))
+            var logFilePath = Path.Combine(LogFolderPath, NamingFormat(DateTime.Now));
+            if (!File.Exists(logFilePath))
             {
-                File.Create(log).Close();
+                File.Create(logFilePath).Close();
             }
 
-            return log;
+            return logFilePath;
         }
     }
 
@@ -132,23 +145,10 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
         Console.WriteLine(log);
         return Task.CompletedTask;
     }
-    
-    private readonly Channel<string> logChannel = Channel.CreateUnbounded<string>();
 
     private async Task OutputToFile(string log)
     {
-        await logChannel.Writer.WriteAsync(log);
-    }
-    
-    private async Task OutputToFileTask()
-    {
-        while (await logChannel.Reader.WaitToReadAsync())
-        {
-            while (logChannel.Reader.TryRead(out var log))
-            {
-                await File.AppendAllTextAsync(LogFile, log);
-            }
-        }
+        await LogChannel.Writer.WriteAsync((LogFilePath, log));
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
