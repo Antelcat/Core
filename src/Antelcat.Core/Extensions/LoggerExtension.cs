@@ -18,8 +18,7 @@ public static class LoggerExtension
     {
         collection
             .AddSingleton<IAntelcatLoggerFactory>(_ => new AntelcatLoggerFactory(config))
-            .AddScoped<IAntelcatLogger, AntelcatLogger>()
-            .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
+            .RegisterLogger();
         return replaceILogger
             ? collection.Replace(
                 new ServiceDescriptor(typeof(ILogger<>), typeof(AntelcatLogger<>), ServiceLifetime.Singleton))
@@ -31,12 +30,16 @@ public static class LoggerExtension
         bool replaceILogger = false)
     {
         collection
-            .AddSingleton<IAntelcatLoggerFactory>(p => new AntelcatLoggerFactory(configFactory(p)))
-            .AddScoped<IAntelcatLogger, AntelcatLogger>()
-            .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>));
+            .AddSingleton<IAntelcatLoggerFactory>(x => new AntelcatLoggerFactory(configFactory(x)))
+            .RegisterLogger();
         return replaceILogger
             ? collection.Replace(
                 new ServiceDescriptor(typeof(ILogger<>), typeof(AntelcatLogger<>), ServiceLifetime.Singleton))
             : collection;
     }
+
+    private static IServiceCollection RegisterLogger(this IServiceCollection collection) =>
+        collection
+            .AddSingleton(typeof(IAntelcatLogger<>), typeof(AntelcatLogger<>))
+            .AddScoped<IAntelcatLogger, AntelcatLogger>();
 }

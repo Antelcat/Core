@@ -125,11 +125,13 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
 
     #endregion
 
-    private static StackFrame? GetCallerFrame(int deepness)
-    {
-        var frames = new StackTrace(deepness, true).GetFrames();
-        return frames.FirstOrDefault(x => x.GetMethod()?.Name.StartsWith("Log") is false);
-    }
+    private static StackFrame? GetCallerFrame(int deepness) =>
+        new StackTrace(deepness, true).GetFrames().FirstOrDefault(x =>
+        {
+            var method = x.GetMethod();
+            if (method == null || method.Module.FullyQualifiedName.StartsWith("Microsoft.Extensions.Logging")) return false;
+            return method.Name.StartsWith("Log") is false;
+        });
 
     private Func<LogLevel,
         EventId,
@@ -154,7 +156,7 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
-        LogInternal(GetCallerFrame(2), logLevel, eventId, formatter(state, exception));
+        if (IsEnabled(logLevel)) LogInternal(GetCallerFrame(2), logLevel, eventId, formatter(state, exception));
     }
 
     public async void LogInternal(StackFrame? frame,
