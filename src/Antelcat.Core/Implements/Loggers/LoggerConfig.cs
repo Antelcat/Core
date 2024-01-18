@@ -67,12 +67,12 @@ public class LoggerConfig
 
     internal virtual void Initialize(AntelcatLogger logger)
     {
-        logger.WithFileNameFormat(NamingFormat);
-        logger.OutputToConsole(OutputConsole);
-        logger.WithLogFolderPath(LogFolderPath);
-        logger.WithLogLevel(LogLevel);
-        logger.WithPrefix(Prefix);
-        logger.WithSuffix(Suffix);
-        logger.WithLogFormat(Format);
+        logger.WithFileNameFormat(NamingFormat)
+            .OutputToConsole(OutputConsole)
+            .WithLogFolderPath(LogFolderPath)
+            .WithLogLevel(LogLevel)
+            .WithPrefix(Prefix)
+            .WithSuffix(Suffix)
+            .WithLogFormat(Format);
     }
 }
