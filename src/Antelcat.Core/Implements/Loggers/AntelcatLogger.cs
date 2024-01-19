@@ -251,9 +251,5 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     }
 }
 
-internal class AntelcatLogger<TCategoryName> : AntelcatLogger, IAntelcatLogger<TCategoryName>
-{
-    public AntelcatLogger(IAntelcatLoggerFactory factory) : base(factory, typeof(TCategoryName).Name)
-    {
-    }
-}
+internal class AntelcatLogger<TCategoryName>(IAntelcatLoggerFactory factory)
+    : AntelcatLogger(factory, typeof(TCategoryName).Name), IAntelcatLogger<TCategoryName>;
