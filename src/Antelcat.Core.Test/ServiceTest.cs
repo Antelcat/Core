@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using Antelcat.Core.Extensions;
+using Antelcat.DependencyInjectionEx;
+using Antelcat.DependencyInjectionEx.Autowired;
 using Antelcat.Extensions;
 using Autofac;
 using Autofac.Core.Lifetime;
@@ -25,14 +28,13 @@ public class ServiceTest
             .AddSingleton(typeof(IGeneric<>), typeof(GenericType<>))
             .AddSingleton(typeof(IMultiGeneric<,,>), typeof(MultiGenericType<,,>))
             .AddSingleton<IA, A>()
-            .AddSingleton<IA, A>()
             .AddSingleton<IB, B>()
             .AddScoped<IC, C>()
             .AddTransient<ID, D>();
         nativeProvider =
-            registry(new ServiceCollection()).BuildServiceProvider();
+            registry(new ServiceCollection()).BuildServiceProviderEx();
         autowiredProvider =
-            registry(new ServiceCollection()).BuildAutowiredServiceProvider(static x => x.BuildServiceProvider());
+            registry(new ServiceCollection()).BuildAutowiredServiceProviderEx();
         autofacProvider = new AutofacServiceProviderFactory()
             .CreateBuilder(registry(new ServiceCollection()))
             .Build();

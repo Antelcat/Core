@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Antelcat.DependencyInjectionEx.Autowired" Version="8.0.3" />
+    <PackageReference Include="Antelcat.DependencyInjectionEx.Autowired.Abstractions" Version="8.0.3" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />

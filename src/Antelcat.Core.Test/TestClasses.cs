@@ -1,4 +1,5 @@
-﻿using Antelcat.Attributes;
+﻿
+using Antelcat.DependencyInjectionEx.Autowired;
 
 namespace Antelcat.Core.Test;
 
@@ -17,9 +18,9 @@ public class A : Factory<A>, IA
 
 public interface IB { }
 
-public class B : Factory<B>, IB
+public class B(IA a) : Factory<B>, IB
 {
-    [Autowired] private IA A { get; set; }
+    private readonly IA A = a;
 }
 
 public interface IC { }
