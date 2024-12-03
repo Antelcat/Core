@@ -43,9 +43,8 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
 
     private static string? GetCaller()
     {
-        var    frames = new StackTrace(2, false).GetFrames().Reverse();
         string? ret = null;
-        foreach (var frame in frames)
+        foreach (var frame in new StackTrace(2, false).GetFrames().AsEnumerable().Reverse())
         {
             var method = frame.GetMethod();
             if (method?.Name is nameof(IServiceProvider.GetService) or nameof(ServiceProviderServiceExtensions.GetRequiredService))
