@@ -28,7 +28,7 @@ internal class AntelcatLogger : LoggerConfig, IAntelcatLogger
     
     static AntelcatLogger()
     {
-        Task.Factory.StartNew(OutputToFileTask, TaskCreationOptions.LongRunning);
+        Task.Run(OutputToFileTask);
     }
     
     public AntelcatLogger(IAntelcatLoggerFactory factory, string category)
