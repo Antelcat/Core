@@ -3,14 +3,14 @@ using System.Collections.Concurrent;
 using Antelcat.Core.Utils;
 
 namespace Antelcat.Core.Structs;
-#nullable enable
+
 /// <summary>
 /// LogValues to enable formatting options supported by <see cref="M:string.Format"/>.
-/// This also enables using {NamedformatItem} in the format string.
+/// This also enables using {NamedFormatItem} in the format string.
 /// </summary>
 internal readonly struct FormattedLogValues : IReadOnlyList<KeyValuePair<string, object>>
 {
-    internal const int MaxCachedFormatters = 1024;
+    private const int MaxCachedFormatters = 1024;
     private const string NullFormat = "[null]";
     private static int count;
     private static readonly ConcurrentDictionary<string, LogValuesFormatter> Formatters = new();
@@ -54,6 +54,16 @@ internal readonly struct FormattedLogValues : IReadOnlyList<KeyValuePair<string,
     {
         get
         {
+            if (formatter == null || values == null)
+            {
+                if (index == 0)
+                {
+                    return new KeyValuePair<string, object>("{OriginalFormat}", originalMessage);
+                }
+
+                throw new IndexOutOfRangeException(nameof(index));
+            }
+            
             if (index < 0 || index >= Count)
             {
                 throw new IndexOutOfRangeException(nameof(index));
