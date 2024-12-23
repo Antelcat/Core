@@ -1,0 +1,91 @@
+<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Threading.Tasks" #>
+<#@ import namespace="System.Diagnostics" #>
+<#
+	const string Namespace = "Antelcat.Extensions";
+	var methods = typeof(Task)
+		.GetMethods(BindingFlags.Static | BindingFlags.Public)
+		.Where(x=>x.GetParameters().Length > 0)
+		.Where(x => x.ReturnType != typeof(void));
+
+	string PrintParam(IEnumerable<ParameterInfo> paramInfo) =>
+		$"this {string.Join(", ", paramInfo.Select(x => $"{PrintTypeName(x.ParameterType)} {x.Name}"))}";
+
+	string PrintCall(MethodInfo method, IEnumerable<ParameterInfo> paramInfo) =>
+		$"{nameof(Task)}.{PrintFunName(method)}({string.Join(", ", paramInfo.Select(x => $"{x.Name}"))})";
+
+	string PrintTypeName(Type type)
+	{
+		var args = type.Name.Split('`');
+		var	ret = args[0];
+		if (type.BaseType == typeof(Array) && args.Length > 1)
+		{
+			args = type.ToString().Split('`');
+			args[1] = args[1].Substring(1);
+			var rest = args[1]
+				.Replace('[', '<')
+				.Replace(']', '>')
+				.Substring(0,args[1].Length - 2);
+			Debugger.Break();
+			ret += rest + "[]";
+		}
+		if (!type.IsGenericType) return ret;
+		ret += '<';
+		type.GetGenericArguments().Aggregate(0, (index, s) =>
+		{
+			if (index != 0)
+			{
+				ret += ',';
+			}
+			ret += $"{PrintTypeName(s)}";
+			return index + 1;
+		});
+		ret += ">";
+		return ret;
+	}
+
+	string PrintFunName(MethodInfo method)
+	{
+		var gen = method.GetGenericArguments();
+		if (gen.Length == 0) return method.Name;
+		var ret = method.GetGenericArguments().Aggregate(method.Name,(s,t) =>
+		{
+			s += s.Length == method.Name.Length ? '<' : ',';
+			s += PrintTypeName(t);
+			return s;
+		});
+		return $"{ret}>";
+	}
+#>
+#if !NET && !NETSTANDARD
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+#endif
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+
+namespace <#=Namespace#>;
+
+public static partial class TaskExtension
+{
+<# 
+foreach(var method in methods)
+{
+	var param = method.GetParameters();
+#>
+	public static <#=PrintTypeName(method.ReturnType)#> <#=PrintFunName(method)#>(<#=PrintParam(param)#>) => <#=PrintCall(method, param)#>;
+
+<#
+}
+#>
+}

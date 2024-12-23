@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    </ItemGroup>
+
+    <Import Project="..\..\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Mvvm\Antelcat.Shared.Mvvm.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Authentication\Antelcat.Shared.Authentication.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared" />
+
+</Project>

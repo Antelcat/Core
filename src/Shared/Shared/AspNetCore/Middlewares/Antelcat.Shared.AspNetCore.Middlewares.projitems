@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>BA1A7561-14E3-45C1-81F5-D2A3B4F616CF</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Antelcat.Shared.AspNetCore.Middlewares</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configs\AntelcatFilterConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServerException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ServiceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\AntelcatFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\ExceptionHandlerFilter.cs" />
+  </ItemGroup>
+</Project>

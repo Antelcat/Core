@@ -1,0 +1,88 @@
+﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+#nullable enable
+	const string Namespace = "Antelcat.Implements.Converters";
+	var list = new List<(string type,string? method)>
+	{
+		("char",null),
+		("sbyte","SByte"),
+		("byte",null),
+		("bool",null),
+		("int",null),
+		("uint","UInt"),
+		("short",null),
+		("ushort","UShort"),
+		("long",null),
+		("ulong","ULong"),
+		("double",null),
+		("float",null),
+		("DateTime",null),
+		("Guid",null),
+		("Version",null),
+	};
+	var classes = new Dictionary<string,string>();
+#>
+#if !NET && !NETSTANDARD
+using System;
+using System.Collections.Generic;
+#nullable enable
+#endif
+using Antelcat.Extensions;
+using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+namespace <#=Namespace#>;
+<# 
+foreach(var (type,method) in list) { 
+	var name = method ?? $"{type[0].ToString().ToUpper()}{type.Substring(1)}";
+	var className = $"StringTo{name}Converter";
+	classes.Add(type,className);
+#>
+///<summary>
+/// Convert between <see cref="string"/> and <see cref="<#=type#>"/>
+///</summary>
+public class <#=className#> : TypeConverter
+{
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public override object ConvertTo(
+		ITypeDescriptorContext? _, 
+		CultureInfo? __, 
+		object? value, 
+		Type ___) => (value as string).To<#=name#>();
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+   	public override object? ConvertFrom(
+		ITypeDescriptorContext? _, 
+		CultureInfo? __, 
+		object? value) => value?.ToString();
+
+   	public override bool CanConvertTo(
+		ITypeDescriptorContext? _, 
+		Type? destinationType) => destinationType == typeof(<#=type#>);
+
+   	public override bool CanConvertFrom(
+		ITypeDescriptorContext? _, 
+		Type sourceType) => sourceType == typeof(<#=type#>);
+}
+
+<# 
+}
+#>
+
+public static class StringValueConverters
+{
+	private static readonly Dictionary<Type,TypeConverter> Instances = new ()
+	{
+<#foreach(var pair in classes) {#>
+		{ typeof(<#=pair.Key#>) , new <#=pair.Value#>() },
+<#}#>
+	};
+
+	public static bool FindByType(Type type, out TypeConverter? converter) 
+		=> Instances.TryGetValue(type, out converter); 
+}

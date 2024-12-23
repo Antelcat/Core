@@ -3,49 +3,61 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core", "Antelcat.Core\Antelcat.Core.csproj", "{A1D34A1E-0B4B-4157-965C-C0481F4F158B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core", "Core\Antelcat.Core\Antelcat.Core.csproj", "{A1D34A1E-0B4B-4157-965C-C0481F4F158B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.Test", "Antelcat.Core.Test\Antelcat.Core.Test.csproj", "{A06804BF-B209-45CA-AD95-2ACEF107154E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Core.Test", "Core\Antelcat.Core.Test\Antelcat.Core.Test.csproj", "{A06804BF-B209-45CA-AD95-2ACEF107154E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Foundation.Wpf", "Antelcat.Foundation.Wpf\Antelcat.Foundation.Wpf.csproj", "{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antelcat.Foundation.Wpf", "Core\Antelcat.Foundation.Wpf\Antelcat.Foundation.Wpf.csproj", "{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E0F24359-36DF-4F6E-B63C-C0DFB08CB010}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.IL", "..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.shproj", "{3AB3FD3D-C47D-4B09-87D7-299ABCE37BD2}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.IL", "Shared\Shared\IL\Antelcat.Shared.IL.shproj", "{3AB3FD3D-C47D-4B09-87D7-299ABCE37BD2}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Runtime.CompileService", "..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.shproj", "{9EE3F4BA-04A9-44B9-A75E-61D368E810E1}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Runtime.CompileService", "Shared\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.shproj", "{9EE3F4BA-04A9-44B9-A75E-61D368E810E1}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Serialization", "..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.shproj", "{6E73D366-1CBC-4476-8449-9BD9DD200B1D}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Serialization", "Shared\Shared\Serialization\Antelcat.Shared.Serialization.shproj", "{6E73D366-1CBC-4476-8449-9BD9DD200B1D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.TypeConvert", "..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.shproj", "{C840BAC0-E7EE-4145-B804-F1882171A356}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.DebugExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.shproj", "{6EA35093-BA2D-44EB-846C-12B78818C83E}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.TypeConvert", "Shared\Shared\TypeConvert\Antelcat.Shared.TypeConvert.shproj", "{C840BAC0-E7EE-4145-B804-F1882171A356}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.EnumExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.shproj", "{C9044B07-4539-400E-A5A9-D102A905B8BC}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.EnumExtension", "Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.shproj", "{C9044B07-4539-400E-A5A9-D102A905B8BC}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.LinqExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.shproj", "{AAD7AE77-142C-4E1A-9CEE-D4825E489B6A}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.LinqExtension", "Shared\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.shproj", "{AAD7AE77-142C-4E1A-9CEE-D4825E489B6A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.MarshalExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.shproj", "{296E8C4B-59CE-4EE0-B835-7F9CD1ABC732}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.MarshalExtension", "Shared\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.shproj", "{296E8C4B-59CE-4EE0-B835-7F9CD1ABC732}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.ServiceExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.shproj", "{29501F1B-F841-491A-8CAD-F650EA645F4C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.ServiceExtension", "Shared\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.shproj", "{29501F1B-F841-491A-8CAD-F650EA645F4C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.StringExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.shproj", "{150CEBEC-809B-4C90-9F43-B74EFCE9D5E3}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TaskExtension", "Shared\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.shproj", "{06023305-DCF7-4DC6-93DE-B686F35C000E}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TaskExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.shproj", "{06023305-DCF7-4DC6-93DE-B686F35C000E}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TimeExtension", "Shared\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.shproj", "{E2062748-2F24-4A63-946A-3B774EABF71C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TimeExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.shproj", "{E2062748-2F24-4A63-946A-3B774EABF71C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TypeExtension", "Shared\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.shproj", "{F024A904-CD1B-43CA-987C-D7B4973CBBA1}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Extensions.TypeExtension", "..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.shproj", "{F024A904-CD1B-43CA-987C-D7B4973CBBA1}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Compare", "Shared\Shared\Compare\Antelcat.Shared.Compare.shproj", "{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Compare", "..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.shproj", "{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Native", "Shared\Shared\Native\Antelcat.Shared.Native.shproj", "{F3B7DE2E-FA53-439D-876B-FF004398160C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Native", "..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.shproj", "{F3B7DE2E-FA53-439D-876B-FF004398160C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Exceptions", "Shared\Shared\Exceptions\Antelcat.Shared.Exceptions.shproj", "{36BE01B3-CAB8-4820-B770-37F0D225E485}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.Exceptions", "..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.shproj", "{36BE01B3-CAB8-4820-B770-37F0D225E485}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", "{77D8BB74-095F-44E9-867C-90EF9EDBCA0B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extern", "Extern", "{F01338E4-FD1B-4959-A727-AECC895A0AA7}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.AspNetCore.Authentication.Cookie", "Shared\Shared\AspNetCore\Authentication\Cookie\Antelcat.Shared.AspNetCore.Authentication.Cookie.shproj", "{7D200D65-E7A7-464E-BC09-19D12869EEB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{294C3034-E7FE-4628-9A77-AFA9C610819B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.AspNetCore.Authentication.JwtBearer", "Shared\Shared\AspNetCore\Authentication\JwtBearer\Antelcat.Shared.AspNetCore.Authentication.JwtBearer.shproj", "{409AD0C0-E7AF-40F7-A52B-EAAF4A87CFF8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Antelcat.Shared.AspNetCore.Middlewares", "Shared\Shared\AspNetCore\Middlewares\Antelcat.Shared.AspNetCore.Middlewares.shproj", "{BC9E6ECC-3A62-467A-952C-274EF9FF48E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antelcat.Server", "Server\Antelcat.Server\Antelcat.Server.csproj", "{1BD3D085-7CD5-4E77-AAC0-F521B646096D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A9BD78AE-2689-4D63-A790-E0D54A74DCA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antelcat.Server.Test", "Server\Antelcat.Server.Test\Antelcat.Server.Test.csproj", "{A0C79C49-F471-4210-B5D6-5D421A384BC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antelcat.Server.UnitTests", "Server\Antelcat.Server.UnitTests\Antelcat.Server.UnitTests.csproj", "{7DEB874A-8202-4B99-872D-898BC83B9150}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +77,18 @@ Global
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDB10C01-A67C-4C43-8E03-D489E13DE7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD3D085-7CD5-4E77-AAC0-F521B646096D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD3D085-7CD5-4E77-AAC0-F521B646096D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD3D085-7CD5-4E77-AAC0-F521B646096D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD3D085-7CD5-4E77-AAC0-F521B646096D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C79C49-F471-4210-B5D6-5D421A384BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C79C49-F471-4210-B5D6-5D421A384BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C79C49-F471-4210-B5D6-5D421A384BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C79C49-F471-4210-B5D6-5D421A384BC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DEB874A-8202-4B99-872D-898BC83B9150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DEB874A-8202-4B99-872D-898BC83B9150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DEB874A-8202-4B99-872D-898BC83B9150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DEB874A-8202-4B99-872D-898BC83B9150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,61 +98,67 @@ Global
 		{9EE3F4BA-04A9-44B9-A75E-61D368E810E1} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{6E73D366-1CBC-4476-8449-9BD9DD200B1D} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{C840BAC0-E7EE-4145-B804-F1882171A356} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
-		{6EA35093-BA2D-44EB-846C-12B78818C83E} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{7ACAA7A4-5A2B-4B4A-8CD7-576A57005522} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{C9044B07-4539-400E-A5A9-D102A905B8BC} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{AAD7AE77-142C-4E1A-9CEE-D4825E489B6A} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{296E8C4B-59CE-4EE0-B835-7F9CD1ABC732} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{29501F1B-F841-491A-8CAD-F650EA645F4C} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
-		{150CEBEC-809B-4C90-9F43-B74EFCE9D5E3} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{06023305-DCF7-4DC6-93DE-B686F35C000E} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{E2062748-2F24-4A63-946A-3B774EABF71C} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{F024A904-CD1B-43CA-987C-D7B4973CBBA1} = {7ACAA7A4-5A2B-4B4A-8CD7-576A57005522}
 		{6DBE19A0-60B4-45CC-B11A-E0AA6288F2CB} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{F3B7DE2E-FA53-439D-876B-FF004398160C} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
 		{36BE01B3-CAB8-4820-B770-37F0D225E485} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
+		{77D8BB74-095F-44E9-867C-90EF9EDBCA0B} = {E0F24359-36DF-4F6E-B63C-C0DFB08CB010}
+		{294C3034-E7FE-4628-9A77-AFA9C610819B} = {77D8BB74-095F-44E9-867C-90EF9EDBCA0B}
+		{7D200D65-E7A7-464E-BC09-19D12869EEB9} = {294C3034-E7FE-4628-9A77-AFA9C610819B}
+		{409AD0C0-E7AF-40F7-A52B-EAAF4A87CFF8} = {294C3034-E7FE-4628-9A77-AFA9C610819B}
+		{BC9E6ECC-3A62-467A-952C-274EF9FF48E5} = {77D8BB74-095F-44E9-867C-90EF9EDBCA0B}
+		{A06804BF-B209-45CA-AD95-2ACEF107154E} = {A9BD78AE-2689-4D63-A790-E0D54A74DCA4}
+		{A0C79C49-F471-4210-B5D6-5D421A384BC3} = {A9BD78AE-2689-4D63-A790-E0D54A74DCA4}
+		{7DEB874A-8202-4B99-872D-898BC83B9150} = {A9BD78AE-2689-4D63-A790-E0D54A74DCA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12A6634E-E6F4-44E2-8323-253FE5BC5F6B}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems*{06023305-dcf7-4dc6-93de-b686f35c000e}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{150cebec-809b-4c90-9f43-b74efce9d5e3}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems*{29501f1b-f841-491a-8cad-f650ea645f4c}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems*{296e8c4b-59ce-4ee0-b835-7f9cd1abc732}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{2b3fae60-b10b-4936-96ef-1698671f738f}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{36be01b3-cab8-4820-b770-37f0d225e485}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems*{3ab3fd3d-c47d-4b09-87d7-299abce37bd2}*SharedItemsImports = 13
+		Shared\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems*{06023305-dcf7-4dc6-93de-b686f35c000e}*SharedItemsImports = 13
+		Shared\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{150cebec-809b-4c90-9f43-b74efce9d5e3}*SharedItemsImports = 13
+		Shared\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems*{29501f1b-f841-491a-8cad-f650ea645f4c}*SharedItemsImports = 13
+		Shared\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems*{296e8c4b-59ce-4ee0-b835-7f9cd1abc732}*SharedItemsImports = 13
+		Shared\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{2b3fae60-b10b-4936-96ef-1698671f738f}*SharedItemsImports = 5
+		Shared\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{36be01b3-cab8-4820-b770-37f0d225e485}*SharedItemsImports = 13
+		Shared\Shared\IL\Antelcat.Shared.IL.projitems*{3ab3fd3d-c47d-4b09-87d7-299abce37bd2}*SharedItemsImports = 13
 		..\extern\CodeAnalysis\src\Feast.CodeAnalysis.Shared\Feast.CodeAnalysis.Shared.projitems*{4d637611-f918-4214-ae1a-cff9261939aa}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems*{6dbe19a0-60b4-45cc-b11a-e0aa6288f2cb}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{6e73d366-1cbc-4476-8449-9bd9dd200b1d}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{6ea35093-ba2d-44eb-846c-12b78818c83e}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{8b3f6afb-8eac-4287-88b1-27ae63a8aa5d}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{9ee3f4ba-04a9-44b9-a75e-61d368e810e1}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Compare\Antelcat.Shared.Compare.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\IL\Antelcat.Shared.IL.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
-		..\extern\Antelcat.Shared\src\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{aad7ae77-142c-4e1a-9cee-d4825e489b6a}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{c1eee7e2-07f3-4970-9489-783254de0f8d}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{c840bac0-e7ee-4145-b804-f1882171a356}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{c9044b07-4539-400e-a5a9-d102a905b8bc}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{e2062748-2f24-4a63-946a-3b774eabf71c}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{f024a904-cd1b-43ca-987c-d7b4973cbba1}*SharedItemsImports = 13
-		..\extern\Antelcat.Shared\src\Shared\Native\Antelcat.Shared.Native.projitems*{f3b7de2e-fa53-439d-876b-ff004398160c}*SharedItemsImports = 13
+		Shared\Shared\Compare\Antelcat.Shared.Compare.projitems*{6dbe19a0-60b4-45cc-b11a-e0aa6288f2cb}*SharedItemsImports = 13
+		Shared\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{6e73d366-1cbc-4476-8449-9bd9dd200b1d}*SharedItemsImports = 13
+		Shared\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{6ea35093-ba2d-44eb-846c-12b78818c83e}*SharedItemsImports = 13
+		Shared\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{8b3f6afb-8eac-4287-88b1-27ae63a8aa5d}*SharedItemsImports = 13
+		Shared\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{9ee3f4ba-04a9-44b9-a75e-61d368e810e1}*SharedItemsImports = 13
+		Shared\Shared\Authentication\Antelcat.Shared.Authentication.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Compare\Antelcat.Shared.Compare.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\IL\Antelcat.Shared.IL.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Native\Antelcat.Shared.Native.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Serialization\Antelcat.Shared.Serialization.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{a1d34a1e-0b4b-4157-965c-c0481f4f158b}*SharedItemsImports = 5
+		Shared\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems*{aad7ae77-142c-4e1a-9cee-d4825e489b6a}*SharedItemsImports = 13
+		Shared\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems*{c1eee7e2-07f3-4970-9489-783254de0f8d}*SharedItemsImports = 13
+		Shared\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems*{c840bac0-e7ee-4145-b804-f1882171a356}*SharedItemsImports = 13
+		Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems*{c9044b07-4539-400e-a5a9-d102a905b8bc}*SharedItemsImports = 13
+		Shared\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems*{e2062748-2f24-4a63-946a-3b774eabf71c}*SharedItemsImports = 13
+		Shared\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems*{f024a904-cd1b-43ca-987c-d7b4973cbba1}*SharedItemsImports = 13
+		Shared\Shared\Native\Antelcat.Shared.Native.projitems*{f3b7de2e-fa53-439d-876b-ff004398160c}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

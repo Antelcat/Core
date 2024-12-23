@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA1D9BD2-136C-4142-8EC4-5818DDE00A3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Antelcat.Shared.NET_Framework</RootNamespace>
+    <AssemblyName>Antelcat.Shared.NET_Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Using.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Update="..\..\Shared\TypeConvert\Implements.Converters\StringValueConverter.cs">
+      <DependentUpon>StringValueConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Update="..\..\Shared\Extensions\StringExtension\StringExtension.g.cs">
+      <DependentUpon>StringExtension.g.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <Version>7.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="..\..\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StringValueConverter.cs</LastGenOutput>
+    </Content>
+    <Content Update="..\..\Shared\Extensions\StringExtension\StringExtension.g.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StringExtension.g.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\..\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\Shared\Mvvm\Antelcat.Shared.Mvvm.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Authentication\Antelcat.Shared.Authentication.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
+  <Import Project="..\..\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared" />
+</Project>

@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Antelcat.ClaimSerialization" Version="2.0.0-pre-alpha-2" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.4.23259.5" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0-preview.4.23259.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="..\..\Shared\Extensions\StringExtension\StringExtension.g.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>StringExtension.g.cs</LastGenOutput>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="..\..\Shared\Extensions\StringExtension\StringExtension.g.cs">
+        <DependentUpon>StringExtension.g.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <Import Project="..\..\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\AspNetCore\DependencyInjection.Autowired\Antelcat.Shared.AspNetCore.DependencyInjection.Autowired.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\DebugExtension\Antelcat.Shared.Extensions.DebugExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Mvvm\Antelcat.Shared.Mvvm.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Serialization\Antelcat.Shared.Serialization.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\AspNetCore\Authentication\JwtBearer\Antelcat.Shared.AspNetCore.Authentication.JwtBearer.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Authentication\Antelcat.Shared.Authentication.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\AspNetCore\Authentication\Cookie\Antelcat.Shared.AspNetCore.Authentication.Cookie.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared" />
+
+ 
+
+
+</Project>

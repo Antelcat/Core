@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.4.23259.5" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0-preview.4.23259.5" />
+    </ItemGroup>
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <Import Project="..\..\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Extensions\StringExtension\Antelcat.Shared.Extensions.StringExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\DependencyInjection.Autowired\Antelcat.Shared.DependencyInjection.Autowired.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
+
+    <Import Project="..\..\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
+
+    <ItemGroup>
+      <Content Update="D:\Shared\WorkSpace\Git\Antelcat.Shared\src\Shared\IL\Extensions\ILExtension.g.tt">
+        <LastGenOutput>ILExtension.g.cs</LastGenOutput>
+      </Content>
+    </ItemGroup>
+
+	
+</Project>

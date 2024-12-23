@@ -1,0 +1,50 @@
+<#@ template language="C#" debug="true" hostspecific="true" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ output extension=".cs" #>
+<#
+#nullable enable
+	const string Namespace = "Antelcat.Extensions";
+	Dictionary<string,string?> dic = new (){
+		{ "sbyte", "SByte" },
+		{ "byte", null },
+		{ "int", "Int32" }, 
+		{ "uint", "UInt32" },
+		{ "long", "Int64" },
+		{ "ulong", "UInt64" },
+		{ "double", null }, 
+		{ "decimal", null }, 
+		{ "float", "Single" }, 
+		{ "DateTime", null },
+		{ "Guid", "Guid" }
+	}; 
+#>
+#if !NET && !NETSTANDARD
+using System;
+#endif
+using System.Text.Json;
+using System.Runtime.CompilerServices;
+
+namespace <#=Namespace#>;
+#nullable enable
+public static partial class JsonElementExtension
+{
+<# 
+foreach(var pair in dic) {
+	var type = pair.Key;
+	var name = pair.Value ?? $"{type[0].ToString().ToUpper()}{type.Substring(1)}";
+	const string resultArg = "result";
+#>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static <#=type#>? Get<#=name#>OrNull(this JsonElement jsonElement) => jsonElement.TryGet<#=name#>(out var <#=resultArg#>) ? <#=resultArg#> : null;
+
+<# 
+}
+#>
+}
