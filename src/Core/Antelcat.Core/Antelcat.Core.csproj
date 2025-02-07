@@ -1,47 +1,48 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <LangVersion>preview</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Antelcat.AutoGen" Version="3.0.0-preview-241219-1" />
-    <PackageReference Include="Antelcat.ClaimSerialization" Version="2.0.0-pre-alpha-2" />
-    <PackageReference Include="Antelcat.DependencyInjectionEx" Version="8.1.0" />
-    <InternalsVisibleTo Include="Antelcat.Server" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Antelcat.AutoGen" Version="3.0.0-preview-241219-1"/>
+        <PackageReference Include="Antelcat.ClaimSerialization" Version="2.0.0-pre-alpha-2"/>
+        <PackageReference Include="Antelcat.DependencyInjectionEx" Version="8.1.0"/>
+        <InternalsVisibleTo Include="Antelcat.Server"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
+        <PackageReference Include="System.Text.Json" Version="8.0.5"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
+    <ItemGroup>
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}"/>
+    </ItemGroup>
 
-  <Import Project="..\..\Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared" />
-  <ItemGroup>
-    <Content Update="..\..\Shared\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
-      <LastGenOutput>StringValueConverter.cs</LastGenOutput>
-    </Content>
-    <Content Update="..\..\Shared\Shared\IL\Extensions\ILExtension.g.tt">
-      <LastGenOutput>ILExtension.g.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
+    <Import Project="..\..\Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Extensions\LinqExtension\Antelcat.Shared.Extensions.LinqExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Extensions\MarshalExtension\Antelcat.Shared.Extensions.MarshalExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Extensions\ServiceExtension\Antelcat.Shared.Extensions.ServiceExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Extensions\TaskExtension\Antelcat.Shared.Extensions.TaskExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Extensions\TimeExtension\Antelcat.Shared.Extensions.TimeExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\IL\Antelcat.Shared.IL.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Runtime.CompileService\Antelcat.Shared.Runtime.CompileService.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\TypeConvert\Antelcat.Shared.TypeConvert.projitems" Label="Shared"/>
+    <ItemGroup>
+        <Content Update="..\..\Shared\Shared\TypeConvert\Implements.Converters\StringValueConverter.tt">
+            <LastGenOutput>StringValueConverter.cs</LastGenOutput>
+        </Content>
+        <Content Update="..\..\Shared\Shared\IL\Extensions\ILExtension.g.tt">
+            <LastGenOutput>ILExtension.g.cs</LastGenOutput>
+        </Content>
+    </ItemGroup>
 
-  <Import Project="..\..\Shared\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared" />
-  <Import Project="..\..\Shared\Shared\Serialization\Antelcat.Shared.Serialization.projitems" Label="Shared" />
+    <Import Project="..\..\Shared\Shared\Extensions\TypeExtension\Antelcat.Shared.Extensions.TypeExtension.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Compare\Antelcat.Shared.Compare.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Native\Antelcat.Shared.Native.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Exceptions\Antelcat.Shared.Exceptions.projitems" Label="Shared"/>
+    <Import Project="..\..\Shared\Shared\Serialization\Antelcat.Shared.Serialization.projitems" Label="Shared"/>
 
 </Project>
