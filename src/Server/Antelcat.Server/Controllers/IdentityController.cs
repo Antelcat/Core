@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Antelcat.Server.Controllers;
 
-public abstract class IdentityController<TIdentity, TCategory> : Controller
+public abstract class IdentityController<TIdentity> : Controller
 {
     protected TIdentity? Identity => identity.Value;
     
@@ -19,7 +19,13 @@ public abstract class IdentityController<TIdentity, TCategory> : Controller
         identity = new Lazy<TIdentity?>(() => ClaimSerializer.Deserialize<TIdentity>(User.Claims));
     }
 
-    [Autowired] public required IAntelcatLogger<TCategory> Logger { get; init; }
+    [Autowired]
+    public IAntelcatLoggerFactory Factory
+    {
+        init => Logger = value.CreateLogger(GetType().ToString()) as IAntelcatLogger ?? throw new ArgumentException();
+    }
+    
+    public required IAntelcatLogger Logger { get; init; }
 
     protected Task SignInAsync(TIdentity identity,
         string? authenticationType = "Identity.Application",
