@@ -68,7 +68,7 @@ public class JwtConfigure
     internal readonly JwtSecurityTokenHandler Handler = new();
 }
 
-[Serializable]
+
 public class JwtConfigure<TIdentity>(JwtConfigureFactory factory)
 {
     private (string scheme, JwtConfigure configure)? cache;

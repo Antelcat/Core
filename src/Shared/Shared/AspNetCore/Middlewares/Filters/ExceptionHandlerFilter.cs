@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Antelcat.Server.Filters;
 
-[Serializable]
 public class ExceptionHandlerFilter(ILogger<ExceptionHandlerFilter> logger, AntelcatFilterConfig config)
     : AntelcatFilter(config), IAsyncExceptionFilter
 {
@@ -17,7 +16,7 @@ public class ExceptionHandlerFilter(ILogger<ExceptionHandlerFilter> logger, Ante
         if (response.HasStarted) return;
         response.Clear();
         response.StatusCode = StatusCodes.Status500InternalServerError;
-        await config.ExecuteHandler(context.Exception, response);
+        await Config.ExecuteHandler(context.Exception, response);
         await response.CompleteAsync();
         logger.LogError("{Exception}", context.Exception);
     }

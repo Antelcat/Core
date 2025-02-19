@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Antelcat.AutoGen" Version="3.0.0-preview-241219-1"/>
+        <PackageReference Include="Antelcat.AutoGen" Version="3.0.0-preview-250219-1" />
         <PackageReference Include="Antelcat.ClaimSerialization" Version="2.0.0-pre-alpha-2"/>
         <PackageReference Include="Antelcat.DependencyInjectionEx" Version="8.1.0"/>
         <InternalsVisibleTo Include="Antelcat.Server"/>
