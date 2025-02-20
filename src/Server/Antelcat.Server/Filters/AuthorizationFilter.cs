@@ -9,7 +9,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Antelcat.Server.Filters;
 
-[Serializable]
 public sealed class AuthorizationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
