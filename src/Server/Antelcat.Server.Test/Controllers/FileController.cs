@@ -10,7 +10,7 @@ namespace Antelcat.Server.Test.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class FileController : IdentityController<User, FileController>
+public class FileController : IdentityController<User>
 {
     [HttpGet("{fileName}")]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]

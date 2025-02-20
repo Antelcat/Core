@@ -4,6 +4,7 @@ using Antelcat.Extensions;
 using Antelcat.Server.Extensions;
 using Antelcat.Server.Test.Hubs;
 using Antelcat.Server.Test.Models;
+using Antelcat.Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,8 @@ builder.Services
         {
             cookie.HttpOnly = true;
             cookie.Name     = $"{nameof(Antelcat)}_{nameof(Antelcat.Server)}";
-            cookie.OnDenied = static _ => ((HttpPayload)"权限不足").Serialize();
-            cookie.OnFailed = static _ => ((HttpPayload)"未授权").Serialize();
+            cookie.OnDeniedJson(async _ => (HttpPayload)"权限不足")
+                .OnFailedJson(async _ => (HttpPayload)"未授权");
         })
     .ConfigureJwt(
         configure: jwt =>

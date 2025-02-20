@@ -13,7 +13,7 @@ namespace Antelcat.Server.Test.Controllers
 {
     [ApiController]
     [Route($"{nameof(Antelcat)}/[controller]")]
-    public class AuthorizeController : IdentityController<User,AuthorizeController>
+    public class AuthorizeController : IdentityController<User>
     {
         [Autowired] private readonly JwtConfigure<User> configure = null!;
 

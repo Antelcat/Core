@@ -30,25 +30,9 @@ public static partial class ServiceExtension
                 o.Cookie = config;
                 o.Events = new CookieAuthenticationEvents
                 {
-                    OnValidatePrincipal = config.OnValidate,
-                    OnRedirectToAccessDenied = async context =>
-                    {
-                        if (config.OnDenied == null) return;
-                        context.Response.Clear();
-                        context.Response.Headers.Clear();
-                        context.Response.ContentType = MediaTypeNames.Application.Json;
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        await context.Response.WriteAsync(config.OnDenied(context));
-                    },
-                    OnRedirectToLogin = async context =>
-                    {
-                        if (config.OnFailed == null) return;
-                        context.Response.Clear();
-                        context.Response.Headers.Clear();
-                        context.Response.ContentType = MediaTypeNames.Application.Json;
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        await context.Response.WriteAsync(config.OnFailed(context));
-                    }
+                    OnValidatePrincipal = config.Validate,
+                    OnRedirectToAccessDenied = config.Denied,
+                    OnRedirectToLogin = config.Failed
                 };
             });
         return services;

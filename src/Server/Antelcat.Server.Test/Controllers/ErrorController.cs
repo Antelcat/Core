@@ -12,7 +12,7 @@ namespace Antelcat.Server.Test.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class ErrorController : IdentityController<User,ErrorController>
+public class ErrorController : IdentityController<User>
 {
     [HttpGet("{statusCode:int}")]
     public IActionResult Error([FromRoute] int? statusCode = 0)
