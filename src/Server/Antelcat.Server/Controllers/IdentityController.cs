@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using Antelcat.ClaimSerialization;
 using Antelcat.Core.Interface.Logging;
 using Antelcat.DependencyInjectionEx.Autowired;
@@ -11,7 +12,7 @@ namespace Antelcat.Server.Controllers;
 public abstract class IdentityController<TIdentity> : Controller
 {
     protected TIdentity? Identity => identity.Value;
-    
+
     private readonly Lazy<TIdentity?> identity;
 
     protected IdentityController()
@@ -19,18 +20,17 @@ public abstract class IdentityController<TIdentity> : Controller
         identity = new Lazy<TIdentity?>(() => ClaimSerializer.Deserialize<TIdentity>(User.Claims));
     }
 
-    [Autowired]
-    public IAntelcatLoggerFactory Factory
-    {
-        init => Logger = value.CreateLogger(GetType().ToString()) as IAntelcatLogger ?? throw new ArgumentException();
-    }
-    
-    public required IAntelcatLogger Logger { get; init; }
+    [Autowired] public required IAntelcatLoggerFactory Factory { get; init; }
+
+    [field: AllowNull, MaybeNull]
+    public IAntelcatLogger Logger => field ??=
+        Factory.CreateLogger(GetType().ToString()) as IAntelcatLogger
+        ?? throw new NullReferenceException(nameof(IAntelcatLoggerFactory));
 
     protected Task SignInAsync(TIdentity identity,
-        string? authenticationType = "Identity.Application",
-        AuthenticationProperties? properties = null,
-        string scheme = CookieAuthenticationDefaults.AuthenticationScheme)
+                               string? authenticationType = "Identity.Application",
+                               AuthenticationProperties? properties = null,
+                               string scheme = CookieAuthenticationDefaults.AuthenticationScheme)
 
     {
         return Request.HttpContext.SignInAsync(scheme,
