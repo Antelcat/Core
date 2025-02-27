@@ -9,20 +9,22 @@ public class CookieConfigure : CookieBuilder
 {
     internal Func<CookieValidatePrincipalContext, Task> Validate { get; set; } = _ => Task.CompletedTask;
 
-    internal Func<RedirectContext<CookieAuthenticationOptions>, Task> Denied { get; set; } = async context =>
+    internal Func<RedirectContext<CookieAuthenticationOptions>, Task> Denied { get; set; } = context =>
     {
         context.Response.Clear();
         context.Response.Headers.Clear();
         context.Response.ContentType = MediaTypeNames.Application.Json;
         context.Response.StatusCode  = StatusCodes.Status409Conflict;
+        return Task.CompletedTask;
     };
 
-    internal Func<RedirectContext<CookieAuthenticationOptions>, Task> Failed { get; set; } = async context =>
+    internal Func<RedirectContext<CookieAuthenticationOptions>, Task> Failed { get; set; } = context =>
     {
         context.Response.Clear();
         context.Response.Headers.Clear();
         context.Response.ContentType = MediaTypeNames.Application.Json;
         context.Response.StatusCode  = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
     };
 
     public CookieConfigure OnValidate(Func<CookieValidatePrincipalContext, Task> validate)
@@ -30,13 +32,13 @@ public class CookieConfigure : CookieBuilder
         Validate = validate;
         return this;
     }
-    
+
     public CookieConfigure OnDenied(Func<RedirectContext<CookieAuthenticationOptions>, Task> denied)
     {
         Denied = denied;
         return this;
     }
-    
+
     public CookieConfigure OnDeniedJson<T>(Func<HttpResponse, Task<T>> denied) => OnDenied(async context =>
     {
         var response = context.Response;
@@ -47,7 +49,7 @@ public class CookieConfigure : CookieBuilder
         await response.WriteAsJsonAsync(await denied(response));
     });
 
-    
+
     public CookieConfigure OnFailed(Func<RedirectContext<CookieAuthenticationOptions>, Task> failed)
     {
         Failed = failed;
@@ -64,4 +66,3 @@ public class CookieConfigure : CookieBuilder
         await response.WriteAsJsonAsync(await failed(response));
     });
 }
-

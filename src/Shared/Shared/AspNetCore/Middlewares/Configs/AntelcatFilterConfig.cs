@@ -26,7 +26,7 @@ public class AntelcatFilterConfig
     }
 
     public AntelcatFilterConfig RegisterExceptionHandler(Type exceptionType,
-        Func<Exception, HttpResponse, Task> handler)
+                                                         Func<Exception, HttpResponse, Task> handler)
     {
         exceptionHandlers[exceptionType] = (exception, response) => handler((Exception)exception, response);
         return this;
@@ -46,7 +46,7 @@ public class AntelcatFilterConfig
         exceptionHandlers =
         {
             {
-                typeof(RejectException), (exception, response) =>
+                typeof(RejectException), static (exception, response) =>
                 {
                     var reject = (exception as RejectException)!;
                     response.StatusCode = reject.StatusCode;

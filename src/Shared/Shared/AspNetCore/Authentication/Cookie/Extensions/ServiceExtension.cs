@@ -23,9 +23,11 @@ public static partial class ServiceExtension
             .AddAuthentication()
             .AddCookie(scheme,o =>
             {
-                o.Cookie.SameSite = SameSiteMode.None;
-                o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                var config = new CookieConfigure();
+                var config = new CookieConfigure
+                {
+                    SameSite     = SameSiteMode.None,
+                    SecurePolicy = CookieSecurePolicy.Always
+                };
                 configure?.Invoke(config);
                 o.Cookie = config;
                 o.Events = new CookieAuthenticationEvents
