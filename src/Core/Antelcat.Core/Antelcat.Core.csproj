@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <LangVersion>preview</LangVersion>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,10 +16,6 @@
         <InternalsVisibleTo Include="Antelcat.Server"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
         <PackageReference Include="System.Text.Json" Version="8.0.5"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}"/>
     </ItemGroup>
 
     <Import Project="..\..\Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared"/>
