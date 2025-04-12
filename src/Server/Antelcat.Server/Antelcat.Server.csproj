@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
@@ -10,10 +10,12 @@
 
     <ItemGroup>
         <PackageReference Include="Antelcat.AspNetCore.DependencyInjectionEx.Autowired" Version="8.1.0"/>
-        <PackageReference Condition="$(TargetFramework) == 'net8.0'" Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7"/>
-        <PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7"/>
-        <PackageReference Condition="$(TargetFramework) == 'net8.0'" Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7"/>
-        <PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7"/>
+        <PackageReference Condition="$(TargetFramework) == 'net9.0'" Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[9.0.0,)"/>
+        <PackageReference Condition="$(TargetFramework) == 'net8.0'" Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[8.0.0,)"/>
+        <PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="[7.0.0,)"/>
+        <PackageReference Condition="$(TargetFramework) == 'net9.0'" Include="Microsoft.AspNetCore.OpenApi" Version="[9.0.0,)"/>
+        <PackageReference Condition="$(TargetFramework) == 'net8.0'" Include="Microsoft.AspNetCore.OpenApi" Version="[8.0.0,)"/>
+        <PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.AspNetCore.OpenApi" Version="[7.0.0,)"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2"/>
     </ItemGroup>
