@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Antelcat.Server.Controllers;
 
-public abstract class IdentityController<TIdentity> : Controller
+public abstract class IdentityController<TIdentity> : ControllerBase
 {
     protected TIdentity? Identity => identity.Value;
 
