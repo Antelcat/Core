@@ -3,6 +3,7 @@ using System.Net;
 using Antelcat.Server.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -46,4 +47,7 @@ public static partial class ServiceExtension
     public static string GetString(this IConfiguration configuration, params string[] fields) =>
         configuration[string.Join(':', fields)]
         ?? throw new NoNullAllowedException($"Specified filed {string.Join(':', fields)} is null");
+
+    public static IServiceCollection AddRegisteredHostedService<TService>(this IServiceCollection collection)
+        where TService : class, IHostedService => collection.AddHostedService(x => x.GetRequiredService<TService>());
 }
