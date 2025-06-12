@@ -57,7 +57,6 @@ public static partial class ServiceExtension
                     OnChallenge = context =>
                     {
                         if (config.OnFailed == null) return Task.CompletedTask;
-                        context.HandleResponse();
                         context.Response.Clear();
                         context.Response.Headers.Clear();
                         context.Response.ContentType = "application/json";
