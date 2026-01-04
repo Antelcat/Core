@@ -15,7 +15,7 @@
         <PackageReference Include="Antelcat.DependencyInjectionEx" Version="9.0.1" />
         <InternalsVisibleTo Include="Antelcat.Server"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
-        <PackageReference Include="System.Text.Json" Version="9.0.2" />
+        <PackageReference Include="System.Text.Json" Version="9.0.9" />
     </ItemGroup>
 
     <Import Project="..\..\Shared\Shared\Extensions\EnumExtension\Antelcat.Shared.Extensions.EnumExtension.projitems" Label="Shared"/>
